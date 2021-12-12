@@ -17,7 +17,7 @@ repo init -u git://github.com/LineageOS/android.git -b lineage-19.0
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/daviiid99/LineageOS_J5-2015/Manifest_S/j5.xml > .repo/local_manifests/j5.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-19.0-Permissive-Manifest.xml > .repo/local_manifests/j5.xml
 ```
 <br/>
 
@@ -33,7 +33,7 @@ Temporal Fixes:
 ```Add support for device tree in mkbootimg```
 ```
 rm -rf system/tools/mkbootimg
-git clone -b system_tools_mkbootimg https://github.com/daviiid99/LineageOS_J5-2015 system/tools/mkbootimg
+git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/system_tools_mkbootimg system/tools/mkbootimg
 ```
 <br/>
 
@@ -41,7 +41,7 @@ git clone -b system_tools_mkbootimg https://github.com/daviiid99/LineageOS_J5-20
 ```Add support for device tree and BOARD_CUSTOM_MBOOTIMG```
 ```
 mkdir -p SPatches
-curl https://raw.githubusercontent.com/daviiid99/LineageOS_J5-2015/Manifest_S/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch > SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/patches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch > SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch
 patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch 
 ```
 <br/>
@@ -49,9 +49,9 @@ patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTO
 ```msm8916-platform CAF repos```
 ```
 rm -rf hardware/qcom-caf/msm8916/display && rm -rf hardware/qcom-caf/msm8916/media && rm -rf hardware/qcom-caf/msm8916/audio
-git clone -b samsung_qcom-caf_media_S https://github.com/daviiid99/LineageOS_J5-2015 hardware/qcom-caf/msm8916/media
-git clone -b samsung_qcom-caf_audio_S https://github.com/daviiid99/LineageOS_J5-2015 hardware/qcom-caf/msm8916/audio
-git clone -b samsung_qcom-caf_display_S https://github.com/daviiid99/LineageOS_J5-2015 hardware/qcom-caf/msm8916/display
+git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media hardware/qcom-caf/msm8916/media
+git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio hardware/qcom-caf/msm8916/audio
+git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display hardware/qcom-caf/msm8916/display
 ```
 
 Build:
