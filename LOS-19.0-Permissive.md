@@ -46,14 +46,6 @@ patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTO
 ```
 <br/>
 
-```msm8916-platform CAF repos```
-```
-rm -rf hardware/qcom-caf/msm8916/display && rm -rf hardware/qcom-caf/msm8916/media && rm -rf hardware/qcom-caf/msm8916/audio
-git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media hardware/qcom-caf/msm8916/media
-git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio hardware/qcom-caf/msm8916/audio
-git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display hardware/qcom-caf/msm8916/display
-```
-
 Build:
 ```
 brunch j5nlte #for SM-J500FN
