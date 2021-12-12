@@ -2,10 +2,9 @@
 <br/>
 
 Set up Linux environment
-```
-wget https://github.com/daviiid99/LineageOS_J5-2015/blob/Manifest/environment.sh 
-sh ./environment.sh
-```
+
+Follow <a href="https://github.com/Galaxy-J5-Unofficial-LineageOS/Manifest/blob/main/LOS-Build-Environment.md">this documentation</a>
+
 <br/>
 
 Initialize LineageOS repo:
@@ -19,8 +18,8 @@ repo init -u git://github.com/LineageOS/android.git -b lineage-18.1
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/daviiid99/LineageOS_J5-2015/Manifest_R/j5.xml > .repo/local_manifests/j5.xml
-curl https://raw.githubusercontent.com/daviiid99/LineageOS_J5-2015/Manifest_R/gapps.xml > .repo/local_manifests/gapps.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-18.1-Enforcing-Manifest.xml > .repo/local_manifests/j5.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-GApps.xml > .repo/local_manifests/gapps.xml
 ```
 <br/>
 
@@ -43,9 +42,9 @@ rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk 
 Remove synced CAF repos (still unusable with building errors)
 ```
 rm -rf hardware/qcom-caf/msm8916/display && rm -rf hardware/qcom-caf/msm8916/media && rm -rf hardware/qcom-caf/msm8916/audio
-git clone -b samsung_qcom-caf_media_R https://github.com/daviiid99/LineageOS_J5-2015 hardware/qcom-caf/msm8916/media
-git clone -b samsung_qcom-caf_audio_R https://github.com/daviiid99/LineageOS_J5-2015 hardware/qcom-caf/msm8916/audio
-git clone -b samsung_qcom-caf_display_R https://github.com/daviiid99/LineageOS_J5-2015 hardware/qcom-caf/msm8916/display
+git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media hardware/qcom-caf/msm8916/media
+git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio hardware/qcom-caf/msm8916/audio
+git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display hardware/qcom-caf/msm8916/display
 ```
 <br/>
 
