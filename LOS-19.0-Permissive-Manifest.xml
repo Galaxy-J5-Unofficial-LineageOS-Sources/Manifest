@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/qcom-common" revision="samsung_qcom_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="vendor/samsung" revision="samsung_vendor_permissive_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/msm8916-common" revision="samsung_msm8916_common_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="kernel/samsung/msm8916" revision="samsung_kernel_msm8916_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/j5nlte" revision="samsung_j5nlte_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/j5lte" revision="samsung_j5lte_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/j5ltechn" revision="samsung_j5ltechn_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/j53gxx" revision="samsung_j53gxx_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/samsung/j5-common" revision="samsung_j5_common_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="hardware/samsung" revision="samsung_hardware_S" />
+  <project name="daviiid99/LineageOS_J5-2015" path="external/sony/boringssl-compat" revision="sony_boringssl-compat_R" />
+  <project name="daviiid99/LineageOS_J5-2015" path="device/qcom/sepolicy-legacy" revision="platform_device_qcom_sepolicy-legacy_S" /> 
+</manifest>
