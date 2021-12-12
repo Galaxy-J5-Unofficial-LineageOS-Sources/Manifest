@@ -47,6 +47,15 @@ patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTO
 ```
 <br/>
 
+OpenGApps configure source
+```
+sudo apt install git-lfs
+git lfs install
+repo forall -c git lfs pull
+rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk # This is actually needed for Chrome arm
+```
+<br/>
+
 Build:
 ```
 brunch j5nlte #for SM-J500FN
