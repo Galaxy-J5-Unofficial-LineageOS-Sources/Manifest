@@ -1,7 +1,7 @@
 # SAMSUNG Galaxy J5 | Build Instructions with Manifest
 <br/>
 
-Set up Linux environment (Check <a href="https://github.com/daviiid99/LineageOS_J5-2015/blob/Manifest_S/environment.sh">here</a>)
+Set up Linux environment (Check <a href="https://github.com/Galaxy-J5-Unofficial-LineageOS/Manifest/blob/main/LOS-Build-Environment.md">here</a>)
 
 <br/>
 
