@@ -46,6 +46,13 @@ patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTO
 ```
 <br/>
 
+``` Patch HWC for CAF Display Repo```
+```
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/patches/0001-hwc-Update-dependencies-for-S.patch > SPatches/0001-hwc-Update-dependencies-for-S.patch
+patch -d build/ -p1 <  SPatches/0001-hwc-Update-dependencies-for-S.patch
+
+```
+
 Build:
 ```
 brunch j5nlte #for SM-J500FN
