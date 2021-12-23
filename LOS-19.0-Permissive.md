@@ -41,7 +41,6 @@ repopick 319630-319634
 repopick 318021 318022 318023
 repopick 317966-317971 318383-318386 318388
 repopick 318459 318605
-#repopick 317569-317570 317810 317948 318019
 repopick -P system/tools/mkbootimg 319780
 repopick 320524
 repopick -t twelve-restore-camera-hal1
