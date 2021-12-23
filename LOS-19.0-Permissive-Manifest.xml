@@ -17,7 +17,9 @@
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.0" />
   <project path="external/ant-wireless/antradio-library" name="LineageOS/android_external_ant-wireless_antradio-library" revision="lineage-19.0" />
   <project path="external/connectivity" name="LineageOS/android_external_connectivity" remote="github" revision="lineage-18.1" />
-	<project path="vendor/qcom/opensource/dataservices" name="LineageOS/android_vendor_qcom_opensource_dataservices" remote="github" revision="lineage-18.1" />
-	<project path="vendor/qcom/opensource/libfmjni" name="LineageOS/android_vendor_qcom_opensource_libfmjni" remote="github" revision="lineage-18.1" />
+  <project path="vendor/qcom/opensource/dataservices" name="LineageOS/android_vendor_qcom_opensource_dataservices" remote="github" revision="lineage-18.1" />
+  <project path="vendor/qcom/opensource/libfmjni" name="LineageOS/android_vendor_qcom_opensource_libfmjni" remote="github" revision="lineage-18.1" />
+  <project name="LineageOS/android_system_qcom" path="system/qcom" groups="qcom" remote="github" revision="lineage-18.1" />
+  <project path="packages/apps/FMRadio" name="LineageOS/android_packages_apps_FMRadio" remote="github" revision="lineage-18.1" />
 </manifest>
 
