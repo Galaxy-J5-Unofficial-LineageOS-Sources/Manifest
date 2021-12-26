@@ -28,14 +28,7 @@ source build/envsetup.sh
 ```
 <br/>
 
-Temporal Fixes:
-
-```Add support for device tree in mkbootimg```
-```
-rm -rf system/tools/mkbootimg
-git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/system_tools_mkbootimg system/tools/mkbootimg
-```
-<br/>
+Patches:
 
 ```Add support for device tree and BOARD_CUSTOM_MBOOTIMG```
 ```
@@ -44,11 +37,12 @@ curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/m
 patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch 
 ```
 
-```Ultra Legacy patches```
+Repopicks:
 ```
 repopick -P art 318097
 repopick -P system/bpf 320591
 repopick -P system/netd 320592
+repopick -P system/tools/mkbootimg 319780
 ```
 <br/>
 
