@@ -36,6 +36,13 @@ mkdir -p SPatches
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/patches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch > SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch
 patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch 
 ```
+<br/>
+
+```Duplicated libril definition in hardware/samsung/ril/libril and hardware/ril/libril, remove AOSP definition```
+```
+rm -rf hardware/ril/libril
+```
+<br/>
 
 Repopicks:
 ```
