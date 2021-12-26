@@ -29,28 +29,26 @@ source build/envsetup.sh
 <br/>
 
 Temporal Fixes:
+
+```Add support for device tree in mkbootimg```
+```
+rm -rf system/tools/mkbootimg
+git clone -b lineage-19.0 https://github.com/Galaxy-J5-Unofficial-LineageOS/system_tools_mkbootimg system/tools/mkbootimg
+```
+<br/>
+
+```Add support for device tree and BOARD_CUSTOM_MBOOTIMG```
+```
+mkdir -p SPatches
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/patches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch > SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch
+patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch 
+```
+
+```Ultra Legacy patches```
 ```
 repopick -P art 318097
-repopick -f 287706 -P external/perfetto
-repopick 318458
 repopick -P system/bpf 320591
 repopick -P system/netd 320592
-repopick 317298 317300
-repopick 318781
-repopick 319630-319634
-repopick 318021 318022 318023
-repopick 317966-317971 318383-318386 318388
-repopick 318459 318605
-repopick -P system/tools/mkbootimg 319780
-repopick 320524
-repopick -t twelve-restore-camera-hal1
-repopick -t twelve-camera-extension
-repopick 320528-320530                              
-repopick -P hardware/interfaces 320531-320532
-repopick -t twelve-legacy-camera
-repopick 318826 318828
-repopick 320514
-repopick -t twelve-legacy-wfd
 ```
 <br/>
 
