@@ -32,9 +32,8 @@ Patches:
 
 ```Add support for device tree and BOARD_CUSTOM_MBOOTIMG```
 ```
-mkdir -p SPatches
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/patches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch > SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch
-patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch 
+patch -d build/ -p1 < 0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.patch 
 ```
 <br/>
 
