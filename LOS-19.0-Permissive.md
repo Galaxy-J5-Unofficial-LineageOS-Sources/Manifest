@@ -41,6 +41,8 @@ patch -d build/ -p1 <  SPatches/0001-Add-support-for-device-tree-and-BOARD_CUSTO
 Repopicks:
 ```
 repopick -P art 318097
+repopick -f 287706 -P external/perfetto
+repopick 318458
 repopick -P system/bpf 320591
 repopick -P system/netd 320592
 repopick -P system/tools/mkbootimg 319780
