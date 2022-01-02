@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_vendor" path="vendor/samsung" revision="lineage-18.1-enforcing" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_msm8916_common" path="device/samsung/msm8916-common" revision="lineage-18.1-enforcing" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_kernel_msm8916" path="kernel/samsung/msm8916" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j5nlte" path="device/samsung/j5nlte" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j5lte" path="device/samsung/j5lte" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j5ltechn" path="device/samsung/j5ltechn" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j53gxx" path="device/samsung/j53gxx" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j5_common" path="device/samsung/j5-common" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/samsung_hardware" path="hardware/samsung" revision="lineage-18.1" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/sony_boringssl-compat" path="external/sony/boringssl-compat" revision="lineage-18.1" />
+</manifest>
