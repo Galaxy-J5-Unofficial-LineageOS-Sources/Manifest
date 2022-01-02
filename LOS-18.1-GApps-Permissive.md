@@ -18,7 +18,7 @@ repo init -u git://github.com/LineageOS/android.git -b lineage-18.1
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-18.1-Permissive-Manifest.xml > .repo/local_manifests/j5.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-18.1-GApps-Permissive-Manifest.xml > .repo/local_manifests/j5.xml
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-GApps.xml > .repo/local_manifests/gapps.xml
 ```
 <br/>
