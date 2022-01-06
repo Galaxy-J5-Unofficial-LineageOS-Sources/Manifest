@@ -39,12 +39,13 @@ patch -d build/ -p1 < 0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.
 
 Repopicks:
 ```
-repopick -P art 318097
-repopick -f 287706 -P external/perfetto
-repopick 318458
-repopick -P system/bpf 320591
-repopick -P system/netd 320592
-repopick -P system/tools/mkbootimg 319780
+repopick -P art 318097 # Conditionally remove version check for memfd_create()
+repopick -f 287706 -P external/perfetto # Conditionally remove version check for memfd_create()
+repopick 318458 # Use AVCProfileMain for screen recorder
+repopick -P system/bpf 320591 # Ignore bpf errors for < 4.9 kernels
+repopick -P system/netd 320592 # Ignore netd errors for < 4.9 kernels
+repopick -P system/tools/mkbootimg 319780 # add support for --dt
+repopick -t twelve-monet # Enables Android 12 Color Scheme based on Wallpaper
 ```
 <br/>
 
