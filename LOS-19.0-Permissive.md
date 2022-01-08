@@ -37,6 +37,13 @@ patch -d build/ -p1 < 0001-Add-support-for-device-tree-and-BOARD_CUSTOM_BOOTIMG.
 ```
 <br/>
 
+```Add support for App Signature Spoofing (This is actually needed by MicroG)```
+```
+curl https://github.com/Galaxy-J5-Unofficial-LineageOS/Manifest/raw/main/patches/0023-Add-support-for-app-signature-spoofing.patch > 0023-Add-support-for-app-signature-spoofing.patch
+patch -d frameworks/base/ -p1 < 0023-Add-support-for-app-signature-spoofing.patch
+```
+<br/>
+
 Repopicks:
 ```
 repopick -P art 318097 # Conditionally remove version check for memfd_create()
