@@ -40,6 +40,7 @@ patch -d frameworks/base/ -p1 < 0023-Add-support-for-app-signature-spoofing.patc
 Repopicks:
 ```
 repopick -t twelve-monet # Enables Android 12 Color Scheme based on Wallpaper
+repopick -f -P system/tools/mkbootimg 319780 # add support for --dt
 ```
 <br/>
 
