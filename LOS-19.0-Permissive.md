@@ -39,6 +39,11 @@ patch -d frameworks/base/ -p1 < 0023-Add-support-for-app-signature-spoofing.patc
 
 Repopicks:
 ```
+repopick -P art 318097 # Conditionally remove version check for memfd_create()
+repopick -f 287706 -P external/perfetto # Conditionally remove version check for memfd_create()
+repopick 318458 # Use AVCProfileMain for screen recorder
+repopick -P system/bpf 320591 # Ignore bpf errors for < 4.9 kernels
+repopick -P system/netd 320592 # Ignore netd errors for < 4.9 kernels
 repopick -t twelve-monet # Enables Android 12 Color Scheme based on Wallpaper
 repopick -f -P system/tools/mkbootimg 319780 # add support for --dt
 ```
