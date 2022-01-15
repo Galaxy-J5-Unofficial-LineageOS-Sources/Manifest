@@ -37,16 +37,7 @@ git lfs install
 repo forall -c git lfs pull
 rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk # This is actually needed for Chrome arm
 ```
-<br/>
-
-Remove synced CAF repos (still unusable with building errors)
-```
-rm -rf hardware/qcom-caf/msm8916/display && rm -rf hardware/qcom-caf/msm8916/media && rm -rf hardware/qcom-caf/msm8916/audio
-git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media hardware/qcom-caf/msm8916/media
-git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio hardware/qcom-caf/msm8916/audio
-git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display hardware/qcom-caf/msm8916/display
-```
-<br/>
+<br/
 
 Build:
 ```
