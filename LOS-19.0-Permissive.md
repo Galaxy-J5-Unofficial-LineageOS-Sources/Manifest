@@ -40,7 +40,9 @@ patch -d frameworks/base/ -p1 < 0023-Add-support-for-app-signature-spoofing.patc
 Repopicks:
 ```
 repopick -t twelve-monet # Enables Android 12 Color Scheme based on Wallpaper
-repopick -t twelve-ultralegacy-devices # Patches for legacy Android devices without bpf support
+repopick -P art 318097 # Conditionally remove version check for memfd_create()
+repopick -P system/bpf 320591 # Ignore bpf errors for < 4.9 kernels
+repopick -P system/netd 320592 # Ignore netd errors for < 4.9 kernels
 ```
 <br/>
 
