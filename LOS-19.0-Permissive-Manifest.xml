@@ -12,7 +12,6 @@
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j5_common" path="device/samsung/j5-common" revision="lineage-19.0" />
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_hardware" path="hardware/samsung" revision="lineage-19.0" />
   <project name="Galaxy-J5-Unofficial-LineageOS/sony_boringssl-compat" path="external/sony/boringssl-compat" revision="lineage-19.0" />
-  <project name="LineageOS/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="github" revision="lineage-18.1" />
   
   <!-- Overriden Repos-->
   <!-- <remove-project name="device/qcom/sepolicy-legacy" /> -->
@@ -24,5 +23,7 @@
   <!-- <remove-project name="hardware/qcom-caf/msm8916/display" /> -->
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.0" />
   
-</manifest>
+  <!-- Temporal Repos -->
+  <project name="LineageOS/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="github" revision="lineage-18.1" />
 
+</manifest>
