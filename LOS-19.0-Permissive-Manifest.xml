@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
+  <!-- Default Galaxy J5 Repos for Android 12.0 -->
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-19.0" />
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_vendor" path="vendor/samsung" revision="lineage-19.0-permissive" />
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_msm8916_common" path="device/samsung/msm8916-common" revision="lineage-19.0-permissive" />
@@ -11,10 +12,18 @@
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_j5_common" path="device/samsung/j5-common" revision="lineage-19.0" />
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_hardware" path="hardware/samsung" revision="lineage-19.0" />
   <project name="Galaxy-J5-Unofficial-LineageOS/sony_boringssl-compat" path="external/sony/boringssl-compat" revision="lineage-19.0" />
-  <project name="Galaxy-J5-Unofficial-LineageOS/device_qcom_sepolicy-legacy" path="device/qcom/sepolicy-legacy" revision="lineage-19.0" /> 
-  <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media" path="hardware/qcom-caf/msm8916/media" revision="lineage-19.0" />
-  <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio" path="hardware/qcom-caf/msm8916/audio" revision="lineage-19.0" />
-  <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.0" />
+
   <project name="LineageOS/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="github" revision="lineage-18.1" />
+  
+  <!-- Overriden Repos-->
+  <remove-project name="device/qcom/sepolicy-legacy" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/device_qcom_sepolicy-legacy" path="device/qcom/sepolicy-legacy" revision="lineage-19.0" /> 
+  <remove-project name="hardware/qcom-caf/msm8916/media" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media" path="hardware/qcom-caf/msm8916/media" revision="lineage-19.0" />
+  <remove-project name="hardware/qcom-caf/msm8916/audio" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio" path="hardware/qcom-caf/msm8916/audio" revision="lineage-19.0" />
+  <remove-project name="hardware/qcom-caf/msm8916/display" />
+  <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.0" />
+  
 </manifest>
 
