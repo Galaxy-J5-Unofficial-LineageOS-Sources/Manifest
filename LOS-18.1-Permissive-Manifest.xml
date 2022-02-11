@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
+  <remote  name="Galaxy-J5-Unofficial-LineageOS"
+           fetch="https://github.com"
+           revision="lineage-18.1" />
+
   <!-- Default Galaxy J5 Repos for Android 11.x -->
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-18.1" />
   <project name="Galaxy-J5-Unofficial-LineageOS/samsung_vendor" path="vendor/samsung" revision="lineage-18.1-permissive" />
@@ -14,11 +18,11 @@
   <project name="Galaxy-J5-Unofficial-LineageOS/sony_boringssl-compat" path="external/sony/boringssl-compat" revision="lineage-18.1" />
   
   <!-- Overriden Repos--> 
-  <remove-project name="hardware/qcom-caf/msm8916/media" />
+  <remove-project name="LineageOS/hardware/qcom-caf/msm8916/media" />
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media" path="hardware/qcom-caf/msm8916/media" revision="lineage-18.1" />
-  <remove-project name="hardware/qcom-caf/msm8916/audio" />
+  <remove-project name="LineageOS/hardware/qcom-caf/msm8916/audio" />
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio" path="hardware/qcom-caf/msm8916/audio" revision="lineage-18.1" />
-  <remove-project name="hardware/qcom-caf/msm8916/display" />
+  <remove-project name="LineageOS/hardware/qcom-caf/msm8916/display" />
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-18.1" />
   
   
