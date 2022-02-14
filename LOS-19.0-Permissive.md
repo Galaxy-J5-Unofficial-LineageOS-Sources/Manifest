@@ -35,6 +35,12 @@ Patches:
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/patches/0023-Add-support-for-app-signature-spoofing.patch > 0023-Add-support-for-app-signature-spoofing.patch
 patch -d frameworks/base/ -p1 < 0023-Add-support-for-app-signature-spoofing.patch
 ```
+
+```ADB Patch ```
+```
+curl https://raw.githubusercontent.com/chil360/lineage_osprey/lineage-19.0/0001-TEMP-Disable-ADB-authentication.patch > 0001-TEMP-Disable-ADB-authentication.patch
+patch -d  vendor/lineage/ -p1 < 0001-TEMP-Disable-ADB-authentication.patch
+```
 <br/>
 
 Repopicks:
