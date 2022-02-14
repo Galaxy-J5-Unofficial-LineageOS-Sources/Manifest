@@ -45,10 +45,23 @@ patch -d  vendor/lineage/ -p1 < 0001-TEMP-Disable-ADB-authentication.patch
 
 Repopicks:
 ```
+# Monet
 repopick -t twelve-monet # Enables Android 12 Color Scheme based on Wallpaper
-repopick -P art 318097 # Conditionally remove version check for memfd_create()
-repopick -P system/bpf 320591 # Ignore bpf errors for < 4.9 kernels
-repopick -P system/netd 320592 # Ignore netd errors for < 4.9 kernels
+
+# Legacy
+repopick -f -P art 318097 # Conditionally remove version check for memfd_create()
+repopick -f 287706 -P external/perfetto
+repopick -f 318458
+repopick -f -P system/bpf 320591 # Ignore bpf errors for < 4.9 kernels
+repopick -f -P system/netd 320592 # Ignore netd errors for < 4.9 kernels
+
+# Camera
+repopick -t twelve-restore-camera-hal1
+repopick -t twelve-camera-extension
+repopick 320528-320530
+repopick -P hardware/interfaces 320531-320532
+repopick -t twelve-legacy-camera
+
 ```
 <br/>
 
