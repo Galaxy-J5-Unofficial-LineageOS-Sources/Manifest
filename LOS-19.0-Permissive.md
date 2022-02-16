@@ -41,11 +41,10 @@ patch -d frameworks/base/ -p1 < 0023-Add-support-for-app-signature-spoofing.patc
 curl https://raw.githubusercontent.com/chil360/lineage_osprey/lineage-19.0/0001-TEMP-Disable-ADB-authentication.patch > 0001-TEMP-Disable-ADB-authentication.patch
 patch -d  vendor/lineage/ -p1 < 0001-TEMP-Disable-ADB-authentication.patch
 ```
-<br/>
 
-Repopicks:
+
+```Monet```
 ```
-# Monet
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/monet_colors.patch > monet_colors.patch
 patch -d vendor/lineage -p1 < monet_colors.patch
 
@@ -54,8 +53,10 @@ patch -d vendor/lineage -p1 < monet_enable.patch
 
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/monet_frameworks.patch > monet_frameworks.patch
 patch -d frameworks/base -p1 < monet_frameworks.patch
+```
 
-# Legacy
+```Legacy```
+```
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/art.patch > art.patch
 patch -d art -p1 < art.patch
 
@@ -67,8 +68,10 @@ patch -d system/bpf -p1 < bpf.patch
 
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/netd.patch > netd.patch
 patch -d system/netd -p1 < netd.patch
+```
 
-# Camera
+``` Camera```
+```
 repopick -t twelve-restore-camera-hal1
 repopick -t twelve-camera-extension
 repopick 320528-320530
