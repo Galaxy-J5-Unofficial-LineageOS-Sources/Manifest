@@ -9,7 +9,7 @@ Initialize repo:
 ```
 mkdir -p ~/android/lineage
 cd ~/android/lineage
-repo init -u git://github.com/LineageOS/android.git -b lineage-19.0
+repo init -u git://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/android.git -b lineage-19.0
 ```
 <br/>
 
