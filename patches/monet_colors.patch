@@ -1,0 +1,47 @@
+From 0cab0061ba1a4506aceb7e0ec7c25dc3b287a406 Mon Sep 17 00:00:00 2001
+From: Danny Lin <danny@kdrag0n.dev>
+Date: Fri, 22 Oct 2021 12:24:02 -0700
+Subject: [PATCH] overlay: core: Remove accent color overrides
+
+On Android 12, AOSP's default Theme.DeviceDefault colors are mapped to
+various shades and tonal variations from the system-wide Material You
+color palette. Overriding the default accent colors with these legacy
+LineageOS teal colors prevents dynamic theming (Monet) from working
+properly across the system as it only affects the Material You color
+palette. It also creates an accessibility issue as the new design
+expects specific lightness shades for the light and dark accent colors.
+
+Remove the color overrides to fix Monet and UI colors in general.
+
+Change-Id: I81f18d136d8d4e22c3219bea05536219bb5ce672
+---
+
+diff --git a/overlay/common/frameworks/base/core/res/res/values/colors.xml b/overlay/common/frameworks/base/core/res/res/values/colors.xml
+deleted file mode 100644
+index 27fd690..0000000
+--- a/overlay/common/frameworks/base/core/res/res/values/colors.xml
++++ /dev/null
+@@ -1,23 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-    Copyright (c) 2018, The LineageOS Project
+-
+-    Licensed under the Apache License, Version 2.0 (the "License");
+-    you may not use this file except in compliance with the License.
+-    You may obtain a copy of the License at
+-
+-        http://www.apache.org/licenses/LICENSE-2.0
+-
+-    Unless required by applicable law or agreed to in writing, software
+-    distributed under the License is distributed on an "AS IS" BASIS,
+-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-    See the License for the specific language governing permissions and
+-    limitations under the License.
+--->
+-<resources>
+-    <color name="accent_device_default_700">#167C80</color>
+-    <color name="accent_device_default_dark">#167C80</color>
+-    <color name="accent_device_default_light">#167C80</color>
+-    <color name="material_deep_teal_200">#167C80</color>
+-    <color name="material_deep_teal_500">#167C80</color>
+-</resources>

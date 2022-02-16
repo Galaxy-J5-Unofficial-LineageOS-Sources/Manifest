@@ -1,0 +1,18 @@
+From 649e18c781d5e9b74b802ed5a5c141d7ee302929 Mon Sep 17 00:00:00 2001
+From: TheScarastic <warabhishek@gmail.com>
+Date: Wed, 06 Oct 2021 07:11:39 +0000
+Subject: [PATCH] overlay: Enable monet
+
+Change-Id: I0cc98cd8aee04bcb36ebfdb25173806a30d0d00d
+---
+
+diff --git a/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml b/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml
+index 64c6e78..d22d0f2 100644
+--- a/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml
++++ b/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml
+@@ -17,4 +17,5 @@
+ <resources>
+     <bool name="flag_conversations">true</bool>
+     <bool name="flag_charging_ripple">true</bool>
++    <bool name="flag_monet">true</bool>
+ </resources>
