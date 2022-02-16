@@ -46,14 +46,27 @@ patch -d  vendor/lineage/ -p1 < 0001-TEMP-Disable-ADB-authentication.patch
 Repopicks:
 ```
 # Monet
-repopick -t twelve-monet # Enables Android 12 Color Scheme based on Wallpaper
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/monet_colors.patch > monet_colors.patch
+patch -d vendor/lineage -p1 < monet_colors.patch
+
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/monet_enable.patch > monet_enable.patch
+patch -d vendor/lineage -p1 < monet_enable.patch
+
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/monet_frameworks.patch > monet_frameworks.patch
+patch -d frameworks/base -p1 < monet_frameworks.patch
 
 # Legacy
-repopick -f -P art 318097 # Conditionally remove version check for memfd_create()
-repopick -f 287706 -P external/perfetto
-repopick -f 318458
-repopick -f -P system/bpf 320591 # Ignore bpf errors for < 4.9 kernels
-repopick -f -P system/netd 320592 # Ignore netd errors for < 4.9 kernels
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/art.patch > art.patch
+patch -d art -p1 < art.patch
+
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/perfetto.patch > perfetto.patch
+patch -d external/perfetto -p1 < perfetto.patch
+
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/bpf.patch > bpf.patch
+patch -d system/bpf -p1 < bpf.patch
+
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/netd.patch > netd.patch
+patch -d system/netd -p1 < netd.patch
 
 # Camera
 repopick -t twelve-restore-camera-hal1
