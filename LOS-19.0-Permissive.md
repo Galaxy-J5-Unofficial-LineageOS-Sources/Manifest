@@ -69,16 +69,6 @@ patch -d system/bpf -p1 < bpf.patch
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/netd.patch > netd.patch
 patch -d system/netd -p1 < netd.patch
 ```
-
-``` Camera```
-```
-repopick -t twelve-restore-camera-hal1
-repopick -t twelve-camera-extension
-repopick 320528-320530
-repopick -P hardware/interfaces 320531-320532
-repopick -t twelve-legacy-camera
-
-```
 <br/>
 
 Build:
