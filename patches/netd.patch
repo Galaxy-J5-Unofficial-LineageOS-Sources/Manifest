@@ -1,0 +1,39 @@
+From b106bb68b85de833a0bcb282ef1900f5781029ba Mon Sep 17 00:00:00 2001
+From: SagarMakhar <sagarmakhar@gmail.com>
+Date: Tue, 05 Oct 2021 04:53:35 +0000
+Subject: [PATCH] Ignore netd errors for < 4.9 kernels
+
+Change-Id: I5f1296bf6e677dda05eceb6a480d7d669ef556b6
+Signed-off-by: SagarMakhar <sagarmakhar@gmail.com>
+---
+
+diff --git a/server/Controllers.cpp b/server/Controllers.cpp
+index 1f2bac2..91c2f39 100644
+--- a/server/Controllers.cpp
++++ b/server/Controllers.cpp
+@@ -19,6 +19,7 @@
+ #include <set>
+ #include <string>
+ 
++#include <android-base/properties.h>
+ #include <android-base/stringprintf.h>
+ #include <android-base/strings.h>
+ #include <netdutils/Stopwatch.h>
+@@ -276,6 +277,8 @@
+ }
+ 
+ void Controllers::init() {
++    bool ebpf_supported = android::base::GetBoolProperty("ro.kernel.ebpf.supported", true);
++
+     initIptablesRules();
+     Stopwatch s;
+ 
+@@ -283,7 +286,7 @@
+     gLog.info("Initializing ClatdController: %" PRId64 "us", s.getTimeAndResetUs());
+ 
+     netdutils::Status tcStatus = trafficCtrl.start();
+-    if (!isOk(tcStatus)) {
++    if (!isOk(tcStatus) && ebpf_supported) {
+         gLog.error("Failed to start trafficcontroller: (%s)", toString(tcStatus).c_str());
+         gLog.error("CRITICAL: sleeping 60 seconds, netd exiting with failure, crash loop likely!");
+         // The expected reason we get here is a major kernel or other code bug, as such
