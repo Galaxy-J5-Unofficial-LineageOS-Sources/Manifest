@@ -19,4 +19,7 @@
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio" path="hardware/qcom-caf/msm8916/audio" revision="lineage-19.0" />
   <project name="Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.0" />
  
+  <!-- LineageOS Repos -->
+  <project name="LineageOS/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="github" revision="lineage-18.1" />
+  
 </manifest>
