@@ -69,6 +69,12 @@ patch -d system/bpf -p1 < bpf.patch
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/netd.patch > netd.patch
 patch -d system/netd -p1 < netd.patch
 ```
+
+```Hacks ```
+```
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/0001-Hack-Ignore-SensorPrivacyService-Security-Exception.patch > sensor.patch
+patch -d frameworks/base -p1 < sensor.patch
+```
 <br/>
 
 Build:
