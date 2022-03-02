@@ -87,5 +87,18 @@ brunch j5lte #for SM-J500F/G/M/NO/Y
 brunch j5ltechn #for SM-J5008
 brunch j53gxx #for SM-J500H
 ```
+<br/>
+
+Optional
+
+```Build CAF Apps```
+```
+lunch lineage_j5nlte-userdebug
+source build/envsetup.sh
+mma SnapdragonCamera
+mma SnapdragonGallery
+mma SnapdragonMusic
+
+```
 
 <br/>
