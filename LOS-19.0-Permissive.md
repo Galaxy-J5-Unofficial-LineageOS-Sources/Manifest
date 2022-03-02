@@ -74,6 +74,9 @@ patch -d system/netd -p1 < netd.patch
 ```
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/0001-Hack-Ignore-SensorPrivacyService-Security-Exception.patch > sensor.patch
 patch -d frameworks/base -p1 < sensor.patch
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/0002-Bring-Back-XML-Format-UTF-8-TWRP.patch > twrp.patch
+patch -d frameworks/base -p1 < twrp.patch
+
 ```
 <br/>
 
