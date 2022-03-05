@@ -68,6 +68,8 @@ patch -d system/bpf -p1 < bpf.patch
 
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/patches/netd.patch > netd.patch
 patch -d system/netd -p1 < netd.patch
+
+repopick -P frameworks/native 321934
 ```
 
 ```Hacks ```
@@ -87,18 +89,4 @@ brunch j5lte #for SM-J500F/G/M/NO/Y
 brunch j5ltechn #for SM-J5008
 brunch j53gxx #for SM-J500H
 ```
-<br/>
-
-Optional
-
-```Build CAF Apps```
-```
-lunch lineage_j5nlte-userdebug
-source build/envsetup.sh
-mma SnapdragonCamera
-mma SnapdragonGallery
-mma SnapdragonMusic
-
-```
-
 <br/>
