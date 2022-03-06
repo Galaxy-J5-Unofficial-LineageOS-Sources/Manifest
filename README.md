@@ -2,9 +2,10 @@
 <br/>
 
 Set up Linux environment
-
-Follow <a href="https://github.com/Galaxy-J5-Unofficial-LineageOS/Manifest/blob/main/LOS-Build-Environment.md">this documentation</a>
-
+```
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/environment.sh > environment.sh
+sh environment.sh
+```
 <br/>
 
 Initialize LineageOS repo:
