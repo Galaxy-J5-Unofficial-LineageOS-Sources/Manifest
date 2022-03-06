@@ -11,15 +11,15 @@ Initialize LineageOS repo:
 ```
 mkdir -p ~/android/lineage
 cd ~/android/lineage
-repo init -u git://github.com/LineageOS/android.git -b lineage-18.1
+repo init -u git://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-18.1-enforcing
 ```
 <br/>
 
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-18.1-Enforcing-Manifest.xml > .repo/local_manifests/j5.xml
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/main/LOS-GApps.xml > .repo/local_manifests/gapps.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-18.1-enforcing/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-18.1-enforcing/Manifests/LOS-GApps.xml > .repo/local_manifests/gapps.xml
 ```
 <br/>
 
@@ -36,15 +36,6 @@ sudo apt install git-lfs
 git lfs install
 repo forall -c git lfs pull
 rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk # This is actually needed for Chrome arm
-```
-<br/>
-
-Remove synced CAF repos (still unusable with building errors)
-```
-rm -rf hardware/qcom-caf/msm8916/display && rm -rf hardware/qcom-caf/msm8916/media && rm -rf hardware/qcom-caf/msm8916/audio
-git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_media hardware/qcom-caf/msm8916/media
-git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_audio hardware/qcom-caf/msm8916/audio
-git clone -b lineage-18.1 https://github.com/Galaxy-J5-Unofficial-LineageOS/hardware_qcom-caf_msm8916_display hardware/qcom-caf/msm8916/display
 ```
 <br/>
 
