@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>  
+<remote name="Galaxy-J5-Unofficial-LineageOS-Sources"
+           fetch="https://github.com" />
+  <!-- Default Galaxy J5 Repos for Android 12.0 -->
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources" />
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_vendor" path="vendor/samsung" revision="lineage-19.0-permissive" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_msm8916_common" path="device/samsung/msm8916-common" revision="lineage-19.0-permissive" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_kernel_msm8916" path="kernel/samsung/msm8916" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5nlte" path="device/samsung/j5nlte" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5lte" path="device/samsung/j5lte" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5ltechn" path="device/samsung/j5ltechn" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j53gxx" path="device/samsung/j53gxx" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources" />
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5_common" path="device/samsung/j5-common" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_hardware" path="hardware/samsung" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/sony_boringssl-compat" path="external/sony/boringssl-compat" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  
+  <!-- Overriden Repos-->
+  <!-- <remove-project name="device/qcom/sepolicy-legacy" /> -->
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/device_qcom_sepolicy-legacy" path="device/qcom/sepolicy-legacy" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/> 
+  <!-- <remove-project name="hardware/qcom-caf/msm8916/media" /> -->
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/hardware_qcom-caf_msm8916_media" path="hardware/qcom-caf/msm8916/media" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <!-- <remove-project name="hardware/qcom-caf/msm8916/audio" /> -->
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/hardware_qcom-caf_msm8916_audio" path="hardware/qcom-caf/msm8916/audio" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <!-- <remove-project name="hardware/qcom-caf/msm8916/display" /> -->
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  
+  <!-- Temporal Repos -->
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-19.0"/>
+
+</manifest>
