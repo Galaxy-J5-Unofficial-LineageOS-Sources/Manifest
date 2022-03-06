@@ -19,7 +19,7 @@ Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-18.1-permissive/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-18.1-permissive/LOS-GApps.xml > .repo/local_manifests/gapps.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-18.1-permissive/Manifests/LOS-GApps.xml > .repo/local_manifests/gapps.xml
 ```
 <br/>
 
