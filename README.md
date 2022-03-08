@@ -3,7 +3,7 @@
 
 Set up Linux environment
 ```
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/main/environment.sh > environment.sh
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-18.1-enforcing/Scripts/environment.sh > environment.sh
 sh environment.sh
 ```
 <br/>
