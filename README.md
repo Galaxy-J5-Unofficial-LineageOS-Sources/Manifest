@@ -35,35 +35,36 @@ Patches:
 
 ```Add support for App Signature Spoofing (This is actually needed by MicroG)```
 ```
-patch -d frameworks/base/ -p1 < patches/0023-Add-support-for-app-signature-spoofing.patch
+patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
 ```
 
 ```ADB Patch ```
 ```
-patch -d  vendor/lineage/ -p1 < patches/0001-TEMP-Disable-ADB-authentication.patch
+patch -d  vendor/lineage/ -p1 < .repo/manifests/patches/0001-TEMP-Disable-ADB-authentication.patch
 ```
 
 
 ```Monet```
 ```
-patch -d vendor/lineage -p1 < patches/monet_colors.patch
-patch -d vendor/lineage -p1 < patches/monet_enable.patch
-patch -d frameworks/base -p1 < patches/monet_frameworks.patch
+patch -d vendor/lineage -p1 < .repo/manifests/patches/monet_colors.patch
+patch -d vendor/lineage -p1 < .repo/manifests/patches/monet_enable.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/monet_frameworks.patch
 ```
 
 ```Legacy```
 ```
-patch -d art -p1 < patches/art.patch
-patch -d external/perfetto -p1 < patches/perfetto.patch
-patch -d system/bpf -p1 < patches/bpf.patch
-patch -d system/netd -p1 < patches/netd.patch
+patch -d art -p1 < .repo/manifests/patches/art.patch
+patch -d external/perfetto -p1 < .repo/manifests/patches/perfetto.patch
+patch -d system/bpf -p1 < .repo/manifests/patches/bpf.patch
+patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
 repopick -P frameworks/native 321934
 ```
 
 ```Hacks ```
 ```
-patch -d frameworks/base -p1 < patches/sensor.patch
-patch -d frameworks/base -p1 < patches/twrp.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/sensor.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/twrp.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0001-FIX-CRASH-ON-FIRST-J5-BOOT.patch
 
 ```
 <br/>
