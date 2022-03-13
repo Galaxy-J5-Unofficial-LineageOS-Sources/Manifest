@@ -1,0 +1,122 @@
+From 3e241d3238ca423a9935425af225618472e563a0 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Sun, 13 Mar 2022 20:40:10 +0000
+Subject: [PATCH] Make GCC the default kernel compiler
+
+Change-Id: Ibb649813821f6064d8718024513f777d808fd94e
+---
+ build/tasks/kernel.mk                         |  4 ++--
+ config/BoardConfigKernel.mk                   |  4 ++--
+ config/common.mk                              |  5 ----
+ .../base/core/res/res/values/colors.xml       | 23 -------------------
+ .../packages/SystemUI/res/values/flags.xml    |  1 +
+ 5 files changed, 5 insertions(+), 32 deletions(-)
+ delete mode 100644 overlay/common/frameworks/base/core/res/res/values/colors.xml
+
+diff --git a/build/tasks/kernel.mk b/build/tasks/kernel.mk
+index 7c541fd3..04b85d31 100644
+--- a/build/tasks/kernel.mk
++++ b/build/tasks/kernel.mk
+@@ -26,7 +26,7 @@
+ #   TARGET_KERNEL_SELINUX_CONFIG       = SELinux defconfig, optional
+ #   TARGET_KERNEL_ADDITIONAL_CONFIG    = Additional defconfig, optional
+ #
+-#   TARGET_KERNEL_CLANG_COMPILE        = Compile kernel with clang, defaults to true
++#   TARGET_KERNEL_CLANG_COMPILE        = Compile kernel with clang, defaults to false
+ #
+ #   TARGET_KERNEL_CLANG_VERSION        = Clang prebuilts version, optional, defaults to clang-stable
+ #
+@@ -230,7 +230,7 @@ endif
+ ifeq ($(or $(FULL_RECOVERY_KERNEL_BUILD), $(FULL_KERNEL_BUILD)),true)
+ # Add host bin out dir to path
+ PATH_OVERRIDE := PATH=$(KERNEL_BUILD_OUT_PREFIX)$(HOST_OUT_EXECUTABLES):$$PATH
+-ifneq ($(TARGET_KERNEL_CLANG_COMPILE),false)
++ifeq ($(TARGET_KERNEL_CLANG_COMPILE),true)
+     ifneq ($(TARGET_KERNEL_CLANG_VERSION),)
+         KERNEL_CLANG_VERSION := clang-$(TARGET_KERNEL_CLANG_VERSION)
+     else
+diff --git a/config/BoardConfigKernel.mk b/config/BoardConfigKernel.mk
+index c81db38c..964ab44f 100644
+--- a/config/BoardConfigKernel.mk
++++ b/config/BoardConfigKernel.mk
+@@ -27,7 +27,7 @@
+ #                                                      aarch64-linux-android- for arm64
+ #                                                      x86_64-linux-android- for x86
+ #
+-#   TARGET_KERNEL_CLANG_COMPILE        = Compile kernel with clang, defaults to true
++#   TARGET_KERNEL_CLANG_COMPILE        = Compile kernel with clang, defaults to false
+ #
+ #   KERNEL_TOOLCHAIN_PREFIX            = Overrides TARGET_KERNEL_CROSS_COMPILE_PREFIX,
+ #                                          Set this var in shell to override
+@@ -86,7 +86,7 @@ ifneq ($(USE_CCACHE),)
+     endif
+ endif
+ 
+-ifneq ($(TARGET_KERNEL_CLANG_COMPILE),false)
++ifeq ($(TARGET_KERNEL_CLANG_COMPILE),true)
+     KERNEL_CROSS_COMPILE := CROSS_COMPILE="$(KERNEL_TOOLCHAIN_PATH)"
+ else
+     KERNEL_CROSS_COMPILE := CROSS_COMPILE="$(CCACHE_BIN) $(KERNEL_TOOLCHAIN_PATH)"
+diff --git a/config/common.mk b/config/common.mk
+index 476fbab3..97316f13 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -13,16 +13,11 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+     ro.com.google.clientidbase=$(PRODUCT_GMS_CLIENTID_BASE)
+ endif
+ 
+-ifeq ($(TARGET_BUILD_VARIANT),eng)
+ # Disable ADB authentication
+ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.adb.secure=0
+-else
+-# Enable ADB authentication
+-PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.adb.secure=1
+ 
+ # Disable extra StrictMode features on all non-engineering builds
+ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += persist.sys.strictmode.disable=true
+-endif
+ 
+ # Backup Tool
+ PRODUCT_COPY_FILES += \
+diff --git a/overlay/common/frameworks/base/core/res/res/values/colors.xml b/overlay/common/frameworks/base/core/res/res/values/colors.xml
+deleted file mode 100644
+index 27fd690c..00000000
+--- a/overlay/common/frameworks/base/core/res/res/values/colors.xml
++++ /dev/null
+@@ -1,23 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-    Copyright (c) 2018, The LineageOS Project
+-
+-    Licensed under the Apache License, Version 2.0 (the "License");
+-    you may not use this file except in compliance with the License.
+-    You may obtain a copy of the License at
+-
+-        http://www.apache.org/licenses/LICENSE-2.0
+-
+-    Unless required by applicable law or agreed to in writing, software
+-    distributed under the License is distributed on an "AS IS" BASIS,
+-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-    See the License for the specific language governing permissions and
+-    limitations under the License.
+--->
+-<resources>
+-    <color name="accent_device_default_700">#167C80</color>
+-    <color name="accent_device_default_dark">#167C80</color>
+-    <color name="accent_device_default_light">#167C80</color>
+-    <color name="material_deep_teal_200">#167C80</color>
+-    <color name="material_deep_teal_500">#167C80</color>
+-</resources>
+diff --git a/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml b/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml
+index 64c6e78b..d22d0f23 100644
+--- a/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml
++++ b/overlay/common/frameworks/base/packages/SystemUI/res/values/flags.xml
+@@ -17,4 +17,5 @@
+ <resources>
+     <bool name="flag_conversations">true</bool>
+     <bool name="flag_charging_ripple">true</bool>
++    <bool name="flag_monet">true</bool>
+ </resources>
+-- 
+2.20.1
+
