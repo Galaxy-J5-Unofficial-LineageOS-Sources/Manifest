@@ -8,6 +8,7 @@
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_msm8916_common" path="device/samsung/msm8916-common" revision="lineage-19.0-permissive" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_kernel_msm8916" path="kernel/samsung/msm8916" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5nlte" path="device/samsung/j5nlte" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5xnlte" path="device/samsung/j5xnlte" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5lte" path="device/samsung/j5lte" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5ltechn" path="device/samsung/j5ltechn" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j53gxx" path="device/samsung/j53gxx" revision="lineage-19.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources" />
