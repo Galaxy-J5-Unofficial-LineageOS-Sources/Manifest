@@ -12,7 +12,7 @@ Initialize repo:
 ```
 mkdir -p ~/android/lineage
 cd ~/android/lineage
-repo init -u git://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-19.0-permissive
+repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-19.0-permissive
 ```
 <br/>
 
