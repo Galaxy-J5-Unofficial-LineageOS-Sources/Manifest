@@ -3,7 +3,7 @@
 
 Set up Linux environment
 ```
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-19.0-permissive/Scripts/environment.sh > environment.sh
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-19.1-permissive/Scripts/environment.sh > environment.sh
 sh environment.sh
 ```
 <br/>
@@ -12,7 +12,7 @@ Initialize repo:
 ```
 mkdir -p ~/android/lineage
 cd ~/android/lineage
-repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-19.0-permissive
+repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-19.1-permissive
 ```
 <br/>
 
@@ -20,7 +20,7 @@ repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.0-permissive/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
 ```
 <br/>
 
