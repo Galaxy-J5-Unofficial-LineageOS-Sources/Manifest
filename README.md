@@ -43,14 +43,6 @@ patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app
 patch -d  vendor/lineage/ -p1 < .repo/manifests/patches/0001-TEMP-Disable-ADB-authentication.patch
 ```
 
-
-```Monet```
-```
-patch -d vendor/lineage -p1 < .repo/manifests/patches/monet_colors.patch
-patch -d vendor/lineage -p1 < .repo/manifests/patches/monet_enable.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/monet_frameworks.patch
-```
-
 ```Legacy```
 ```
 patch -d art -p1 < .repo/manifests/patches/art.patch
