@@ -60,8 +60,19 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refr
 patch -d frameworks/base -p1 < .repo/manifests/patches/0015-Revert-Make-QS-always-use-dark-theme-colors.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inflate-QS-and-SB-when-CONFIG_UI_MO.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
+patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
+patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0002-Launcher3-Import-more-themed-icons.patch
 
 
+```
+
+``` Camera ```
+```
+repopick -t twelve-restore-camera-hal1
+repopick -t twelve-camera-extension
+repopick 320528-320530                              # twelve-qcom-cam
+repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
+repopick -t twelve-legacy-camera
 ```
 
 ```Hacks ```
