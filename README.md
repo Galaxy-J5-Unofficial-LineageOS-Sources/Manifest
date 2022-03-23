@@ -33,12 +33,12 @@ source build/envsetup.sh
 
 Patches:
 
-```Add support for App Signature Spoofing (This is actually needed by MicroG)```
+```MicroG```
 ```
 patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
 ```
 
-```ADB Patch ```
+```ADB```
 ```
 patch -d  vendor/lineage/ -p1 < .repo/manifests/patches/0001-TEMP-Disable-ADB-authentication.patch
 ```
@@ -62,8 +62,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inf
 patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0002-Launcher3-Import-more-themed-icons.patch
-
-
 ```
 
 ``` Camera ```
@@ -83,7 +81,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Fix-Brightness-Slide
 patch -d frameworks/native -p1 < .repo/manifests/patches/0001-keystore2-fallback-mCallingSid-to-getpidcon.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Disable-vendor-mismatch-warning.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0012-core-Remove-old-app-target-SDK-dialog.patch
-
 ```
 <br/>
 
