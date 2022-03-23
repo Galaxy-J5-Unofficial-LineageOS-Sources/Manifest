@@ -52,6 +52,12 @@ patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
 repopick -P frameworks/native 321934
 ```
 
+``` Monet```
+```
+patch -d frameworks/base -p1 < .repo/manifests/patches/0014-SystemUI-Use-Monet-colors-for-power-menu.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0017-SystemUI-Follow-light-dark-theme-in-quick-settings.patch
+```
+
 ```Hacks ```
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Hack-Ignore-SensorPrivacyService-Security-Exception.patch
@@ -59,7 +65,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Bring-Back-XML-Forma
 patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Fix-Brightness-Slider-12.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/0001-keystore2-fallback-mCallingSid-to-getpidcon.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Disable-vendor-mismatch-warning.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0014-SystemUI-Use-Monet-colors-for-power-menu.patch
 ```
 <br/>
 
