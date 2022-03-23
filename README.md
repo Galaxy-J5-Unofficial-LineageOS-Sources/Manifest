@@ -56,6 +56,12 @@ repopick -P frameworks/native 321934
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/0014-SystemUI-Use-Monet-colors-for-power-menu.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0017-SystemUI-Follow-light-dark-theme-in-quick-settings.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refresh-power-menu-on-UI-mode-change.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0015-Revert-Make-QS-always-use-dark-theme-colors.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inflate-QS-and-SB-when-CONFIG_UI_MO.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
+
+
 ```
 
 ```Hacks ```
@@ -65,6 +71,8 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Bring-Back-XML-Forma
 patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Fix-Brightness-Slider-12.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/0001-keystore2-fallback-mCallingSid-to-getpidcon.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Disable-vendor-mismatch-warning.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0012-core-Remove-old-app-target-SDK-dialog.patch
+
 ```
 <br/>
 
