@@ -44,6 +44,11 @@ rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk 
 
 Patches:
 
+```ADB```
+```
+patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/adb.patch
+```
+
 ```Legacy```
 ```
 patch -d art -p1 < .repo/manifests/patches/art.patch
