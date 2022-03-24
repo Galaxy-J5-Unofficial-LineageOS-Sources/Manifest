@@ -21,6 +21,8 @@ Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive/Manifests/LOS-GApps.xml > .repo/local_manifests/gapps.xml
+
 ```
 <br/>
 
@@ -31,17 +33,16 @@ source build/envsetup.sh
 ```
 <br/>
 
+OpenGApps configure source
+```
+sudo apt install git-lfs
+git lfs install
+repo forall -c git lfs pull
+rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk # This is actually needed for Chrome arm
+```
+<br/>
+
 Patches:
-
-```MicroG```
-```
-patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
-```
-
-```ADB```
-```
-patch -d  vendor/lineage/ -p1 < .repo/manifests/patches/0001-TEMP-Disable-ADB-authentication.patch
-```
 
 ```Legacy```
 ```
