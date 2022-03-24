@@ -61,7 +61,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0015-Revert-Make-QS-alway
 patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inflate-QS-and-SB-when-CONFIG_UI_MO.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
-patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0002-Launcher3-Import-more-themed-icons.patch
 ```
 
 ``` Camera ```
