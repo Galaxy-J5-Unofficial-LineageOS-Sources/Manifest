@@ -66,6 +66,7 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refr
 patch -d frameworks/base -p1 < .repo/manifests/patches/0015-Revert-Make-QS-always-use-dark-theme-colors.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inflate-QS-and-SB-when-CONFIG_UI_MO.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switch-to-large-clock.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
 ```
 
