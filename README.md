@@ -49,6 +49,11 @@ Patches:
 patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/adb.patch
 ```
 
+```MicroG```
+```
+patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
+```
+
 ```Legacy```
 ```
 patch -d art -p1 < .repo/manifests/patches/art.patch
