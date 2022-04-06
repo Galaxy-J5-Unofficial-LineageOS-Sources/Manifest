@@ -2,8 +2,6 @@
 <manifest>  
 <remote name="Galaxy-J5-Unofficial-LineageOS-Sources"
            fetch="https://github.com" />
-<remote name="Ardjlo"
-           fetch="https://github.com" />
   <!-- Default Galaxy J5 Repos for Android 12L -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-19.1" remote="Galaxy-J5-Unofficial-LineageOS-Sources" />
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_vendor" path="vendor/samsung" revision="lineage-19.1-permissive" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
@@ -33,6 +31,6 @@
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-19.1"/>
 
    <!-- Other repos -->
-  <project name="Ardjlon/vendor_PixelMod" path="vendor/PixelMod" remote="Ardjlon"  revision="master"/>    
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/vendor_PixelMod" path="vendor/PixelMod" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="master"/>    
            
 </manifest>
