@@ -21,8 +21,6 @@ Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive/Manifests/LOS-GApps.xml > .repo/local_manifests/gapps.xml
-
 ```
 <br/>
 
@@ -30,15 +28,6 @@ Sync repo:
 ```
 repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
 source build/envsetup.sh
-```
-<br/>
-
-OpenGApps configure source
-```
-sudo apt install git-lfs
-git lfs install
-repo forall -c git lfs pull
-rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk # This is actually needed for Chrome arm
 ```
 <br/>
 
