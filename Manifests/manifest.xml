@@ -2,6 +2,8 @@
 <manifest>  
 <remote name="Galaxy-J5-Unofficial-LineageOS-Sources"
            fetch="https://github.com" />
+<remote name="Ardjlo"
+           fetch="https://github.com" />
   <!-- Default Galaxy J5 Repos for Android 12L -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-19.1" remote="Galaxy-J5-Unofficial-LineageOS-Sources" />
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_vendor" path="vendor/samsung" revision="lineage-19.1-permissive" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
