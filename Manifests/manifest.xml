@@ -30,4 +30,7 @@
   <!-- Temporal Repos -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-19.1"/>
 
+   <!-- Other repos -->
+  <project name="Ardjlon/vendor_PixelMod" path="vendor/PixelMod" remote="Ardjlon"  revision="master"/>    
+           
 </manifest>
