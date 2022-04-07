@@ -50,7 +50,6 @@ patch -d external/perfetto -p1 < .repo/manifests/patches/perfetto.patch
 patch -d system/bpf -p1 < .repo/manifests/patches/bpf.patch
 patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch
-repopick -P frameworks/native 321934
 ```
 
 ``` Monet```
@@ -63,15 +62,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inf
 patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switch-to-large-clock.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
-```
-
-``` Camera ```
-```
-repopick -t twelve-restore-camera-hal1
-repopick -t twelve-camera-extension
-repopick 320528-320530                              # twelve-qcom-cam
-repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
-repopick -t twelve-legacy-camera
 ```
 
 ```Hacks ```
