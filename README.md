@@ -53,6 +53,15 @@ patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch
 ```
 
+``` Camera ```
+```
+repopick -t twelve-restore-camera-hal1
+repopick -t twelve-camera-extension
+repopick 320528-320530                              # twelve-qcom-cam
+repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
+repopick -t twelve-legacy-camera
+```
+
 ``` Monet```
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/0014-SystemUI-Use-Monet-colors-for-power-menu.patch
