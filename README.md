@@ -85,6 +85,12 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0012-core-Remove-old-app-
 ```
 <br/>
 
+```GMS ```
+```
+patch -d vendor/partner_gms -p1 < .repo/manifests/patches/0001-Minimal-GMS-For-J5-Devices.patch
+```
+<br/>
+
 Build:
 
 ```j5nlte```
