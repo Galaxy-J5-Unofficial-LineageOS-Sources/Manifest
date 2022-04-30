@@ -51,6 +51,8 @@ patch -d external/perfetto -p1 < .repo/manifests/patches/perfetto.patch
 patch -d system/bpf -p1 < .repo/manifests/patches/bpf.patch
 patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
 patch -d frameworks/native -p1 < ".repo/manifests/patches/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch"
+patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Restore-libbfqio-for-non-BPF-devices.patch
+
 ```
 
 ``` Camera ```
