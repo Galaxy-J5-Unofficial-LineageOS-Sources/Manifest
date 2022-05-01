@@ -76,6 +76,17 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switc
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
 ```
 
+``` RIL ```
+```
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0001-telephony-Squashed-support-for-simactivation-feature.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0002-Avoid-SubscriptionManager-getUriForSubscriptionId-ca.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0003-RIL-Fix-manual-network-selection-with-old-modem.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0004-2G-wants-proper-signal-strength-too.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0005-Telephony-Add-option-for-using-regular-poll-state-fo.patch
+
+
+```
+
 ```Hacks ```
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Hack-Ignore-SensorPrivacyService-Security-Exception.patch
