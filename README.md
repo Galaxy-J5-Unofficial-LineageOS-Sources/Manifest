@@ -44,6 +44,12 @@ patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/adb.patch
 patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
 ```
 
+```Customization```
+```
+patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Update-Default-Wallpaper.patch
+```
+
+
 ```Legacy```
 ```
 patch -d art -p1 < .repo/manifests/patches/art.patch
