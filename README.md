@@ -44,12 +44,6 @@ patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/adb.patch
 patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
 ```
 
-```Customization```
-```
-patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Update-Default-Wallpaper.patch
-```
-
-
 ```Legacy```
 ```
 patch -d art -p1 < .repo/manifests/patches/art.patch
@@ -59,15 +53,6 @@ patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
 patch -d frameworks/native -p1 < ".repo/manifests/patches/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch"
 patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Restore-libbfqio-for-non-BPF-devices.patch
 
-```
-
-``` Camera ```
-```
-repopick -t twelve-restore-camera-hal1
-repopick -t twelve-camera-extension
-repopick 320528-320530                              # twelve-qcom-cam
-repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
-repopick -t twelve-legacy-camera
 ```
 
 ``` Monet```
@@ -81,16 +66,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low
 patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switch-to-large-clock.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
 ```
-
-``` RIL ```
-```
-patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0001-telephony-Squashed-support-for-simactivation-feature.patch
-patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0002-Avoid-SubscriptionManager-getUriForSubscriptionId-ca.patch
-patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0003-RIL-Fix-manual-network-selection-with-old-modem.patch
-patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0004-2G-wants-proper-signal-strength-too.patch
-patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/0005-Telephony-Add-option-for-using-regular-poll-state-fo.patch
-
-
 ```
 
 ```Hacks ```
