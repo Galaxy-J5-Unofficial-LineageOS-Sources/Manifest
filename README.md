@@ -66,7 +66,6 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low
 patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switch-to-large-clock.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
 ```
-```
 
 ```Hacks ```
 ```
@@ -77,6 +76,7 @@ patch -d frameworks/native -p1 < .repo/manifests/patches/0001-keystore2-fallback
 patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Disable-vendor-mismatch-warning.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0012-core-Remove-old-app-target-SDK-dialog.patch
 ```
+
 <br/>
 
 Build:
