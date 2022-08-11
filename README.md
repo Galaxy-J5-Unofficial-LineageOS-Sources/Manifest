@@ -41,11 +41,38 @@ rm ~/android/lineage/vendor/opengapps/build/modules/TrichromeLibrary/Android.mk 
 <br/>
 
 Build:
+
+```j5nlte```
+
 ```
 brunch j5nlte #for SM-J500FN
+```
+<br/>
+
+```j5lte ```
+
+```
 brunch j5lte #for SM-J500F/G/M/NO/Y
+```
+<br/>
+
+```j5ltechn```
+
+```
 brunch j5ltechn #for SM-J5008
+```
+<br/>
+
+```j53gxx```
+
+```
 brunch j53gxx #for SM-J500H
 ```
+<br/>
 
+```j5xnlte ```
+
+```
+brunch j5xnlte # for SM-J510F
+```
 <br/>
