@@ -3,7 +3,7 @@
 
 Set up Linux environment
 ```
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-19.1-permissive/Scripts/environment.sh > environment.sh
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-19.1-permissive-GApps/Scripts/environment.sh > environment.sh
 sh environment.sh
 ```
 <br/>
@@ -12,7 +12,7 @@ Initialize repo:
 ```
 mkdir -p ~/android/lineage
 cd ~/android/lineage
-repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-19.1-permissive
+repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-19.1-permissive-GApps
 ```
 <br/>
 
@@ -20,8 +20,8 @@ repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-19.1-permissive/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-19.1-permissive-GApps/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-19.1-permissive-GApps/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
 ```
 <br/>
 
@@ -76,6 +76,12 @@ patch -d frameworks/native -p1 < .repo/manifests/patches/0001-keystore2-fallback
 patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Disable-vendor-mismatch-warning.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0012-core-Remove-old-app-target-SDK-dialog.patch
 ```
+
+```GMS ```
+```
+patch -d vendor/partner_gms -p1 < .repo/manifests/patches/0001-Minimal-GMS-For-J5-Devices.patch
+```
+<br/>
 
 <br/>
 
