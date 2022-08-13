@@ -10,7 +10,7 @@ Steps for self building LineageOS
 
 # Android 12.1
 [LineageOS 19.1 - Permissive - Vanilla](https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/blob/lineage-19.1-permissive-Vanilla/README.md)<br/>
-[LineageOS 19.1 - Permissive - GApps](https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/blob/lineage-19.1-permissive-Gapps/README.md)<br/>
+[LineageOS 19.1 - Permissive - GApps](https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/blob/lineage-19.1-permissive-GApps/README.md)<br/>
 
 # Android 13
-[LineageOS 20.0 - Permissive - Vanilla](https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/blob/lineage-20.0-permissive-Vanilla/README.md)<br/>
+[LineageOS 20.0 - Permissive - Vanilla](https://#)<br/>
