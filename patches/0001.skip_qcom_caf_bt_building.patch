@@ -1,0 +1,26 @@
+From eee79af6675fc8ae6341cf1be17b133f9445eaac Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Sat, 13 Aug 2022 16:16:58 +0200
+Subject: [PATCH] bt: Don't build it, we're using a prebuilt
+
+Change-Id: Iaec47bae31d3e6e4333bcd17a8cd5d6375ebea33
+---
+ Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Android.mk b/Android.mk
+index 96401b9..f07a32c 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -7,7 +7,7 @@ include $(CLEAR_VARS)
+ TMP_LOCAL_PATH := $(LOCAL_PATH)
+ 
+ ifeq ($(call is-vendor-board-platform,QCOM),true)
+-include $(TMP_LOCAL_PATH)/libbt-vendor/Android.mk
++#include $(TMP_LOCAL_PATH)/libbt-vendor/Android.mk
+ endif # is-vendor-board-platform
+ 
+ include $(TMP_LOCAL_PATH)/tools/Android.mk
+-- 
+2.34.1
+
