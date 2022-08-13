@@ -62,6 +62,10 @@ repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
 repopick -P system/core 318817
 ```
 
+``` CAF ```
+```
+patch -d hardware/qcom-caf/bt -p1 < .repo/manifests/patches/0001.skip_qcom_caf_bt_building.patch
+```
 
 ``` Monet```
 ```
