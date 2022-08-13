@@ -55,6 +55,14 @@ patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Restore-libbfqio-for-
 
 ```
 
+``` Camera ```
+```
+patch -d frameworks/base -p1 < .repo/manifests/patches/0001-camera_extensions.patch
+repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
+repopick -P system/core 318817
+```
+
+
 ``` Monet```
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refresh-power-menu-on-UI-mode-change.patch
