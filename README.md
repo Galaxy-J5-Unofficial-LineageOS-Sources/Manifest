@@ -57,11 +57,7 @@ patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Restore-libbfqio-for-
 
 ``` Monet```
 ```
-patch -d frameworks/base -p1 < .repo/manifests/patches/0014-SystemUI-Use-Monet-colors-for-power-menu.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0017-SystemUI-Follow-light-dark-theme-in-quick-settings.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refresh-power-menu-on-UI-mode-change.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0015-Revert-Make-QS-always-use-dark-theme-colors.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0016-Revert-Do-not-re-inflate-QS-and-SB-when-CONFIG_UI_MO.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switch-to-large-clock.patch
 patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
