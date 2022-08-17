@@ -61,6 +61,7 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/0001-camera_extensions.pa
 repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
 repopick -P system/core 318817
 repopick -P vendor/lineage 320546
+patch -d hardware/interfaces -p1 < .repo/manifests/patches/0001-interfaces_drop_qti_camera_device_defaults.patch
 ```
 
 ``` CAF ```
