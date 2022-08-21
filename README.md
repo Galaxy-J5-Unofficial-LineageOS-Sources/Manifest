@@ -64,11 +64,6 @@ repopick -P vendor/lineage 320546
 patch -d hardware/interfaces -p1 < .repo/manifests/patches/0001-interfaces_drop_qti_camera_device_defaults.patch
 ```
 
-``` CAF ```
-```
-patch -d hardware/qcom-caf/bt -p1 < .repo/manifests/patches/0001.skip_qcom_caf_bt_building.patch
-```
-
 ``` Monet```
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refresh-power-menu-on-UI-mode-change.patch
