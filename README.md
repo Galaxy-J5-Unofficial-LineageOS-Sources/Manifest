@@ -46,6 +46,8 @@ brunch j5nlte #for SM-J500FN
 brunch j5lte #for SM-J500F/G/M/NO/Y
 brunch j5ltechn #for SM-J5008
 brunch j53gxx #for SM-J500H
+brunch j5xnlte #for SM-J510FN
+
 ```
 
 <br/>
