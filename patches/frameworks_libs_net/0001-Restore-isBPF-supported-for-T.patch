@@ -1,0 +1,36 @@
+From 944d4debe76af64c32f39a0e4a2bb81f0e61a146 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Tue, 6 Sep 2022 02:06:12 +0200
+Subject: [PATCH] Restore isBPF supported for T
+
+Change-Id: I9927b23ee30924b74a417ea97fd7332cd6fa760c
+---
+ common/native/bpf_headers/include/bpf/BpfUtils.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/common/native/bpf_headers/include/bpf/BpfUtils.h b/common/native/bpf_headers/include/bpf/BpfUtils.h
+index 7801c3e..585c467 100644
+--- a/common/native/bpf_headers/include/bpf/BpfUtils.h
++++ b/common/native/bpf_headers/include/bpf/BpfUtils.h
+@@ -16,6 +16,7 @@
+ 
+ #pragma once
+ 
++#include <android-base/properties.h>
+ #include <linux/if_ether.h>
+ #include <linux/pfkeyv2.h>
+ #include <net/if.h>
+@@ -113,6 +114,10 @@ static inline unsigned kernelVersion() {
+     return kver;
+ }
+ 
++inline bool isBpfSupported() {
++    return android::base::GetBoolProperty("ro.kernel.ebpf.supported", true);
++} 
++
+ static inline bool isAtLeastKernelVersion(unsigned major, unsigned minor, unsigned sub) {
+     return kernelVersion() >= KVER(major, minor, sub);
+ }
+-- 
+2.34.1
+

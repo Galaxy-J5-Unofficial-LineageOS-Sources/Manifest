@@ -1,0 +1,85 @@
+From 753e175f9de30050133dd7c9016182cffa1d2e9d Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Fri, 26 Aug 2022 01:37:43 +0200
+Subject: [PATCH] Revert'0001-Revert-audio-use-binder-threadpool.patch '
+
+---
+ .../all-versions/default/service/service.cpp  | 42 -------------------
+ 1 file changed, 42 deletions(-)
+
+diff --git a/audio/common/all-versions/default/service/service.cpp b/audio/common/all-versions/default/service/service.cpp
+index e37074dc2..636efb007 100644
+--- a/audio/common/all-versions/default/service/service.cpp
++++ b/audio/common/all-versions/default/service/service.cpp
+@@ -22,7 +22,6 @@
+ 
+ #include <binder/ProcessState.h>
+ #include <cutils/properties.h>
+-#include <dlfcn.h>
+ #include <hidl/HidlTransportSupport.h>
+ #include <hidl/LegacySupport.h>
+ #include <hwbinder/ProcessState.h>
+@@ -46,31 +45,6 @@ static bool registerPassthroughServiceImplementations(Iter first, Iter last) {
+     return false;
+ }
+ 
+-static bool registerExternalServiceImplementation(const std::string& libName,
+-                                                  const std::string& funcName) {
+-    constexpr int dlMode = RTLD_LAZY;
+-    void* handle = nullptr;
+-    dlerror();  // clear
+-    auto libPath = libName + ".so";
+-    handle = dlopen(libPath.c_str(), dlMode);
+-    if (handle == nullptr) {
+-        const char* error = dlerror();
+-        ALOGE("Failed to dlopen %s: %s", libPath.c_str(),
+-              error != nullptr ? error : "unknown error");
+-        return false;
+-    }
+-    binder_status_t (*factoryFunction)();
+-    *(void**)(&factoryFunction) = dlsym(handle, funcName.c_str());
+-    if (!factoryFunction) {
+-        const char* error = dlerror();
+-        ALOGE("Factory function %s not found in libName %s: %s", funcName.c_str(), libPath.c_str(),
+-              error != nullptr ? error : "unknown error");
+-        dlclose(handle);
+-        return false;
+-    }
+-    return ((*factoryFunction)() == STATUS_OK);
+-}
+-
+ int main(int /* argc */, char* /* argv */ []) {
+     signal(SIGPIPE, SIG_IGN);
+ 
+@@ -128,12 +102,6 @@ int main(int /* argc */, char* /* argv */ []) {
+         }
+     };
+ 
+-    const std::vector<std::pair<std::string,std::string>> optionalInterfaceSharedLibs = {
+-        {
+-            "android.hardware.bluetooth.audio-impl",
+-            "createIBluetoothAudioProviderFactory",
+-        },
+-    };
+     // clang-format on
+ 
+     for (const auto& listIter : mandatoryInterfaces) {
+@@ -150,15 +118,5 @@ int main(int /* argc */, char* /* argv */ []) {
+                  "Could not register %s", interfaceFamilyName.c_str());
+     }
+ 
+-    for (const auto& interfacePair : optionalInterfaceSharedLibs) {
+-        const std::string& libraryName = interfacePair.first;
+-        const std::string& interfaceLoaderFuncName = interfacePair.second;
+-        if (registerExternalServiceImplementation(libraryName, interfaceLoaderFuncName)) {
+-            ALOGI("%s() from %s success", interfaceLoaderFuncName.c_str(), libraryName.c_str());
+-        } else {
+-            ALOGW("%s() from %s failed", interfaceLoaderFuncName.c_str(), libraryName.c_str());
+-        }
+-    }
+-
+     joinRpcThreadpool();
+ }
+-- 
+2.34.1
+

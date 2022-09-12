@@ -1,0 +1,47 @@
+From 83ea9c6f730f155efa41c6d11962fcaca9cc0593 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Fri, 26 Aug 2022 01:34:18 +0200
+Subject: [PATCH] Revert 'audio: use binder threadpool'
+
+---
+ audio/common/all-versions/default/service/Android.bp  | 1 -
+ audio/common/all-versions/default/service/service.cpp | 4 ----
+ 2 files changed, 5 deletions(-)
+
+diff --git a/audio/common/all-versions/default/service/Android.bp b/audio/common/all-versions/default/service/Android.bp
+index 9890be295..1bd6abeb4 100644
+--- a/audio/common/all-versions/default/service/Android.bp
++++ b/audio/common/all-versions/default/service/Android.bp
+@@ -52,7 +52,6 @@ cc_binary {
+     shared_libs: [
+         "libcutils",
+         "libbinder",
+-        "libbinder_ndk",
+         "libhidlbase",
+         "liblog",
+         "libutils",
+diff --git a/audio/common/all-versions/default/service/service.cpp b/audio/common/all-versions/default/service/service.cpp
+index fbf616563..e37074dc2 100644
+--- a/audio/common/all-versions/default/service/service.cpp
++++ b/audio/common/all-versions/default/service/service.cpp
+@@ -20,7 +20,6 @@
+ #include <string>
+ #include <vector>
+ 
+-#include <android/binder_process.h>
+ #include <binder/ProcessState.h>
+ #include <cutils/properties.h>
+ #include <dlfcn.h>
+@@ -79,9 +78,6 @@ int main(int /* argc */, char* /* argv */ []) {
+     // start a threadpool for vndbinder interactions
+     ::android::ProcessState::self()->startThreadPool();
+ 
+-    ABinderProcess_setThreadPoolMaxThreadCount(1);
+-    ABinderProcess_startThreadPool();
+-
+     const int32_t defaultValue = -1;
+     int32_t value =
+         property_get_int32("persist.vendor.audio.service.hwbinder.size_kbyte", defaultValue);
+-- 
+2.34.1
+

@@ -1,0 +1,111 @@
+From 8fc5730179c482823c521ad404460c1e64cd90e9 Mon Sep 17 00:00:00 2001
+From: html6405 <peter.schelchshorn@mhs-solutions.at>
+Date: Thu, 8 Sep 2022 09:13:23 +0200
+Subject: [PATCH 4/6] wifi: fix legacy HIDL for T
+
+Change-Id: I6da7ea52d9d5101ee5312dc525660194f6f4bd5b
+---
+ wifi/1.0-legacy/hidl_struct_util.cpp |  9 +++++++++
+ wifi/1.0-legacy/service.cpp          | 17 ++++-------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/wifi/1.0-legacy/hidl_struct_util.cpp b/wifi/1.0-legacy/hidl_struct_util.cpp
+index ad2fdb2..d6cf68e 100644
+--- a/wifi/1.0-legacy/hidl_struct_util.cpp
++++ b/wifi/1.0-legacy/hidl_struct_util.cpp
+@@ -19,6 +19,9 @@
+ 
+ #include "hidl_struct_util.h"
+ 
++
++#pragma GCC diagnostic ignored "-Wswitch"
++
+ namespace android {
+ namespace hardware {
+ namespace wifi {
+@@ -2325,6 +2328,7 @@ RttPreamble convertLegacyRttPreambleToHidl(legacy_hal::wifi_rtt_preamble type) {
+             return RttPreamble::HE;
+     };
+     CHECK(false) << "Unknown legacy type: " << type;
++    return RttPreamble::LEGACY;
+ }
+ 
+ legacy_hal::wifi_rtt_bw convertHidlRttBwToLegacy(RttBw type) {
+@@ -2343,6 +2347,7 @@ legacy_hal::wifi_rtt_bw convertHidlRttBwToLegacy(RttBw type) {
+             return legacy_hal::WIFI_RTT_BW_160;
+     };
+     CHECK(false);
++    return legacy_hal::WIFI_RTT_BW_5;
+ }
+ 
+ RttBw convertLegacyRttBwToHidl(legacy_hal::wifi_rtt_bw type) {
+@@ -2361,6 +2366,7 @@ RttBw convertLegacyRttBwToHidl(legacy_hal::wifi_rtt_bw type) {
+             return RttBw::BW_160MHZ;
+     };
+     CHECK(false) << "Unknown legacy type: " << type;
++    return RttBw::BW_5MHZ;
+ }
+ 
+ legacy_hal::wifi_motion_pattern convertHidlRttMotionPatternToLegacy(
+@@ -2374,6 +2380,7 @@ legacy_hal::wifi_motion_pattern convertHidlRttMotionPatternToLegacy(
+             return legacy_hal::WIFI_MOTION_UNKNOWN;
+     };
+     CHECK(false);
++    return legacy_hal::WIFI_MOTION_NOT_EXPECTED;
+ }
+ 
+ WifiRatePreamble convertLegacyWifiRatePreambleToHidl(uint8_t preamble) {
+@@ -2392,6 +2399,7 @@ WifiRatePreamble convertLegacyWifiRatePreambleToHidl(uint8_t preamble) {
+             return WifiRatePreamble::RESERVED;
+     };
+     CHECK(false) << "Unknown legacy preamble: " << preamble;
++    return WifiRatePreamble::OFDM;
+ }
+ 
+ WifiRateNss convertLegacyWifiRateNssToHidl(uint8_t nss) {
+@@ -2449,6 +2457,7 @@ RttStatus convertLegacyRttStatusToHidl(legacy_hal::wifi_rtt_status status) {
+             return RttStatus::FAILURE;  // TODO: add HIDL enumeration
+     };
+     CHECK(false) << "Unknown legacy status: " << status;
++    return RttStatus::FAILURE;  // TODO: add HIDL enumeration
+ }
+ 
+ bool convertHidlWifiChannelInfoToLegacy(
+diff --git a/wifi/1.0-legacy/service.cpp b/wifi/1.0-legacy/service.cpp
+index 3f7f609..d9fa49e 100644
+--- a/wifi/1.0-legacy/service.cpp
++++ b/wifi/1.0-legacy/service.cpp
+@@ -35,11 +35,6 @@ using android::hardware::wifi::V1_4::implementation::legacy_hal::WifiLegacyHal;
+ using android::hardware::wifi::V1_4::implementation::mode_controller::
+     WifiModeController;
+ 
+-#ifdef LAZY_SERVICE
+-const bool kLazyService = true;
+-#else
+-const bool kLazyService = false;
+-#endif
+ 
+ int main(int /*argc*/, char** argv) {
+     android::base::InitLogging(
+@@ -57,14 +52,10 @@ int main(int /*argc*/, char** argv) {
+             std::make_shared<WifiModeController>(),
+             std::make_shared<WifiIfaceUtil>(iface_tool),
+             std::make_shared<WifiFeatureFlags>());
+-    if (kLazyService) {
+-        auto registrar = LazyServiceRegistrar::getInstance();
+-        CHECK_EQ(registrar.registerService(service), android::NO_ERROR)
+-            << "Failed to register wifi HAL";
+-    } else {
+-        CHECK_EQ(service->registerAsService(), android::NO_ERROR)
+-            << "Failed to register wifi HAL";
+-    }
++
++            CHECK_EQ(service->registerAsService(), android::NO_ERROR)
++                << "Failed to register wifi HAL";
++
+ 
+     joinRpcThreadpool();
+ 
+-- 
+2.34.1
+

@@ -1,0 +1,29 @@
+From 9f9d9d7e15e643144f1e0eb896120122dbb0cf9e Mon Sep 17 00:00:00 2001
+From: html6405 <peter.schelchshorn@mhs-solutions.at>
+Date: Fri, 9 Sep 2022 13:59:56 +0200
+Subject: [PATCH 6/6] wifi: wifi.h: fix build, undef NAN
+
+Change-Id: Ifaef57b2c2b73f84bbcb7f5859bc40c91757d333
+---
+ wifi/1.0-legacy/wifi.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/wifi/1.0-legacy/wifi.h b/wifi/1.0-legacy/wifi.h
+index 087d6f7..02c659c 100644
+--- a/wifi/1.0-legacy/wifi.h
++++ b/wifi/1.0-legacy/wifi.h
+@@ -17,6 +17,11 @@
+ #ifndef WIFI_H_
+ #define WIFI_H_
+ 
++// HACK: NAN is a macro defined in math.h, which can be included in various
++// headers. This wifi HAL uses an enum called NAN, which does not compile when
++// the macro is defined. Undefine NAN to work around it.
++#undef NAN
++
+ #include <functional>
+ 
+ #include <android-base/macros.h>
+-- 
+2.34.1
+

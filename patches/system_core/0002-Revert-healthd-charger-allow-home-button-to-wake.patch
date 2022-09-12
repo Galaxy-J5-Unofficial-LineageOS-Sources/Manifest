@@ -1,0 +1,37 @@
+From d90ab55689915a6e42be0b307e11abc1e4207db5 Mon Sep 17 00:00:00 2001
+From: html6405 <peter.schelchshorn@mhs-solutions.at>
+Date: Thu, 8 Sep 2022 11:42:51 +0200
+Subject: [PATCH 2/3] Revert "healthd: charger: allow home button to wake"
+
+This reverts commit 40ed2dd415845e877e51920db9e2384bfdab0665.
+---
+ healthd/healthd_mode_charger.cpp | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/healthd/healthd_mode_charger.cpp b/healthd/healthd_mode_charger.cpp
+index d7d763571..9fe85d40d 100644
+--- a/healthd/healthd_mode_charger.cpp
++++ b/healthd/healthd_mode_charger.cpp
+@@ -534,11 +534,6 @@ void Charger::ProcessKey(int code, int64_t now) {
+                 RequestDisableSuspend();
+             }
+         }
+-    } else {
+-        if (key->pending) {
+-            kick_animation(&batt_anim_);
+-            request_suspend(false);
+-        }
+     }
+ 
+     key->pending = false;
+@@ -560,7 +555,6 @@ void Charger::ProcessHallSensor(int code) {
+ 
+ void Charger::HandleInputState(int64_t now) {
+     ProcessKey(KEY_POWER, now);
+-    ProcessKey(KEY_HOME, now);
+ 
+     if (next_key_check_ != -1 && now > next_key_check_) next_key_check_ = -1;
+ 
+-- 
+2.34.1
+

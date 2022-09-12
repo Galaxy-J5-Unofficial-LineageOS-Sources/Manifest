@@ -1,0 +1,14 @@
+```
++++ b/core/java/android/app/LoadedApk.java
+@@ -1797,9 +1797,9 @@ public final class LoadedApk {
+                         if (mInstrumentation == null ||
+                                 !mInstrumentation.onException(mReceiver, e)) {
+                             Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+-                            throw new RuntimeException(
++                            /*throw new RuntimeException(
+                                     "Error receiving broadcast " + intent
+-                                            + " in " + mReceiver, e);
++                                            + " in " + mReceiver, e);*/
+                         }
+                     }
+```

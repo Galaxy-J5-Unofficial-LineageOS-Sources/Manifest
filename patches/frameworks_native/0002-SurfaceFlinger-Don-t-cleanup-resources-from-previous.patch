@@ -1,0 +1,44 @@
+From 2c470874be625f4e1e65c924ecf85e701b339880 Mon Sep 17 00:00:00 2001
+From: Arne Coucheron <arco68@gmail.com>
+Date: Fri, 6 Nov 2020 15:22:40 -0500
+Subject: [PATCH 2/3] SurfaceFlinger: Don't cleanup resources from previous
+ frame
+
+Causes bad lag on some legacy devices.
+
+Change-Id: I89913d214c7377c73bd307696dbf9aac2f9a5c0a
+---
+ services/surfaceflinger/Android.bp         | 1 +
+ services/surfaceflinger/SurfaceFlinger.cpp | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/services/surfaceflinger/Android.bp b/services/surfaceflinger/Android.bp
+index 000a2cb0d3..771cd68e4e 100644
+--- a/services/surfaceflinger/Android.bp
++++ b/services/surfaceflinger/Android.bp
+@@ -24,6 +24,7 @@ cc_defaults {
+ cc_defaults {
+     name: "libsurfaceflinger_defaults",
+     defaults: [
++        "disable_postrender_cleanup_defaults",
+         "surfaceflinger_defaults",
+         "skia_renderengine_deps",
+     ],
+diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
+index 6a17cd8881..91f14da83f 100644
+--- a/services/surfaceflinger/SurfaceFlinger.cpp
++++ b/services/surfaceflinger/SurfaceFlinger.cpp
+@@ -2572,8 +2572,10 @@ void SurfaceFlinger::postComposition() {
+     }
+     getBE().mLastSwapTime = currentTime;
+ 
++#ifndef DISABLE_POSTRENDER_CLEANUP
+     // Cleanup any outstanding resources due to rendering a prior frame.
+     getRenderEngine().cleanupPostRender();
++#endif
+ 
+     {
+         std::lock_guard lock(mTexturePoolMutex);
+-- 
+2.34.1
+

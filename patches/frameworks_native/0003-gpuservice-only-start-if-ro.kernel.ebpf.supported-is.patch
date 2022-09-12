@@ -1,0 +1,26 @@
+From 3d6305319a6456fbcd4cb1691473062816b6fae5 Mon Sep 17 00:00:00 2001
+From: html6405 <peter.schelchshorn@mhs-solutions.at>
+Date: Thu, 8 Sep 2022 13:28:59 +0200
+Subject: [PATCH 3/3] gpuservice: only start if ro.kernel.ebpf.supported is
+ true
+
+Change-Id: I06cda39ecd3ee7ccb594e2d520474075520681d3
+---
+ services/gpuservice/gpuservice.rc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/services/gpuservice/gpuservice.rc b/services/gpuservice/gpuservice.rc
+index 0da8bd3812..f65185ce22 100644
+--- a/services/gpuservice/gpuservice.rc
++++ b/services/gpuservice/gpuservice.rc
+@@ -2,3 +2,7 @@ service gpu /system/bin/gpuservice
+     class core
+     user gpu_service
+     group graphics readtracefs
++    disabled
++
++on property:ro.kernel.ebpf.supported=true
++    start gpu
+-- 
+2.34.1
+

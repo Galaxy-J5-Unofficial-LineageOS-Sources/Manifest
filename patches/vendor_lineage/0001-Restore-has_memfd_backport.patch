@@ -1,0 +1,41 @@
+From f6e2c9f605b5a34152099fae02f9fa8c23766715 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Thu, 1 Sep 2022 18:26:16 +0200
+Subject: [PATCH] Restore has_memfd_backport
+
+Change-Id: I244651d6338c92c90dd4caee0968aad9e320c0f9
+---
+ build/soong/Android.bp | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/build/soong/Android.bp b/build/soong/Android.bp
+index e76b1013..51a0bb85 100644
+--- a/build/soong/Android.bp
++++ b/build/soong/Android.bp
+@@ -220,6 +220,23 @@ librmnetctl_pre_uplink {
+     },
+ }
+ 
++
++soong_config_module_type {
++    name: "has_memfd_backport",
++    module_type: "cc_defaults",
++    config_namespace: "revengeosGlobalVars",
++    bool_variables: ["has_memfd_backport"],
++    properties: ["cppflags"],
++}
++
++has_memfd_backport {
++    name: "has_memfd_backport_defaults",
++    soong_config_variables: {
++        has_memfd_backport: {
++            cppflags: ["-DHAS_MEMFD_BACKPORT"],
++        },
++    },
++}
+ soong_config_module_type {
+     name: "extended_compress_format",
+     module_type: "cc_defaults",
+-- 
+2.34.1
+

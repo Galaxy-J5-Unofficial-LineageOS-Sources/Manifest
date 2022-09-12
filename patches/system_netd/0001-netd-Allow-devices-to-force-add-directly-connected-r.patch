@@ -1,0 +1,102 @@
+From 4632dacfce53a08fc78c01a118678a242ec86caa Mon Sep 17 00:00:00 2001
+From: Lukas0610 <mail@lukasberger.at>
+Date: Sat, 1 Sep 2018 12:16:45 +0200
+Subject: [PATCH 1/2] netd: Allow devices to force-add directly-connected
+ routes
+
+Most sane devices have directly-connected routes properly
+added by ConnectivityService, but a number of Samsung RIL
+libraries seem to be doing "special" things, the end result
+of which is IPv4 mobile data is non-functional due to lack
+of a default route.
+
+Affected devices have a log entry similar to the below:
+  Error adding route 0.0.0.0/0 -> xxx.xxx.xxx.xxx rmnet0 to table 1002: Network is unreachable
+
+This reverts, with guards, commit 92e8f96e43320efd5183d7452fb90883fd96415e.
+
+Change-Id: I6a653d19c1c72c136e78d8d841e87d3c166698ea
+---
+ server/Android.bp          |  1 +
+ server/RouteController.cpp | 24 ++++++++++++++++++++++++
+ server/RouteController.h   |  3 +++
+ 3 files changed, 28 insertions(+)
+
+diff --git a/server/Android.bp b/server/Android.bp
+index 06ea0bab..f16b2d80 100644
+--- a/server/Android.bp
++++ b/server/Android.bp
+@@ -40,6 +40,7 @@ cc_library_static {
+     defaults: [
+         "netd_aidl_interface_lateststable_cpp_shared",
+         "netd_defaults",
++        "needs_netd_direct_connect_rule_defaults",
+     ],
+     include_dirs: [
+         "system/netd/include",
+diff --git a/server/RouteController.cpp b/server/RouteController.cpp
+index d2af9a37..0c467a17 100644
+--- a/server/RouteController.cpp
++++ b/server/RouteController.cpp
+@@ -51,6 +51,7 @@ auto RouteController::iptablesRestoreCommandFunction = execIptablesRestoreComman
+ auto RouteController::ifNameToIndexFunction = if_nametoindex;
+ // BEGIN CONSTANTS --------------------------------------------------------------------------------
+ 
++
+ const uint32_t ROUTE_TABLE_LOCAL_NETWORK  = 97;
+ const uint32_t ROUTE_TABLE_LEGACY_NETWORK = 98;
+ const uint32_t ROUTE_TABLE_LEGACY_SYSTEM  = 99;
+@@ -773,6 +774,24 @@ int RouteController::configureDummyNetwork() {
+     return 0;
+ }
+ 
++#ifdef NEEDS_NETD_DIRECT_CONNECT_RULE
++// Add a new rule to look up the 'main' table, with the same selectors as the "default network"
++// rule, but with a lower priority. We will never create routes in the main table; it should only be
++// used for directly-connected routes implicitly created by the kernel when adding IP addresses.
++// This is necessary, for example, when adding a route through a directly-connected gateway: in
++// order to add the route, there must already be a directly-connected route that covers the gateway.
++[[nodiscard]] int addDirectlyConnectedRule() {
++    Fwmark fwmark;
++    Fwmark mask;
++
++    fwmark.netId = NETID_UNSET;
++    mask.netId = FWMARK_NET_ID_MASK;
++
++    return modifyIpRule(RTM_NEWRULE, RULE_PRIORITY_DIRECTLY_CONNECTED, RT_TABLE_MAIN,
++                        fwmark.intValue, mask.intValue, IIF_NONE, OIF_NONE, UID_ROOT, UID_ROOT);
++}
++#endif
++
+ // Add an explicit unreachable rule close to the end of the prioriy list to make it clear that
+ // relying on the kernel-default "from all lookup main" rule at priority 32766 is not intended
+ // behaviour. We do flush the kernel-default rules at startup, but having an explicit unreachable
+@@ -1259,6 +1278,11 @@ int RouteController::Init(unsigned localNetId) {
+     if (int ret = addLocalNetworkRules(localNetId)) {
+         return ret;
+     }
++#ifdef NEEDS_NETD_DIRECT_CONNECT_RULE
++    if (int ret = addDirectlyConnectedRule()) {
++        return ret;
++    }
++#endif
+     if (int ret = addUnreachableRule()) {
+         return ret;
+     }
+diff --git a/server/RouteController.h b/server/RouteController.h
+index ff41678d..480761c5 100644
+--- a/server/RouteController.h
++++ b/server/RouteController.h
+@@ -82,6 +82,9 @@ constexpr int32_t RULE_PRIORITY_UID_DEFAULT_NETWORK               = 29000;
+ // the network, it will not work. That will potentially cause a user-visible error.
+ constexpr int32_t RULE_PRIORITY_UID_DEFAULT_UNREACHABLE           = 30000;
+ constexpr int32_t RULE_PRIORITY_DEFAULT_NETWORK                   = 31000;
++#ifdef NEEDS_NETD_DIRECT_CONNECT_RULE
++const uint32_t RULE_PRIORITY_DIRECTLY_CONNECTED      = 30000;
++#endif
+ constexpr int32_t RULE_PRIORITY_UNREACHABLE                       = 32000;
+ // clang-format on
+ 
+-- 
+2.34.1
+

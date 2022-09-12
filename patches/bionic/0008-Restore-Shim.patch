@@ -1,0 +1,190 @@
+From 778cb1748f21c5756c3d5f458beea3d417c06db7 Mon Sep 17 00:00:00 2001
+From: "Christopher R. Palmer" <crpalmer@gmail.com>
+Date: Sat, 8 Apr 2017 22:40:01 +0200
+Subject: [PATCH 8/8] jj
+
+---
+ linker/Android.bp      |  1 +
+ linker/linker.cpp      | 71 ++++++++++++++++++++++++++++++++++++++++++
+ linker/linker.h        | 20 ++++++++++++
+ linker/linker_main.cpp | 11 +++++++
+ 4 files changed, 103 insertions(+)
+
+diff --git a/linker/Android.bp b/linker/Android.bp
+index 7d4686a38..4ddf479e3 100644
+--- a/linker/Android.bp
++++ b/linker/Android.bp
+@@ -72,6 +72,7 @@ cc_defaults {
+     name: "linker_defaults",
+     defaults: [
+         "process_sdk_version_overrides_defaults",
++        "shim_libs_defaults",
+     ],
+     arch: {
+         arm: {
+diff --git a/linker/linker.cpp b/linker/linker.cpp
+index 02402a75c..616d1ad59 100644
+--- a/linker/linker.cpp
++++ b/linker/linker.cpp
+@@ -655,6 +655,68 @@ enum walk_action_result_t : uint32_t {
+   kWalkSkip = 2
+ };
+ 
++#ifdef LD_SHIM_LIBS
++// g_ld_all_shim_libs maintains the references to memory as it used
++// in the soinfo structures and in the g_active_shim_libs list.
++
++static std::vector<ShimDescriptor> g_ld_all_shim_libs;
++
++// g_active_shim_libs are all shim libs that are still eligible
++// to be loaded.  We must remove a shim lib from the list before
++// we load the library to avoid recursive loops (load shim libA
++// for libB where libA also links against libB).
++static linked_list_t<const ShimDescriptor> g_active_shim_libs;
++
++static void reset_g_active_shim_libs(void) {
++  g_active_shim_libs.clear();
++  for (const auto& pair : g_ld_all_shim_libs) {
++    g_active_shim_libs.push_back(&pair);
++  }
++}
++
++void parse_LD_SHIM_LIBS(const char* path) {
++  g_ld_all_shim_libs.clear();
++  if (path != nullptr) {
++    for (const auto& pair : android::base::Split(path, ":")) {
++      std::vector<std::string> pieces = android::base::Split(pair, "|");
++      if (pieces.size() != 2) continue;
++      // If the path can be resolved, resolve it
++      char buf[PATH_MAX];
++      std::string resolved_path = pieces[0];
++      if (access(pieces[0].c_str(), R_OK) != 0) {
++        if (errno == ENOENT) {
++          // no need to test for non-existing path. skip.
++          continue;
++        }
++        // If not accessible, don't call realpath as it will just cause
++        // SELinux denial spam. Use the path unresolved.
++      } else if (realpath(pieces[0].c_str(), buf) != nullptr) {
++        resolved_path = buf;
++      }
++      auto desc = std::pair<std::string, std::string>(resolved_path, pieces[1]);
++      g_ld_all_shim_libs.push_back(desc);
++    }
++  }
++  reset_g_active_shim_libs();
++}
++
++std::vector<const ShimDescriptor*> shim_matching_pairs(const char* path) {
++  std::vector<const ShimDescriptor*> matched_pairs;
++
++  g_active_shim_libs.for_each([&](const ShimDescriptor* a_pair) {
++    if (a_pair->first == path) {
++      matched_pairs.push_back(a_pair);
++    }
++  });
++
++  g_active_shim_libs.remove_if([&](const ShimDescriptor* a_pair) {
++    return a_pair->first == path;
++  });
++
++  return matched_pairs;
++}
++#endif
++
+ // This function walks down the tree of soinfo dependencies
+ // in breadth-first order and
+ //   * calls action(soinfo* si) for each node, and
+@@ -1269,6 +1331,12 @@ static bool load_library(android_namespace_t* ns,
+   }
+ #endif
+ 
++#ifdef LD_SHIM_LIBS
++  for_each_matching_shim(realpath.c_str(), [&](const char* name) {
++    load_tasks->push_back(LoadTask::create(name, si, ns, task->get_readers_map()));
++  });
++#endif
++
+   for_each_dt_needed(task->get_elf_reader(), [&](const char* name) {
+     LD_LOG(kLogDlopen, "load_library(ns=%s, task=%s): Adding DT_NEEDED task: %s",
+            ns->get_name(), task->get_name(), name);
+@@ -2158,6 +2226,9 @@ void* do_dlopen(const char* name, int flags,
+   }
+ 
+   ProtectedDataGuard guard;
++#ifdef LD_SHIM_LIBS
++  reset_g_active_shim_libs();
++#endif
+   soinfo* si = find_library(ns, translated_name, flags, extinfo, caller);
+   loading_trace.End();
+ 
+diff --git a/linker/linker.h b/linker/linker.h
+index a80342479..17126c6dd 100644
+--- a/linker/linker.h
++++ b/linker/linker.h
+@@ -42,6 +42,10 @@
+ #include "linker_logger.h"
+ #include "linker_soinfo.h"
+ 
++#ifdef LD_SHIM_LIBS
++#include "linker_debug.h"
++#endif
++
+ #include <string>
+ #include <vector>
+ 
+@@ -81,6 +85,22 @@ soinfo* find_containing_library(const void* p);
+ 
+ int open_executable(const char* path, off64_t* file_offset, std::string* realpath);
+ 
++#ifdef LD_SHIM_LIBS
++typedef std::pair<std::string, std::string> ShimDescriptor;
++void parse_LD_SHIM_LIBS(const char* path);
++std::vector<const ShimDescriptor*> shim_matching_pairs(const char* path);
++
++template<typename F>
++void for_each_matching_shim(const char* path, F action) {
++  if (path == nullptr) return;
++  INFO("Finding shim libs for \"%s\"", path);
++  for (const auto& one_pair : shim_matching_pairs(path)) {
++    INFO("Injecting shim lib \"%s\" as needed for %s", one_pair->second.c_str(), path);
++    action(one_pair->second.c_str());
++  }
++}
++#endif
++
+ void do_android_get_LD_LIBRARY_PATH(char*, size_t);
+ void do_android_update_LD_LIBRARY_PATH(const char* ld_library_path);
+ void* do_dlopen(const char* name,
+diff --git a/linker/linker_main.cpp b/linker/linker_main.cpp
+index 9e5be345d..73947e161 100644
+--- a/linker/linker_main.cpp
++++ b/linker/linker_main.cpp
+@@ -447,6 +447,11 @@ static ElfW(Addr) linker_main(KernelArgumentBlock& args, const char* exe_to_load
+   parse_LD_LIBRARY_PATH(ldpath_env);
+   parse_LD_PRELOAD(ldpreload_env);
+ 
++#ifdef LD_SHIM_LIBS
++  // Read from TARGET_LD_SHIM_LIBS
++  parse_LD_SHIM_LIBS(LD_SHIM_LIBS);
++#endif
++
+   std::vector<android_namespace_t*> namespaces = init_default_namespaces(exe_info.path.c_str());
+ 
+   if (!si->prelink_image()) __linker_cannot_link(g_argv[0]);
+@@ -472,6 +477,12 @@ static ElfW(Addr) linker_main(KernelArgumentBlock& args, const char* exe_to_load
+     ++ld_preloads_count;
+   }
+ 
++#ifdef LD_SHIM_LIBS
++  for_each_matching_shim(si->get_realpath(), [&](const char* name) {
++    needed_library_name_list.push_back(name);
++  });
++#endif
++
+   for_each_dt_needed(si, [&](const char* name) {
+     needed_library_name_list.push_back(name);
+   });
+-- 
+2.34.1
+

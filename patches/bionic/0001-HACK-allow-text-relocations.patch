@@ -1,0 +1,38 @@
+From 8368a6e44874a711dbb6a78d8886d1d707feec96 Mon Sep 17 00:00:00 2001
+From: Shilin Victor <chrono.monochrome@gmail.com>
+Date: Tue, 17 Dec 2019 17:39:08 +0300
+Subject: [PATCH 1/8] HACK: allow text relocations
+
+Change-Id: I7336b5137348caf564eb758c7ecc58e648e8e4c5
+---
+ linker/linker.cpp | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/linker/linker.cpp b/linker/linker.cpp
+index c6588d2cd..228a9d49f 100644
+--- a/linker/linker.cpp
++++ b/linker/linker.cpp
+@@ -3253,20 +3253,6 @@ bool soinfo::link_image(const SymbolLookupList& lookup_list, soinfo* local_group
+ 
+ #if !defined(__LP64__)
+   if (has_text_relocations) {
+-    // Fail if app is targeting M or above.
+-    int app_target_api_level = get_application_target_sdk_version();
+-    if (app_target_api_level >= 23) {
+-      DL_ERR_AND_LOG("\"%s\" has text relocations (%s#Text-Relocations-Enforced-for-API-level-23)",
+-                     get_realpath(), kBionicChangesUrl);
+-      return false;
+-    }
+-    // Make segments writable to allow text relocations to work properly. We will later call
+-    // phdr_table_protect_segments() after all of them are applied.
+-    DL_WARN_documented_change(23,
+-                              "Text-Relocations-Enforced-for-API-level-23",
+-                              "\"%s\" has text relocations",
+-                              get_realpath());
+-    add_dlwarning(get_realpath(), "text relocations");
+     if (phdr_table_unprotect_segments(phdr, phnum, load_bias) < 0) {
+       DL_ERR("can't unprotect loadable segments for \"%s\": %s", get_realpath(), strerror(errno));
+       return false;
+-- 
+2.34.1
+

@@ -1,0 +1,27 @@
+From c764b79739a5f8ce1b3403bbda18eb5f00affaa6 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Thu, 25 Aug 2022 12:35:57 +0200
+Subject: [PATCH] refresh netd patch
+
+---
+ netd/NetdUpdatable.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/netd/NetdUpdatable.cpp b/netd/NetdUpdatable.cpp
+index f0997fc15..446cd4496 100644
+--- a/netd/NetdUpdatable.cpp
++++ b/netd/NetdUpdatable.cpp
+@@ -29,10 +29,6 @@ int libnetd_updatable_init(const char* cg2_path) {
+ 
+     android::net::gNetdUpdatable = android::net::NetdUpdatable::getInstance();
+     android::netdutils::Status ret = android::net::gNetdUpdatable->mBpfHandler.init(cg2_path);
+-    if (!android::netdutils::isOk(ret)) {
+-        LOG(ERROR) << __func__ << ": BPF handler init failed";
+-        return -ret.code();
+-    }
+     return 0;
+ }
+ 
+-- 
+2.34.1
+
