@@ -13,7 +13,6 @@ Initialize repo:
 mkdir -p ~/android/lineage
 cd ~/android/lineage
 repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-20.0-permissive-GApps
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-20.0-permissive-GApps/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
 
 ```
 <br/>
@@ -23,6 +22,7 @@ Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-20.0-permissive-GApps/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-20.0-permissive-GApps/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
 
 ```
 <br/>
