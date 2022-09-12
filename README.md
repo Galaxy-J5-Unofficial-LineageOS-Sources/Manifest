@@ -70,7 +70,6 @@ patch -d frameworks/libs/net -p1 < .repo/manifests/patches/frameworks_libs_net/0
 
 ```frameworks/native ```
 ```
-patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0001-whole-comment-gpuservice-file.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0001-GraphicBuffer.cpp-hack-don-t-set-handle-to-0.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0002-SurfaceFlinger-Don-t-cleanup-resources-from-previous.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0003-gpuservice-only-start-if-ro.kernel.ebpf.supported-is.patch
