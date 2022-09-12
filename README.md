@@ -84,9 +84,9 @@ patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_interfaces/0
 
 ```hardware/lineage/interfaces ```
 ```
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0001-Revert-power-Remove-1.0-HIDL.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0002-Revert-biometrics-Deprecate-inscreen-HAL.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0003-Revert-power-Deprecate-lineage-power-HAL.patch
+patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0001-Restore-vendor.lineage.power-1.0-HIDL.patch
+patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0002-Restore-vendor.lineage.biometrics.fingerprint.inscre.patch
+patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0003-Restore-power-HAL.patch
 patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0004-wifi-fix-legacy-HIDL-for-T.patch
 patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0005-wifi-hidl_struct_util.cpp-convertLegacyWifiChannelWi.patch
 patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0006-wifi-wifi.h-fix-build-undef-NAN.patch

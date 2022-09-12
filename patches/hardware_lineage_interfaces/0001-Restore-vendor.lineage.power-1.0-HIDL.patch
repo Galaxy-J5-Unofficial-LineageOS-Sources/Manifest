@@ -1,9 +1,8 @@
-From 76221c3ed54b6471a7440fd8fa4ea9a58dd90be1 Mon Sep 17 00:00:00 2001
-From: html6405 <peter.schelchshorn@mhs-solutions.at>
-Date: Fri, 2 Sep 2022 14:10:55 +0200
-Subject: [PATCH 1/6] Revert "power: Remove 1.0 HIDL"
+From fb201e7d1207b4a751b6f2c59f68791fca8c2624 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Mon, 12 Sep 2022 13:30:08 +0200
+Subject: [PATCH 1/6] Restore vendor.lineage.power@1.0 HIDL
 
-This reverts commit bf1967cd88e766ff59836caaf940ec6526815068.
 ---
  power/1.0/Android.bp        | 15 +++++++++++++++
  power/1.0/ILineagePower.hal | 27 +++++++++++++++++++++++++++

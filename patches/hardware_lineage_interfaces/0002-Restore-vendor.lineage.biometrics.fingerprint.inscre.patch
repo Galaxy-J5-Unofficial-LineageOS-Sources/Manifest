@@ -1,9 +1,9 @@
-From 6633dfabb5d75ebc48d964d94f7867115c215cf8 Mon Sep 17 00:00:00 2001
-From: html6405 <peter.schelchshorn@mhs-solutions.at>
-Date: Fri, 2 Sep 2022 14:14:20 +0200
-Subject: [PATCH 2/6] Revert "biometrics: Deprecate inscreen HAL"
+From 1e68cdbed544a79018cf2aff7ae8330a7f74dbdb Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Mon, 12 Sep 2022 13:30:59 +0200
+Subject: [PATCH 2/6] Restore
+ vendor.lineage.biometrics.fingerprint.inscreen@1.0 HIDL
 
-This reverts commit 4544a284a6687013d7f1ee70e3be048ae274f6e3.
 ---
  .../fingerprint/inscreen/1.0/Android.bp       | 15 ++++
  .../inscreen/1.0/IFingerprintInscreen.hal     | 88 +++++++++++++++++++

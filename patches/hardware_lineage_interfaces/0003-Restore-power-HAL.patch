@@ -1,9 +1,8 @@
-From d3a6b1a713218176846caa3570c4bfa4a4aa934c Mon Sep 17 00:00:00 2001
-From: html6405 <peter.schelchshorn@mhs-solutions.at>
-Date: Fri, 2 Sep 2022 14:18:54 +0200
-Subject: [PATCH 3/6] Revert "power: Deprecate lineage power HAL"
+From 006ce318d61b92cd606d77cd8cb4d3fe9f511aa6 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Mon, 12 Sep 2022 13:33:25 +0200
+Subject: [PATCH 3/6] Restore power HAL
 
-This reverts commit 7a34d0b8a45837149f1670c9e1f05ea5e1066574.
 ---
  power/aidl/Android.bp                         | 28 +++++++++++
  .../aidl_api/vendor.lineage.power/1/.hash     |  1 +

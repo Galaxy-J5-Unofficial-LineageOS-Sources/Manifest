@@ -1,4 +1,4 @@
-From 65f7e21efc3256d90e1ea7b3fe732cedadc83b42 Mon Sep 17 00:00:00 2001
+From 33903f5d5396d91a280eac46d20056d379ed5f54 Mon Sep 17 00:00:00 2001
 From: html6405 <peter.schelchshorn@mhs-solutions.at>
 Date: Fri, 9 Sep 2022 13:59:39 +0200
 Subject: [PATCH 5/6] wifi: hidl_struct_util.cpp:

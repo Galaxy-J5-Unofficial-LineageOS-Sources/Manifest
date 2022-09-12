@@ -1,4 +1,4 @@
-From 8fc5730179c482823c521ad404460c1e64cd90e9 Mon Sep 17 00:00:00 2001
+From 4127bd68e9fa6ecc1b0d0bdb5b04dbe9a4011e15 Mon Sep 17 00:00:00 2001
 From: html6405 <peter.schelchshorn@mhs-solutions.at>
 Date: Thu, 8 Sep 2022 09:13:23 +0200
 Subject: [PATCH 4/6] wifi: fix legacy HIDL for T
