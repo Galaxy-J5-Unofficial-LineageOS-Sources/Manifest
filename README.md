@@ -114,7 +114,7 @@ patch -d  packages/modules/Bluetooth/ -p1 < .repo/manifests/patches/packages_mod
 ```packages/modules/Connectivity```
 ```
 patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_modules_connectivity/0001-refresh-netd-patch.patch
-
+patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_modules_connectivity/0001-Fix-systemUI-reboot.patch
 ```
 
 ```system/bpf ```
@@ -126,7 +126,6 @@ patch -d system/bpf -p1 < .repo/manifests/patches/system_bpf/0001-Restore-isBPF-
 ```
 patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Revert-init-Treat-failure-to-create-a-process-group-.patch
 patch -d system/core -p1 < .repo/manifests/patches/system_core/0002-Revert-healthd-charger-allow-home-button-to-wake.patch
-
 ```
 
 ```system/libhidl ```
