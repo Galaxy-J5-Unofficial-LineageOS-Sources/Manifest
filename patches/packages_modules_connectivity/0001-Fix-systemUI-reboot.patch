@@ -1,0 +1,102 @@
+From 85abe4429f83ca5f63a3cd3b81f9c709b850805d Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Tue, 13 Sep 2022 04:09:18 +0200
+Subject: [PATCH] Fix systemUI reboot
+
+Change-Id: I386c0f996b104d636750bf637ae9f9e3f5245f0d
+---
+ service/src/com/android/server/BpfNetMaps.java | 15 ---------------
+ 1 file changed, 15 deletions(-)
+
+diff --git a/service/src/com/android/server/BpfNetMaps.java b/service/src/com/android/server/BpfNetMaps.java
+index c006bc605..02b4b50ad 100644
+--- a/service/src/com/android/server/BpfNetMaps.java
++++ b/service/src/com/android/server/BpfNetMaps.java
+@@ -66,12 +66,6 @@ public class BpfNetMaps {
+         mNetd = netd;
+     }
+ 
+-    private void maybeThrow(final int err, final String msg) {
+-        if (err != 0) {
+-            throw new ServiceSpecificException(err, msg + ": " + Os.strerror(err));
+-        }
+-    }
+-
+     /**
+      * Add naughty app bandwidth rule for specific app
+      *
+@@ -81,7 +75,6 @@ public class BpfNetMaps {
+      */
+     public void addNaughtyApp(final int uid) {
+         final int err = native_addNaughtyApp(uid);
+-        maybeThrow(err, "Unable to add naughty app");
+     }
+ 
+     /**
+@@ -93,7 +86,6 @@ public class BpfNetMaps {
+      */
+     public void removeNaughtyApp(final int uid) {
+         final int err = native_removeNaughtyApp(uid);
+-        maybeThrow(err, "Unable to remove naughty app");
+     }
+ 
+     /**
+@@ -105,7 +97,6 @@ public class BpfNetMaps {
+      */
+     public void addNiceApp(final int uid) {
+         final int err = native_addNiceApp(uid);
+-        maybeThrow(err, "Unable to add nice app");
+     }
+ 
+     /**
+@@ -117,7 +108,6 @@ public class BpfNetMaps {
+      */
+     public void removeNiceApp(final int uid) {
+         final int err = native_removeNiceApp(uid);
+-        maybeThrow(err, "Unable to remove nice app");
+     }
+ 
+     /**
+@@ -130,7 +120,6 @@ public class BpfNetMaps {
+      */
+     public void setChildChain(final int childChain, final boolean enable) {
+         final int err = native_setChildChain(childChain, enable);
+-        maybeThrow(err, "Unable to set child chain");
+     }
+ 
+     /**
+@@ -166,7 +155,6 @@ public class BpfNetMaps {
+      */
+     public void setUidRule(final int childChain, final int uid, final int firewallRule) {
+         final int err = native_setUidRule(childChain, uid, firewallRule);
+-        maybeThrow(err, "Unable to set uid rule");
+     }
+ 
+     /**
+@@ -192,7 +180,6 @@ public class BpfNetMaps {
+             return;
+         }
+         final int err = native_addUidInterfaceRules(ifName, uids);
+-        maybeThrow(err, "Unable to add uid interface rules");
+     }
+ 
+     /**
+@@ -212,7 +199,6 @@ public class BpfNetMaps {
+             return;
+         }
+         final int err = native_removeUidInterfaceRules(uids);
+-        maybeThrow(err, "Unable to remove uid interface rules");
+     }
+ 
+     /**
+@@ -223,7 +209,6 @@ public class BpfNetMaps {
+      */
+     public void swapActiveStatsMap() {
+         final int err = native_swapActiveStatsMap();
+-        maybeThrow(err, "Unable to swap active stats map");
+     }
+ 
+     /**
+-- 
+2.34.1
+
