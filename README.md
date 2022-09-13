@@ -44,6 +44,30 @@ patch -d art -p1 < .repo/manifests/patches/art/art.patch
 patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/perfetto.patch
 ```
 
+```frameworks/av```
+```
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-Revert-Camera-Remove-old-recording-path-support.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Camera-Restore-camera-HALv1-support-1-2.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0003-Camera-Add-extensions-to-CameraClient.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0004-Camera-CameraHardwareInterface-changes-to-support-Ex.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0005-Camera-Miscellaneous-fixes-in-QDataCallback-and-bind.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0006-camera-Only-link-and-use-vendor.qti.hardware.camera..patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0007-nuplayer-Avoid-crash-when-codec-fails-to-load.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0008-camera-Don-t-segfault-if-we-get-a-NULL-parameter.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0009-libstagefright-Support-YVU420SemiPlanar-camera-forma.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0010-stagefright-omx-Don-t-signal-dataspace-change-on-leg.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0011-stagefright-ACodec-Resolve-empty-vendor-parameters-u.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0012-libstagefright-Free-buffers-on-observer-died.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0013-libstagefright-use-64-bit-usage-for-native_window_se.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0014-camera-include-Don-t-override-possible-overlayed-hea.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0015-camera-media-Support-legacy-HALv1-camera-in-mediaser.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0016-Camera-check-metadata-type-before-releasing-frame.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0017-stagefright-add-changes-related-to-high-framerates-i.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0018-Camera-Add-support-for-preview-frame-fd.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0019-Revert-camera-Only-link-and-use-vendor.qti.hardware..patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0020-Revert-Camera-CameraHardwareInterface-changes-to-sup.patch
+```
+
 ```frameworks/base```
 ```
 patch -d frameworks/base/ -p1 < .repo/manifests/patches/frameworks_base/0023-Add-support-for-app-signature-spoofing.patch
@@ -106,7 +130,6 @@ patch -d vendor/partner_gms -p1 < .repo/manifests/patches/vendor_partner_gms/000
 ```
 <br/>
 
-<br/>
 
 Build:
 
