@@ -34,56 +34,75 @@ source build/envsetup.sh
 
 Patches:
 
-```ADB```
+```art```
 ```
-patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/adb.patch
-```
-
-```MicroG```
-```
-patch -d frameworks/base/ -p1 < .repo/manifests/patches/0023-Add-support-for-app-signature-spoofing.patch
+patch -d art -p1 < .repo/manifests/patches/art/art.patch
 ```
 
-```Legacy```
+```external/perfetto```
 ```
-patch -d art -p1 < .repo/manifests/patches/art.patch
-patch -d external/perfetto -p1 < .repo/manifests/patches/perfetto.patch
-patch -d system/bpf -p1 < .repo/manifests/patches/bpf.patch
-patch -d system/netd -p1 < .repo/manifests/patches/netd.patch
-patch -d frameworks/native -p1 < ".repo/manifests/patches/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch"
-patch -d vendor/lineage -p1 < .repo/manifests/patches/0001-Restore-libbfqio-for-non-BPF-devices.patch
-
+patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/perfetto.patch
 ```
 
-``` Camera ```
+```frameworks/base```
 ```
-patch -d frameworks/base -p1 < .repo/manifests/patches/0001-camera_extensions.patch
+patch -d frameworks/base/ -p1 < .repo/manifests/patches/frameworks_base/0023-Add-support-for-app-signature-spoofing.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0013-SystemUI-Always-refresh-power-menu-on-UI-mode-change.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0006-Keyguard-Never-switch-to-large-clock.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-Hack-Ignore-SensorPrivacyService-Security-Exception.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0002-Bring-Back-XML-Format-UTF-8-TWRP.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-Fix-Brightness-Slider-12.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0002-Disable-vendor-mismatch-warning.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0012-core-Remove-old-app-target-SDK-dialog.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-camera_extensions.patch
+```
+
+```frameworks/native```
+```
+patch -d frameworks/native -p1 < ".repo/manifests/patches/frameworks_native/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch"
+```
+
+``` hardware/interfaces ```
+```
 repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
+patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_interfaces/0001-interfaces_drop_qti_camera_device_defaults.patch
+```
+
+``` packages/apps/Trebuchet```
+```
+patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/packages_apps_Trebuchet/0001-launcher-Add-support-for-themed-icons.patch
+```
+
+```packages/modules/adb```
+```
+patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/packages_modules_adb/adb.patch
+```
+
+```system/bpf```
+```
+patch -d system/bpf -p1 < .repo/manifests/patches/system_bpf/bpf.patch
+```
+
+```system/core```
+```
 repopick -P system/core 318817
+```
+
+```system/netd```
+```
+patch -d system/netd -p1 < .repo/manifests/patches/system_netd/netd.patch
+```
+
+```vendor/lineage```
+```
+patch -d vendor/lineage -p1 < .repo/manifests/patches/vendor_lineage/0001-Restore-libbfqio-for-non-BPF-devices.patch
 repopick -P vendor/lineage 320546
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/0001-interfaces_drop_qti_camera_device_defaults.patch
 ```
 
-``` Monet```
+```vendor/partner_gms ```
 ```
-patch -d frameworks/base -p1 < .repo/manifests/patches/0013-SystemUI-Always-refresh-power-menu-on-UI-mode-change.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0021-monet-Fix-overly-low-chroma-for-tones-below-90.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0006-Keyguard-Never-switch-to-large-clock.patch
-patch -d packages/apps/Trebuchet -p1 < .repo/manifests/patches/0001-launcher-Add-support-for-themed-icons.patch
-```
-
-```Hacks ```
-```
-patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Hack-Ignore-SensorPrivacyService-Security-Exception.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Bring-Back-XML-Format-UTF-8-TWRP.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0001-Fix-Brightness-Slider-12.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0002-Disable-vendor-mismatch-warning.patch
-patch -d frameworks/base -p1 < .repo/manifests/patches/0012-core-Remove-old-app-target-SDK-dialog.patch
-```
-
-```GMS ```
-```
-patch -d vendor/partner_gms -p1 < .repo/manifests/patches/0001-Minimal-GMS-For-J5-Devices.patch
+patch -d vendor/partner_gms -p1 < .repo/manifests/patches/vendor_partner_gms/0001-Minimal-GMS-For-J5-Devices.patch
 ```
 <br/>
 

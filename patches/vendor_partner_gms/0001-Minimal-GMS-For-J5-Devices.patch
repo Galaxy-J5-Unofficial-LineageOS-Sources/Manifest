@@ -1,0 +1,259 @@
+From 68105e776819b5e0ae3152abf0ecf5d56d4bfbe6 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Thu, 14 Apr 2022 19:40:19 +0200
+Subject: [PATCH] GMS for Android 12L Modified source for J5 devices
+
+---
+ apps/SearchLauncher/Android.mk | 109 ---------------------------------
+ apps_go/FilesGoogle/Android.mk |  22 -------
+ apps_go/GMailGo/Android.mk     |  18 ------
+ apps_go/GalleryGo/Android.mk   |  25 --------
+ products/gms_go_2gb.mk         |  19 +-----
+ 5 files changed, 2 insertions(+), 191 deletions(-)
+ delete mode 100644 apps/SearchLauncher/Android.mk
+ delete mode 100644 apps_go/FilesGoogle/Android.mk
+ delete mode 100644 apps_go/GMailGo/Android.mk
+ delete mode 100644 apps_go/GalleryGo/Android.mk
+
+diff --git a/apps/SearchLauncher/Android.mk b/apps/SearchLauncher/Android.mk
+deleted file mode 100644
+index e7efbad..0000000
+--- a/apps/SearchLauncher/Android.mk
++++ /dev/null
+@@ -1,109 +0,0 @@
+-LOCAL_PATH := $(call my-dir)
+-
+-#
+-# Prebuilt Launcher client library Libraries
+-#
+-include $(CLEAR_VARS)
+-LOCAL_MODULE := lib_launcherClient
+-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-BSD SPDX-license-identifier-GPL SPDX-license-identifier-MIT
+-LOCAL_LICENSE_CONDITIONS := notice restricted
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+-LOCAL_SRC_FILES := libs/launcher_client.jar
+-LOCAL_UNINSTALLABLE_MODULE := true
+-LOCAL_SDK_VERSION := 28
+-include $(BUILD_PREBUILT)
+-
+-#
+-# Search Launcher build rule
+-#
+-include $(CLEAR_VARS)
+-
+-# Relative path for Launcher3 directory
+-LAUNCHER_PATH := ../../../../packages/apps/Launcher3
+-
+-LOCAL_STATIC_ANDROID_LIBRARIES := LauncherGoResLib
+-LOCAL_STATIC_JAVA_LIBRARIES := lib_launcherClient
+-
+-LOCAL_SRC_FILES := \
+-    $(call all-java-files-under, $(LAUNCHER_PATH)/src_shortcuts_overrides) \
+-    $(call all-java-files-under, $(LAUNCHER_PATH)/src_ui_overrides) \
+-    $(call all-java-files-under, src) \
+-    $(call all-java-files-under, src_base) \
+-    $(call all-java-files-under, $(LAUNCHER_PATH)/src)
+-
+-LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
+-
+-LOCAL_PROGUARD_FLAG_FILES := $(LAUNCHER_PATH)/proguard.flags
+-
+-LOCAL_MIN_SDK_VERSION := 28
+-LOCAL_SDK_VERSION := current
+-LOCAL_PACKAGE_NAME := SearchLauncher
+-
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_USE_AAPT2 := true
+-LOCAL_AAPT2_ONLY := true
+-LOCAL_PRIVILEGED_MODULE := true
+-LOCAL_SYSTEM_EXT_MODULE := true
+-LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep
+-LOCAL_REQUIRED_MODULES := privapp_whitelist_com.android.launcher3
+-LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.launcher3.*
+-
+-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-BSD SPDX-license-identifier-GPL SPDX-license-identifier-MIT
+-LOCAL_LICENSE_CONDITIONS := notice restricted
+-include $(BUILD_PACKAGE)
+-
+-#
+-# Search Launcher QuickStep build rule
+-#
+-include $(CLEAR_VARS)
+-
+-# Relative path for Launcher3 directory
+-LAUNCHER_PATH := ../../../../packages/apps/Launcher3
+-
+-LOCAL_STATIC_ANDROID_LIBRARIES := LauncherGoResLib
+-LOCAL_STATIC_JAVA_LIBRARIES := \
+-    lottie \
+-    lib_launcherClient \
+-    SystemUISharedLib \
+-    SystemUI-statsd
+-
+-ifneq (,$(wildcard frameworks/base))
+-  LOCAL_PRIVATE_PLATFORM_APIS := true
+-else
+-  LOCAL_SDK_VERSION := system_current
+-  LOCAL_MIN_SDK_VERSION := 28
+-endif
+-
+-LOCAL_SRC_FILES := \
+-    $(call all-java-files-under, quickstep/src) \
+-    $(call all-java-files-under, $(LAUNCHER_PATH)/quickstep/src) \
+-    $(call all-java-files-under, $(LAUNCHER_PATH)/src_shortcuts_overrides) \
+-    $(call all-java-files-under, src) \
+-    $(call all-java-files-under, $(LAUNCHER_PATH)/src)
+-
+-LOCAL_RESOURCE_DIR := \
+-    $(LOCAL_PATH)/quickstep/res \
+-    $(LOCAL_PATH)/res \
+-    $(LOCAL_PATH)/$(LAUNCHER_PATH)/quickstep/res
+-
+-LOCAL_PROGUARD_ENABLED := disabled
+-
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_USE_AAPT2 := true
+-LOCAL_AAPT2_ONLY := true
+-LOCAL_PACKAGE_NAME := SearchLauncherQuickStep
+-LOCAL_PRIVILEGED_MODULE := true
+-LOCAL_SYSTEM_EXT_MODULE := true
+-LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep
+-LOCAL_REQUIRED_MODULES := privapp_whitelist_com.android.launcher3 GmsConfigOverlaySearchLauncherQuickStep
+-LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.launcher3.*
+-
+-LOCAL_FULL_LIBS_MANIFEST_FILES := $(LOCAL_PATH)/$(LAUNCHER_PATH)/quickstep/AndroidManifest.xml
+-
+-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 SPDX-license-identifier-BSD SPDX-license-identifier-GPL SPDX-license-identifier-MIT
+-LOCAL_LICENSE_CONDITIONS := notice restricted
+-include $(BUILD_PACKAGE)
+-
+-# ==================================================
+-include $(call all-makefiles-under,$(LOCAL_PATH))
+diff --git a/apps_go/FilesGoogle/Android.mk b/apps_go/FilesGoogle/Android.mk
+deleted file mode 100644
+index fd88fd1..0000000
+--- a/apps_go/FilesGoogle/Android.mk
++++ /dev/null
+@@ -1,22 +0,0 @@
+-###############################################################################
+-# FilesGoogle
+-LOCAL_PATH := $(my-dir)
+-
+-my_archs := arm arm64 x86 x86_64
+-my_src_arch := $(call get-prebuilt-src-arch, $(my_archs))
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE := FilesGoogle
+-LOCAL_MODULE_OWNER := google
+-LOCAL_MODULE_CLASS := APPS
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+-LOCAL_PRIVILEGED_MODULE := true
+-LOCAL_PRODUCT_MODULE := true
+-LOCAL_CERTIFICATE := PRESIGNED
+-LOCAL_SRC_FILES := $(LOCAL_MODULE)_$(my_src_arch).apk
+-#LOCAL_OVERRIDES_PACKAGES :=
+-LOCAL_OPTIONAL_USES_LIBRARIES := org.apache.http.legacy
+-#LOCAL_REQUIRED_MODULES :=
+-LOCAL_MODULE_TARGET_ARCH := $(my_src_arch)
+-include $(BUILD_PREBUILT)
+diff --git a/apps_go/GMailGo/Android.mk b/apps_go/GMailGo/Android.mk
+deleted file mode 100644
+index 8f05a7c..0000000
+--- a/apps_go/GMailGo/Android.mk
++++ /dev/null
+@@ -1,18 +0,0 @@
+-###############################################################################
+-# GMailGo
+-LOCAL_PATH := $(my-dir)
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE := GMailGo
+-LOCAL_MODULE_OWNER := google
+-LOCAL_MODULE_CLASS := APPS
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+-#LOCAL_PRIVILEGED_MODULE :=
+-LOCAL_PRODUCT_MODULE := true
+-LOCAL_CERTIFICATE := PRESIGNED
+-LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+-LOCAL_OVERRIDES_PACKAGES := Email Gmail2
+-LOCAL_OPTIONAL_USES_LIBRARIES := org.apache.http.legacy
+-#LOCAL_REQUIRED_MODULES :=
+-include $(BUILD_PREBUILT)
+diff --git a/apps_go/GalleryGo/Android.mk b/apps_go/GalleryGo/Android.mk
+deleted file mode 100644
+index 7c57af4..0000000
+--- a/apps_go/GalleryGo/Android.mk
++++ /dev/null
+@@ -1,25 +0,0 @@
+-#############################################################################
+-# GalleryGo
+-LOCAL_PATH := $(my-dir)
+-
+-my_archs := arm arm64
+-my_src_arch := $(call get-prebuilt-src-arch, $(my_archs))
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE:= GalleryGo
+-LOCAL_MODULE_OWNER := google
+-LOCAL_MODULE_CLASS := APPS
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+-#LOCAL_PRIVILEGED_MODULE :=
+-LOCAL_PRODUCT_MODULE := true
+-LOCAL_CERTIFICATE := PRESIGNED
+-LOCAL_DPI_VARIANTS := xxxhdpi xxhdpi xhdpi hdpi mdpi
+-LOCAL_DPI_FILE_STEM := $(LOCAL_MODULE)_$(my_src_arch)_%.apk
+-LOCAL_SRC_FILES := $(LOCAL_MODULE)_$(my_src_arch)_xxxhdpi.apk
+-LOCAL_OVERRIDES_PACKAGES := Gallery2
+-LOCAL_REQUIRED_MODULES := GmsConfigOverlayGalleryGo
+-LOCAL_MODULE_TARGET_ARCH := $(my_src_arch)
+-include $(BUILD_PREBUILT)
+-
+-include $(call all-makefiles-under,$(LOCAL_PATH))
+diff --git a/products/gms_go_2gb.mk b/products/gms_go_2gb.mk
+index 55dd405..6ad5cf3 100644
+--- a/products/gms_go_2gb.mk
++++ b/products/gms_go_2gb.mk
+@@ -58,18 +58,7 @@ PRODUCT_PACKAGE_OVERLAYS += $(ANDROID_PARTNER_GMS_HOME)/overlay/gms_overlay
+ 
+ # GMS mandatory application packages
+ PRODUCT_PACKAGES += \
+-    AssistantGo \
+-    Chrome \
+-    Drive \
+-    DuoGo \
+-    GalleryGo \
+-    Gmail2 \
+-    GoogleSearchGo \
+-    LatinImeGoogleGo \
+-    Maps \
+-    YouTube \
+-    YTMusic \
+-    Videos
++    LatinImeGoogleGo
+ 
+ # GMS comms suite
+ $(call inherit-product, $(ANDROID_PARTNER_GMS_HOME)/products/google_go_comms_suite.mk)
+@@ -78,15 +67,11 @@ $(call inherit-product, $(ANDROID_PARTNER_GMS_HOME)/products/google_go_comms_sui
+ PRODUCT_PACKAGES += \
+     CalendarGoogle \
+     DeskClockGoogle \
+-    FilesGoogle \
+-    TagGoogle \
+-    talkback \
+     CalculatorGoogle
+ 
+ # GMS sample application packages
+ PRODUCT_PACKAGES += \
+-    GmsSampleIntegrationGo_2GB \
+-    Launcher3Go
++    GmsSampleIntegrationGo_2GB
+ 
+ PRODUCT_PRODUCT_PROPERTIES += \
+     ro.setupwizard.rotation_locked=true \
+-- 
+2.25.1
+

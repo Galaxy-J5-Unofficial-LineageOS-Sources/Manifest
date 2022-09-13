@@ -1,0 +1,48 @@
+From 9dbe8093e92c75f10ce8a8ed6789e00f486b5e06 Mon Sep 17 00:00:00 2001
+From: SagarMakhar <sagarmakhar@gmail.com>
+Date: Sat, 10 Jul 2021 16:49:30 +0000
+Subject: [PATCH] Ignore bpf errors for < 4.9 kernels
+
+Change-Id: I037e4745d5bde12e6edd35203d3d3604ef1ec4c2
+Signed-off-by: SagarMakhar <sagarmakhar@gmail.com>
+Signed-off-by: rajkale99 <kaleraj.rk@gmail.com>
+---
+
+diff --git a/bpfloader/BpfLoader.cpp b/bpfloader/BpfLoader.cpp
+index 7a68894..788009e 100644
+--- a/bpfloader/BpfLoader.cpp
++++ b/bpfloader/BpfLoader.cpp
+@@ -112,17 +112,22 @@
+ }
+ 
+ int main() {
+-    // Load all ELF objects, create programs and maps, and pin them
+-    for (const auto location : locations) {
+-        createSysFsBpfSubDir(location.prefix);
+-        if (loadAllElfObjects(location.dir, location.prefix) != 0) {
+-            ALOGE("=== CRITICAL FAILURE LOADING BPF PROGRAMS FROM %s ===", location.dir);
+-            ALOGE("If this triggers reliably, you're probably missing kernel options or patches.");
+-            ALOGE("If this triggers randomly, you might be hitting some memory allocation "
+-                  "problems or startup script race.");
+-            ALOGE("--- DO NOT EXPECT SYSTEM TO BOOT SUCCESSFULLY ---");
+-            sleep(20);
+-            return 2;
++    bool ebpf_supported = android::base::GetBoolProperty("ro.kernel.ebpf.supported", true);
++
++    if (ebpf_supported) {
++        // Load all ELF objects, create programs and maps, and pin them
++        for (const auto location : locations) {
++            createSysFsBpfSubDir(location.prefix);
++            if (loadAllElfObjects(location.dir, location.prefix) != 0) {
++                ALOGE("=== CRITICAL FAILURE LOADING BPF PROGRAMS FROM %s ===", location.dir);
++                ALOGE("If this triggers reliably, you're probably missing kernel options "
++                      "or patches.");
++                ALOGE("If this triggers randomly, you might be hitting some memory allocation "
++                      "problems or startup script race.");
++                ALOGE("--- DO NOT EXPECT SYSTEM TO BOOT SUCCESSFULLY ---");
++                sleep(20);
++                return 2;
++            }
+         }
+     }
+ 

@@ -1,0 +1,92 @@
+From affe5608bc3fc7593eb221f0caee9e639f8cebc3 Mon Sep 17 00:00:00 2001
+From: Dominggoes Isakh <drjisakh@gmail.com>
+Date: Sun, 29 May 2022 13:05:24 +0200
+Subject: [PATCH 20/20] Revert "Camera: CameraHardwareInterface changes to
+ support Extended FD"
+
+This reverts commit 46f92b0cc888ef8daddc2d6f2f2a8b2c37166ff4.
+
+Change-Id: I31a352ea1b566d6f5627d6464e851e68f3239c05
+---
+ services/camera/libcameraservice/Android.bp   |  1 -
+ .../device1/CameraHardwareInterface.cpp       | 19 -------------------
+ .../device1/CameraHardwareInterface.h         |  7 +------
+ 3 files changed, 1 insertion(+), 26 deletions(-)
+
+diff --git a/services/camera/libcameraservice/Android.bp b/services/camera/libcameraservice/Android.bp
+index a070b92597..8369335f78 100644
+--- a/services/camera/libcameraservice/Android.bp
++++ b/services/camera/libcameraservice/Android.bp
+@@ -155,7 +155,6 @@ cc_library_shared {
+         "android.hardware.camera.provider@2.6",
+         "android.hardware.camera.provider@2.7",
+         "android.hardware.camera.device@1.0",
+-        "vendor.qti.hardware.camera.device@1.0",
+         "android.hardware.camera.device@3.2",
+         "android.hardware.camera.device@3.3",
+         "android.hardware.camera.device@3.4",
+diff --git a/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp b/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp
+index 3a18bbf043..9d6aeecce2 100644
+--- a/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp
++++ b/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp
+@@ -136,25 +136,6 @@ hardware::Return<void> CameraHardwareInterface::dataCallback(
+     return hardware::Void();
+ }
+ 
+-hardware::Return<void> CameraHardwareInterface::QDataCallback(
+-        DataCallbackMsg msgType, uint32_t data, uint32_t bufferIndex,
+-        const vendor::qti::hardware::camera::device::V1_0::QCameraFrameMetadata& metadata) {
+-    camera_memory_t* mem = nullptr;
+-    {
+-        std::lock_guard<std::mutex> lock(mHidlMemPoolMapLock);
+-        if (mHidlMemPoolMap.count(data) == 0) {
+-            ALOGE("%s: memory pool ID %d not found", __FUNCTION__, data);
+-            return hardware::Void();
+-        }
+-        mem = mHidlMemPoolMap.at(data);
+-    }
+-    camera_frame_metadata_t md;
+-    md.number_of_faces = metadata.faces.size();
+-    md.faces = (camera_face_t*) metadata.faces.data();
+-    sDataCb((int32_t) msgType, mem, bufferIndex, &md, this);
+-    return hardware::Void();
+-}
+-
+ hardware::Return<void> CameraHardwareInterface::dataCallbackTimestamp(
+         DataCallbackMsg msgType, uint32_t data,
+         uint32_t bufferIndex, int64_t timestamp) {
+diff --git a/services/camera/libcameraservice/device1/CameraHardwareInterface.h b/services/camera/libcameraservice/device1/CameraHardwareInterface.h
+index 1d58e9ba16..e519b04cdd 100644
+--- a/services/camera/libcameraservice/device1/CameraHardwareInterface.h
++++ b/services/camera/libcameraservice/device1/CameraHardwareInterface.h
+@@ -29,7 +29,6 @@
+ #include <hardware/camera.h>
+ 
+ #include <common/CameraProviderManager.h>
+-#include <vendor/qti/hardware/camera/device/1.0/IQCameraDeviceCallback.h>
+ 
+ namespace android {
+ 
+@@ -86,7 +85,7 @@ typedef void (*data_callback_timestamp_batch)(
+ 
+ class CameraHardwareInterface :
+         public virtual RefBase,
+-        public virtual vendor::qti::hardware::camera::device::V1_0::IQCameraDeviceCallback,
++        public virtual hardware::camera::device::V1_0::ICameraDeviceCallback,
+         public virtual hardware::camera::device::V1_0::ICameraDevicePreviewCallback {
+ 
+ public:
+@@ -396,10 +395,6 @@ private:
+             hardware::camera::device::V1_0::DataCallbackMsg msgType,
+             const hardware::hidl_vec<
+                     hardware::camera::device::V1_0::HandleTimestampMessage>&) override;
+-    hardware::Return<void> QDataCallback(
+-            hardware::camera::device::V1_0::DataCallbackMsg msgType,
+-            uint32_t data, uint32_t bufferIndex,
+-            const vendor::qti::hardware::camera::device::V1_0::QCameraFrameMetadata& metadata) override;
+ 
+     /**
+      * Implementation of android::hardware::camera::device::V1_0::ICameraDevicePreviewCallback
+-- 
+2.34.1
+
