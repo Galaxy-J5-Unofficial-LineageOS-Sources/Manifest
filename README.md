@@ -55,7 +55,7 @@ patch -d art -p1 < .repo/manifests/patches/bionic/0008-Restore-Shim.patch
 
 ```external/perfetto ```
 ```
-patch -d aexternal/perfetto -p1 < .repo/manifests/patches/external_perfetto/0001-perfetto-Conditionally-remove-version-check-for-memf.patch
+patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/0001-perfetto-Conditionally-remove-version-check-for-memf.patch
 ```
 
 ```frameworks/base ```
