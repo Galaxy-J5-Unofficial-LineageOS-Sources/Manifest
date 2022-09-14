@@ -130,6 +130,7 @@ patch -d system/bpf -p1 < .repo/manifests/patches/system_bpf/0001-Restore-isBPF-
 ```system/core ```
 ```
 patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Revert-init-Treat-failure-to-create-a-process-group-.patch
+patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Fix-samsung-healthd-building.patch
 ```
 
 ```system/libhidl ```
