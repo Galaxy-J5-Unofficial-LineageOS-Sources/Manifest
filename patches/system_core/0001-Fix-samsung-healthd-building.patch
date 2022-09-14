@@ -1,0 +1,55 @@
+From c53326e6a1ffb76be64c07ad1e98b97efbae5304 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Wed, 14 Sep 2022 13:57:11 +0200
+Subject: [PATCH] Fix samsung healthd building
+
+Change-Id: I752d721fe965af3cc14cff30c1edb3bc82d7654b
+---
+ healthd/healthd_draw.cpp         | 8 --------
+ healthd/healthd_mode_charger.cpp | 6 ------
+ 2 files changed, 14 deletions(-)
+
+diff --git a/healthd/healthd_draw.cpp b/healthd/healthd_draw.cpp
+index 3e73fcd08..c74ded0d8 100644
+--- a/healthd/healthd_draw.cpp
++++ b/healthd/healthd_draw.cpp
+@@ -29,19 +29,11 @@
+ #define LOGV(x...) KLOG_DEBUG("charger", x);
+ 
+ static bool get_split_screen() {
+-#if !defined(__ANDROID_VNDK__)
+-    return android::sysprop::ChargerProperties::draw_split_screen().value_or(false);
+-#else
+     return false;
+-#endif
+ }
+ 
+ static int get_split_offset() {
+-#if !defined(__ANDROID_VNDK__)
+-    int64_t value = android::sysprop::ChargerProperties::draw_split_offset().value_or(0);
+-#else
+     int64_t value = 0;
+-#endif
+     if (value < static_cast<int64_t>(std::numeric_limits<int>::min())) {
+         LOGW("draw_split_offset = %" PRId64 " overflow for an int; resetting to %d.\n", value,
+              std::numeric_limits<int>::min());
+diff --git a/healthd/healthd_mode_charger.cpp b/healthd/healthd_mode_charger.cpp
+index 9fe85d40d..66290f55c 100644
+--- a/healthd/healthd_mode_charger.cpp
++++ b/healthd/healthd_mode_charger.cpp
+@@ -325,12 +325,6 @@ void Charger::UpdateScreenState(int64_t now) {
+         healthd_draw_ = HealthdDraw::Create(&batt_anim_);
+         if (healthd_draw_ == nullptr) return;
+ 
+-#if !defined(__ANDROID_VNDK__)
+-        if (android::sysprop::ChargerProperties::disable_init_blank().value_or(false)) {
+-            healthd_draw_->blank_screen(true, static_cast<int>(drm_));
+-            screen_blanked_ = true;
+-        }
+-#endif
+     }
+ 
+     /* animation is over, blank screen and leave */
+-- 
+2.34.1
+
