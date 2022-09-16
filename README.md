@@ -43,14 +43,14 @@ patch -d art -p1 < .repo/manifests/patches/art/art.patch
 
 ```bionic ```
 ```
-patch -d art -p1 < .repo/manifests/patches/bionic/0001-HACK-allow-text-relocations.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0002-linker-Apply-TARGET_PROCESS_SDK_VERSION_OVERRIDE-on-.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0003-Hack-Ignore-invalid-pthread_t-to-s.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0004-Implement-per-process-target-SDK-version-override.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0005-bionic-Squash-of-pre-P-mutex-behavior-restoration.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0006-bionic-Sort-and-cache-hosts-file-data-for-fast-looku.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0007-bionic-Support-wildcards-in-cached-hosts-file.patch
-patch -d art -p1 < .repo/manifests/patches/bionic/0008-Restore-Shim.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0001-HACK-allow-text-relocations.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0002-linker-Apply-TARGET_PROCESS_SDK_VERSION_OVERRIDE-on-.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0003-Hack-Ignore-invalid-pthread_t-to-s.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0004-Implement-per-process-target-SDK-version-override.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0005-bionic-Squash-of-pre-P-mutex-behavior-restoration.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0006-bionic-Sort-and-cache-hosts-file-data-for-fast-looku.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0007-bionic-Support-wildcards-in-cached-hosts-file.patch
+patch -d bionic -p1 < .repo/manifests/patches/bionic/0008-Restore-Shim.patch
 ```
 
 ```external/perfetto ```
@@ -88,12 +88,12 @@ patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_interfaces/0
 
 ```hardware/lineage/interfaces ```
 ```
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0001-Restore-vendor.lineage.power-1.0-HIDL.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0002-Restore-vendor.lineage.biometrics.fingerprint.inscre.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0003-Restore-power-HAL.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0004-wifi-fix-legacy-HIDL-for-T.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0005-wifi-hidl_struct_util.cpp-convertLegacyWifiChannelWi.patch
-patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0006-wifi-wifi.h-fix-build-undef-NAN.patch
+patch -d hardware/lineage/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0001-Restore-vendor.lineage.power-1.0-HIDL.patch
+patch -d hardware/lineage/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0002-Restore-vendor.lineage.biometrics.fingerprint.inscre.patch
+patch -d hardware/lineage/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0003-Restore-power-HAL.patch
+patch -d hardware/lineage/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0004-wifi-fix-legacy-HIDL-for-T.patch
+patch -d hardware/lineage/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0005-wifi-hidl_struct_util.cpp-convertLegacyWifiChannelWi.patch
+patch -d hardware/lineage/interfaces -p1 < .repo/manifests/patches/hardware_lineage_interfaces/0006-wifi-wifi.h-fix-build-undef-NAN.patch
 ```
 
 ```hardware/qcom-caf/bluetooth ```
