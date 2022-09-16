@@ -1,0 +1,59 @@
+From 7a2a98cff00db32d5d6347eb97bd1526d28cdbe8 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Fri, 16 Sep 2022 05:02:40 +0200
+Subject: [PATCH] SystemUI: Only apply tuning changes when the fragment is
+ attached
+
+This fixes the following crash on first boot.
+
+AndroidRuntime: FATAL EXCEPTION: main
+AndroidRuntime: Process: com.android.systemui, PID: 2682
+AndroidRuntime: java.lang.NullPointerException: Attempt to invoke virtual method 'android.content.res.Resources android.content.Context.getResources()' on a null object reference
+AndroidRuntime: at com.android.systemui.statusbar.phone.StatusBarIconController.getIconHideList(StatusBarIconController.java:108)
+AndroidRuntime: at com.android.systemui.statusbar.phone.CollapsedStatusBarFragment.onTuningChanged(CollapsedStatusBarFragment.java:218)
+AndroidRuntime: at com.android.systemui.tuner.TunerServiceImpl.reloadSetting(TunerServiceImpl.java:245)
+AndroidRuntime: at com.android.systemui.tuner.TunerServiceImpl.access00(TunerServiceImpl.java:59)
+AndroidRuntime: at com.android.systemui.tuner.TunerServiceImpl.onChange(TunerServiceImpl.java:328)
+AndroidRuntime: at android.database.ContentObserver.lambdabash(ContentObserver.java:282)
+AndroidRuntime: at android.database.ContentObserver334662ExternalSyntheticLambda0.run(Unknown Source:10)
+AndroidRuntime: at android.os.Handler.handleCallback(Handler.java:938)
+AndroidRuntime: at android.os.Handler.dispatchMessage(Handler.java:99)
+AndroidRuntime: at android.os.Looper.loopOnce(Looper.java:201)
+AndroidRuntime: at android.os.Looper.loop(Looper.java:288)
+AndroidRuntime: at android.app.ActivityThread.main(ActivityThread.java:7839)
+AndroidRuntime: at java.lang.reflect.Method.invoke(Native Method)
+AndroidRuntime: at com.android.internal.os.RuntimeInit.run(RuntimeInit.java:548)
+AndroidRuntime: at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1003)
+Change-Id: Ib5de3ccdecf033593899a1bcbe4808a1473c3eab
+---
+ .../phone/fragment/CollapsedStatusBarFragment.java          | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/fragment/CollapsedStatusBarFragment.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/fragment/CollapsedStatusBarFragment.java
+index 713f72a2427e..30d63351f475 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/fragment/CollapsedStatusBarFragment.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/fragment/CollapsedStatusBarFragment.java
+@@ -29,6 +29,7 @@ import android.animation.ValueAnimator;
+ import android.annotation.NonNull;
+ import android.annotation.Nullable;
+ import android.app.Fragment;
++import android.content.Context;
+ import android.database.ContentObserver;
+ import android.os.Bundle;
+ import android.os.Parcelable;
+@@ -286,8 +287,11 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
+     @Override
+     public void onTuningChanged(String key, String newValue) {
+         boolean wasClockBlacklisted = mIsClockBlacklisted;
++        Context context = getContext();
++        if (context == null)
++            return;
+         mIsClockBlacklisted = StatusBarIconController.getIconHideList(
+-                getContext(), newValue).contains("clock");
++                context, newValue).contains("clock");
+         if (wasClockBlacklisted && !mIsClockBlacklisted) {
+             showClock(false);
+         }
+-- 
+2.34.1
+
