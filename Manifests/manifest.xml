@@ -27,9 +27,10 @@
   <!-- <remove-project name="hardware/qcom-caf/msm8916/display" /> -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-20.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   
-  <!-- Temporal Repos -->
+  <!-- Our own Repos -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0"/>
-
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_hardware_qcom_wlan" path="hardware/qcom-caf/wlan" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0-caf"/>
+           
    <!-- Other repos -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_packages_apps_RepainterServicePriv" path="packages/apps/RepainterServicePriv" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="main"/>    
 
