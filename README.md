@@ -80,6 +80,8 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-Fix-
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0002-Disable-vendor-mismatch-warning.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0012-core-Remove-old-app-target-SDK-dialog.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-camera_extensions.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-SystemUI-Only-apply-tuning-changes-when-the-fragment.patch
+
 ```
 
 ```frameworks/native```
