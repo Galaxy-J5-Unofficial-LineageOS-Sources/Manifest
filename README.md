@@ -122,6 +122,12 @@ patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_mo
 patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_modules_connectivity/0001-Fix-systemUI-reboot.patch
 ```
 
+
+```packages/modules/NetworkStack```
+```
+patch -d packages/modules/NetworkStack -p1 < .repo/manifests/patches/packages_modules_NetworkStack/0001-Revert-Enable-parsing-netlink-events-from-kernel-sin.patch
+```
+
 ```system/bpf ```
 ```
 patch -d system/bpf -p1 < .repo/manifests/patches/system_bpf/0001-Restore-isBPF-supported-for-T.patch
