@@ -157,11 +157,6 @@ patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0001-netd-Allow-d
 patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0002-Revert-netd-make-BandwidthController-startup-failure.patch
 ```
 
-```vendor/lineage ```
-```
-patch -d vendor/lineage -p1 < .repo/manifests/patches/vendor_lineage/0001-Restore-libbfqio-for-non-BPF-devices.patch
-```
-
 ```vendor/partner_gms ```
 ```
 patch -d vendor/partner_gms -p1 < .repo/manifests/patches/vendor_partner_gms/0001-Minimal-GMS-For-J5-Devices.patch
