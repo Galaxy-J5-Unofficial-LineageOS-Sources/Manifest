@@ -113,7 +113,9 @@ patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/packages_modules_a
 
 ```packages/modules/bluetooth/```
 ```
+patch -d  packages/modules/Bluetooth/ -p1 < .repo/manifests/patches/packages_modules_bluetooth/0001-Additionally-check-le_set_event_mask-command-resturn.patch
 patch -d  packages/modules/Bluetooth/ -p1 < .repo/manifests/patches/packages_modules_bluetooth/0002-gd-hci-Ignore-unexpected-status-events.patch
+patch -d  packages/modules/Bluetooth/ -p1 < .repo/manifests/patches/packages_modules_bluetooth/0003-audio_hal_interface-Optionally-use-sysbta-HAL.patch
 ```
 
 ```packages/modules/Connectivity```
