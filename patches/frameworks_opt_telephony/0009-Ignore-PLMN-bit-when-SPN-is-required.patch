@@ -1,0 +1,49 @@
+From 9704611c71f5b4ab6af36fc5281cab3c08f03cdc Mon Sep 17 00:00:00 2001
+From: LibXZR <i@xzr.moe>
+Date: Sat, 9 Oct 2021 00:24:59 +0800
+Subject: [PATCH 09/10] Ignore PLMN bit when SPN is required
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+* Some SIM cards have both PLMN and SPN bit enabled, causing SubscriptionController
+to add redundant operator alpha before the carrier name.
+e.g. CHN-CT-中国电信.
+
+Change-Id: I7522f5cd9af2ae81415a1ee4724fca2ffb289c02
+Signed-off-by: LibXZR <i@xzr.moe>
+---
+ .../com/android/internal/telephony/uicc/IccRecords.java     | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/java/com/android/internal/telephony/uicc/IccRecords.java b/src/java/com/android/internal/telephony/uicc/IccRecords.java
+index 3a7db7fa7e..2e5f537a97 100644
+--- a/src/java/com/android/internal/telephony/uicc/IccRecords.java
++++ b/src/java/com/android/internal/telephony/uicc/IccRecords.java
+@@ -1279,11 +1279,13 @@ public abstract class IccRecords extends Handler implements IccConstants {
+     @CarrierNameDisplayConditionBitmask
+     public static int convertSpnDisplayConditionToBitmask(int condition) {
+         int carrierNameDisplayCondition = 0;
++        boolean plmnRequired = (condition & 0x1) == 0x1;
++        boolean spnRequired = (condition & 0x2) == 0;
+         // b1 = 0: display of registered PLMN name not required when registered PLMN is
+         // either HPLMN or a PLMN in the service provider PLMN list.
+         // b1 = 1: display of registered PLMN name required when registered PLMN is
+         // either HPLMN or a PLMN in the service provider PLMN list.
+-        if ((condition & 0x1) == 0x1) {
++        if (plmnRequired && !spnRequired) {
+             carrierNameDisplayCondition |= CARRIER_NAME_DISPLAY_CONDITION_BITMASK_PLMN;
+         }
+ 
+@@ -1291,7 +1293,7 @@ public abstract class IccRecords extends Handler implements IccConstants {
+         // PLMN is neither HPLMN nor a PLMN in the service provider PLMN list.
+         // b2 = 1: display of the servier provider name is **not required** when
+         // registered PLMN is neither HPLMN nor PLMN in the service provider PLMN list.
+-        if ((condition & 0x2) == 0) {
++        if (spnRequired) {
+             carrierNameDisplayCondition |= CARRIER_NAME_DISPLAY_CONDITION_BITMASK_SPN;
+         }
+ 
+-- 
+2.37.3
+

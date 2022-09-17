@@ -1,0 +1,102 @@
+From f60140dd4dd9674f671503a165b1be8bee8a0008 Mon Sep 17 00:00:00 2001
+From: Wileen Chiu <wileenc@codeaurora.org>
+Date: Tue, 12 Jun 2018 14:32:08 -0700
+Subject: [PATCH 07/10] Update external card state based on current app
+
+- Before setting and broadcasting READY
+state, Telephony checks all supported
+UiccCardApplications instead of only the current app state
+- Telephony expects all apps reported through
+GET_SIM_STATUS should move to READY, however,
+this expectation is not correct.
+- For example, in the case where a CDMAless MBN is flashed,
+and CDMA is not supported, the SIM card reports
+a CSIM app. It will remain in DETECTED state and thus,
+Telephony never broadcasts the relevant state.
+- Use legacy implementation, and broadcast READY state
+based on the current app. Broadcast LOADED state once
+all apps that have moved to READY have finished loading.
+
+Change-Id: I12ffcc0dc0518f78b6753b8741ccae421e0466bd
+CRs-Fixed: 2203384
+---
+ .../internal/telephony/uicc/UiccProfile.java  | 44 +++++--------------
+ 1 file changed, 11 insertions(+), 33 deletions(-)
+
+diff --git a/src/java/com/android/internal/telephony/uicc/UiccProfile.java b/src/java/com/android/internal/telephony/uicc/UiccProfile.java
+index e69a77a585..96c760c8e6 100644
+--- a/src/java/com/android/internal/telephony/uicc/UiccProfile.java
++++ b/src/java/com/android/internal/telephony/uicc/UiccProfile.java
+@@ -692,24 +692,16 @@ public class UiccProfile extends IccCard {
+                 break;
+             case APPSTATE_READY:
+                 checkAndUpdateIfAnyAppToBeIgnored();
+-                if (areAllApplicationsReady()) {
+-                    if (areAllRecordsLoaded() && areCarrierPrivilegeRulesLoaded()) {
+-                        if (VDBG) log("updateExternalState: setting state to LOADED");
+-                        setExternalState(IccCardConstants.State.LOADED);
+-                    } else {
+-                        if (VDBG) {
+-                            log("updateExternalState: setting state to READY; records loaded "
+-                                    + areAllRecordsLoaded() + ", carrier privilige rules loaded "
+-                                    + areCarrierPrivilegeRulesLoaded());
+-                        }
+-                        setExternalState(IccCardConstants.State.READY);
+-                    }
++                if (areReadyAppsRecordsLoaded() && areCarrierPrivilegeRulesLoaded()) {
++                    if (VDBG) log("updateExternalState: setting state to LOADED");
++                    setExternalState(IccCardConstants.State.LOADED);
+                 } else {
+                     if (VDBG) {
+-                        log("updateExternalState: app state is READY but not for all apps; "
+-                                + "setting state to NOT_READY");
++                        log("updateExternalState: setting state to READY; records loaded "
++                                + areReadyAppsRecordsLoaded() + ", carrier privilige rules loaded "
++                                + areCarrierPrivilegeRulesLoaded());
+                     }
+-                    setExternalState(IccCardConstants.State.NOT_READY);
++                    setExternalState(IccCardConstants.State.READY);
+                 }
+                 break;
+         }
+@@ -1265,33 +1257,19 @@ public class UiccProfile extends IccCard {
+         }
+     }
+ 
+-    private boolean areAllApplicationsReady() {
++    private boolean areReadyAppsRecordsLoaded() {
+         for (UiccCardApplication app : mUiccApplications) {
+-            if (app != null && isSupportedApplication(app) && !app.isReady()
++            if (app != null && isSupportedApplication(app) && app.isReady()
+                     && !app.isAppIgnored()) {
+-                if (VDBG) log("areAllApplicationsReady: return false");
+-                return false;
+-            }
+-        }
+-
+-        if (VDBG) {
+-            log("areAllApplicationsReady: outside loop, return " + (mUiccApplication != null));
+-        }
+-        return mUiccApplication != null;
+-    }
+-
+-    private boolean areAllRecordsLoaded() {
+-        for (UiccCardApplication app : mUiccApplications) {
+-            if (app != null && isSupportedApplication(app) && !app.isAppIgnored()) {
+                 IccRecords ir = app.getIccRecords();
+                 if (ir == null || !ir.isLoaded()) {
+-                    if (VDBG) log("areAllRecordsLoaded: return false");
++                    if (VDBG) log("areReadyAppsRecordsLoaded: return false");
+                     return false;
+                 }
+             }
+         }
+         if (VDBG) {
+-            log("areAllRecordsLoaded: outside loop, return " + (mUiccApplication != null));
++            log("areReadyAppsRecordsLoaded: outside loop, return " + (mUiccApplication != null));
+         }
+         return mUiccApplication != null;
+     }
+-- 
+2.37.3
+

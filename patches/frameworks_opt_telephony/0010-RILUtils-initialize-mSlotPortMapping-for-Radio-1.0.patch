@@ -1,0 +1,40 @@
+From 9b3f8555e9f6cf6f42c6bc9e13ec1466bdbabe98 Mon Sep 17 00:00:00 2001
+From: Yaroslav Zviezda <acroreiser@gmail.com>
+Date: Sat, 17 Sep 2022 20:29:56 +0300
+Subject: [PATCH 10/10] RILUtils: initialize mSlotPortMapping for Radio 1.0
+
+Fixes:
+
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: FATAL EXCEPTION: main
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: Process: com.android.phone, PID: 13041
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: java.lang.NullPointerException: Attempt to read from field 'int com.android.internal.telephony.uicc.IccSlotPortMapping.mPhysicalSlotIndex' on a null object reference in method 'void com.android.internal.telephony.uicc.UiccController.onGetIccCardStatusDone(android.os.AsyncResult, java.lang.Integer)'
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at com.android.internal.telephony.uicc.UiccController.onGetIccCardStatusDone(UiccController.java:765)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at com.android.internal.telephony.uicc.UiccController.handleMessage(UiccController.java:578)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:201)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:288)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:7898)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:548)
+09-17 01: 00:02.502 13041 13041 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:936)
+Change-Id: I1752281a8904c1a719caffd232c7058d569de88e
+---
+ src/java/com/android/internal/telephony/RILUtils.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/java/com/android/internal/telephony/RILUtils.java b/src/java/com/android/internal/telephony/RILUtils.java
+index 61f1e82a76..c6ee969043 100644
+--- a/src/java/com/android/internal/telephony/RILUtils.java
++++ b/src/java/com/android/internal/telephony/RILUtils.java
+@@ -4261,6 +4261,8 @@ public class RILUtils {
+ 
+         IccCardStatus iccCardStatus = new IccCardStatus();
+         if (cardStatus10 != null) {
++            IccSlotPortMapping slotPortMapping = new IccSlotPortMapping();
++            iccCardStatus.mSlotPortMapping = slotPortMapping;
+             iccCardStatus.setCardState(cardStatus10.cardState);
+             iccCardStatus.setUniversalPinState(cardStatus10.universalPinState);
+             iccCardStatus.mGsmUmtsSubscriptionAppIndex = cardStatus10.gsmUmtsSubscriptionAppIndex;
+-- 
+2.37.3
+

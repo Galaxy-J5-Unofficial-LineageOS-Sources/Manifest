@@ -1,0 +1,32 @@
+From c937d99d076a27407b1566113c22031004028cd2 Mon Sep 17 00:00:00 2001
+From: Arne Coucheron <arco68@gmail.com>
+Date: Tue, 29 Oct 2019 00:26:15 +0100
+Subject: [PATCH 04/10] 2G wants proper signal strength too
+
+Change-Id: Ibe3acd8e214075199127b4c114a222b26aaf8498
+---
+ src/java/com/android/internal/telephony/RIL.java | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/java/com/android/internal/telephony/RIL.java b/src/java/com/android/internal/telephony/RIL.java
+index 0d63cbcbbc..1244be1d7f 100644
+--- a/src/java/com/android/internal/telephony/RIL.java
++++ b/src/java/com/android/internal/telephony/RIL.java
+@@ -5893,11 +5893,14 @@ public class RIL extends BaseCommands implements CommandsInterface {
+             }
+         }
+         switch (voiceRat) {
++            case ServiceState.RIL_RADIO_TECHNOLOGY_GPRS: /* fallthrough */
++            case ServiceState.RIL_RADIO_TECHNOLOGY_EDGE: /* fallthrough */
+             case ServiceState.RIL_RADIO_TECHNOLOGY_UMTS: /* fallthrough */
+             case ServiceState.RIL_RADIO_TECHNOLOGY_HSDPA: /* fallthrough */
+             case ServiceState.RIL_RADIO_TECHNOLOGY_HSUPA: /* fallthrough */
+             case ServiceState.RIL_RADIO_TECHNOLOGY_HSPA: /* fallthrough */
+             case ServiceState.RIL_RADIO_TECHNOLOGY_HSPAP: /* fallthrough */
++            case ServiceState.RIL_RADIO_TECHNOLOGY_GSM: /* fallthrough */
+                 break;
+             default:
+                 // If we are not currently on WCDMA/HSPA, then we don't need to do a fixup.
+-- 
+2.37.3
+
