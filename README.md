@@ -91,6 +91,8 @@ patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_t
 ```
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0001-GraphicBuffer.cpp-hack-don-t-set-handle-to-0.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0002-SurfaceFlinger-Don-t-cleanup-resources-from-previous.patch
+patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0003-SurfaceFlinger-Don-t-cleanup-resources-from-previous.patch
+patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0004-SurfaceFlinger-Don-t-cleanup-resources-from-previous.patch
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0003-gpuservice-only-start-if-ro.kernel.ebpf.supported-is.patch
 ```
 
