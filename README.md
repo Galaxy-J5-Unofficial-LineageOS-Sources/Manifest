@@ -73,6 +73,20 @@ patch -d frameworks/libs/net -p1 < .repo/manifests/patches/frameworks_libs_net/0
 patch -d frameworks/libs/net -p1 < .repo/manifests/patches/frameworks_libs_net/0001-Restore-isBPF-supported-for-T.patch
 ```
 
+```frameworks/opt/telephony ```
+```
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0001-telephony-Squashed-support-for-simactivation-feature.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0002-RIL-Fix-manual-network-selection-with-old-modem.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0003-Avoid-SubscriptionManager-getUriForSubscriptionId-ca.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0004-2G-wants-proper-signal-strength-too.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0005-Telephony-Add-option-for-using-regular-poll-state-fo.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0006-Fix-data-detach-isn-t-informed.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0007-Update-external-card-state-based-on-current-app.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0008-Restore-support-with-RadioConfig-1.0-dsds-clients.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0009-Ignore-PLMN-bit-when-SPN-is-required.patch
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0010-RILUtils-initialize-mSlotPortMapping-for-Radio-1.0.patch
+```
+
 ```frameworks/native ```
 ```
 patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0001-GraphicBuffer.cpp-hack-don-t-set-handle-to-0.patch
