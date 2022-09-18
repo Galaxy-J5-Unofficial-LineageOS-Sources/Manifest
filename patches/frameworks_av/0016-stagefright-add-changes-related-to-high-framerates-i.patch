@@ -1,0 +1,133 @@
+From ba7364c85f7c0c093eccba62488750f00139e5d7 Mon Sep 17 00:00:00 2001
+From: Paras Nagda <pnagda@codeaurora.org>
+Date: Fri, 4 May 2018 16:13:15 +0530
+Subject: [PATCH 16/18] stagefright: add changes related to high-framerates in
+ CameraSource
+
+Below changes are squashed with this change.
+
+Stagefright: Allow setting high-framerates in CameraSource
+ChangeId: If66211dd81b2a08d4df4c6f23e87304e9e7013f4
+
+Stagefright: Allow setting of high-framerates in CameraSource for HSR
+ChangeId: I30cb3b656570de1b615d55c20c0b4f98ae6e0c12
+
+Stagefright: Create CameraSource for HSR
+ChangeId: I7f420f5b15fb3c05bb7f918430ca9b7a630ed18e
+
+Stagefright: Do not skip frames in time-lapse-source for high-speed
+ChangeId: I8420e44ab96484f0d6301c366a24eefc8efeaf0f
+
+media : Changing time stamp manipulation in HFR recording.
+ChangeId: I98cdb14bb2b9c86013df9b2c8f2e558f184b633e
+
+media: Modify timestamps for HFR use case
+ChangeId: I3faf7294f743b1031ccc6624c3348f7e12b339b8
+
+CRs-Fixed: 2226740
+
+Conflicts:
+	media/libmediaplayerservice/StagefrightRecorder.cpp
+
+Change-Id: I079d880252992b94bd78ac43aed732f5000175d3
+Signed-off-by: Volodymyr Zhdanov <wight554@gmail.com>
+---
+ .../libmediaplayerservice/StagefrightRecorder.cpp  |  3 ++-
+ media/libstagefright/CameraSource.cpp              | 14 +++++++++++++-
+ media/libstagefright/CameraSourceTimeLapse.cpp     |  9 ++++++++-
+ 3 files changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/media/libmediaplayerservice/StagefrightRecorder.cpp b/media/libmediaplayerservice/StagefrightRecorder.cpp
+index ea1fdf4bf8..6ff62bba5b 100644
+--- a/media/libmediaplayerservice/StagefrightRecorder.cpp
++++ b/media/libmediaplayerservice/StagefrightRecorder.cpp
+@@ -1889,7 +1889,7 @@ status_t StagefrightRecorder::setupCameraSource(
+     pid_t pid = VALUE_OR_RETURN_STATUS(aidl2legacy_int32_t_pid_t(mAttributionSource.pid));
+     String16 clientName = VALUE_OR_RETURN_STATUS(
+         aidl2legacy_string_view_String16(mAttributionSource.packageName.value_or("")));
+-    if (mCaptureFpsEnable) {
++    if (mCaptureFpsEnable && mCaptureFps != mFrameRate) {
+         if (!(mCaptureFps > 0.)) {
+             ALOGE("Invalid mCaptureFps value: %lf", mCaptureFps);
+             return BAD_VALUE;
+@@ -2044,6 +2044,7 @@ status_t StagefrightRecorder::setupVideoEncoder(
+             preferBFrames = false;
+             tsLayers = 2; // use at least two layers as resulting video will likely be sped up
+         } else if (mCaptureFps > maxPlaybackFps) { // slow-mo
++            format->setInt32("high-frame-rate", 1);
+             maxPlaybackFps = mCaptureFps; // assume video will be played back at full capture speed
+             preferBFrames = false;
+         }
+diff --git a/media/libstagefright/CameraSource.cpp b/media/libstagefright/CameraSource.cpp
+index 91a7b231a1..1ae4c08f9f 100644
+--- a/media/libstagefright/CameraSource.cpp
++++ b/media/libstagefright/CameraSource.cpp
+@@ -343,6 +343,12 @@ status_t CameraSource::isCameraColorFormatSupported(
+     return OK;
+ }
+ 
++static int32_t getHighSpeedFrameRate(const CameraParameters& params) {
++    const char* hsr = params.get("video-hsr");
++    int32_t rate = (hsr != NULL && strncmp(hsr, "off", 3)) ? strtol(hsr, NULL, 10) : 0;
++    return std::min(rate, 240);
++}
++
+ /*
+  * Configure the camera to use the requested video size
+  * (width and height) and/or frame rate. If both width and
+@@ -390,11 +396,15 @@ status_t CameraSource::configureCamera(
+     }
+ 
+     if (frameRate != -1) {
+-        CHECK(frameRate > 0 && frameRate <= 120);
++        CHECK(frameRate > 0 && frameRate <= 240);
+         const char* supportedFrameRates =
+                 params->get(CameraParameters::KEY_SUPPORTED_PREVIEW_FRAME_RATES);
+         CHECK(supportedFrameRates != NULL);
+         ALOGV("Supported frame rates: %s", supportedFrameRates);
++        if (getHighSpeedFrameRate(*params)) {
++            ALOGI("Use default 30fps for HighSpeed %dfps", frameRate);
++            frameRate = 30;
++        }
+         char buf[4];
+         snprintf(buf, 4, "%d", frameRate);
+         if (strstr(supportedFrameRates, buf) == NULL) {
+@@ -496,6 +506,8 @@ status_t CameraSource::checkFrameRate(
+         ALOGE("Failed to retrieve preview frame rate (%d)", frameRateActual);
+         return UNKNOWN_ERROR;
+     }
++    int32_t highSpeedRate = getHighSpeedFrameRate(params);
++    frameRateActual = highSpeedRate ? highSpeedRate : frameRateActual;
+ 
+     // Check the actual video frame rate against the target/requested
+     // video frame rate.
+diff --git a/media/libstagefright/CameraSourceTimeLapse.cpp b/media/libstagefright/CameraSourceTimeLapse.cpp
+index e0a6eb3a57..a00a1786ae 100644
+--- a/media/libstagefright/CameraSourceTimeLapse.cpp
++++ b/media/libstagefright/CameraSourceTimeLapse.cpp
+@@ -298,7 +298,8 @@ bool CameraSourceTimeLapse::skipFrameAndModifyTimeStamp(int64_t *timestampUs) {
+     // The first 2 output frames from the encoder are: decoder specific info and
+     // the compressed video frame data for the first input video frame.
+     if (mNumFramesEncoded >= 1 && *timestampUs <
+-        (mLastTimeLapseFrameRealTimestampUs + mTimeBetweenFrameCaptureUs)) {
++        (mLastTimeLapseFrameRealTimestampUs + mTimeBetweenFrameCaptureUs) &&
++        (mTimeBetweenFrameCaptureUs > mTimeBetweenTimeLapseVideoFramesUs + 1)) {
+         // Skip all frames from last encoded frame until
+         // sufficient time (mTimeBetweenFrameCaptureUs) has passed.
+         // Tell the camera to release its recording frame and return.
+@@ -313,6 +314,12 @@ bool CameraSourceTimeLapse::skipFrameAndModifyTimeStamp(int64_t *timestampUs) {
+ 
+         mLastTimeLapseFrameRealTimestampUs = *timestampUs;
+         *timestampUs = mLastFrameTimestampUs + mTimeBetweenTimeLapseVideoFramesUs;
++        // Update start-time once the captured-time reaches the expected start-time.
++        // Not doing so will result in CameraSource always dropping frames since
++        // updated-timestamp will never intersect start-timestamp
++        if ((mNumFramesReceived == 0 && mLastTimeLapseFrameRealTimestampUs >= mStartTimeUs)) {
++            mStartTimeUs = *timestampUs;
++        }
+         return false;
+     }
+     return false;
+-- 
+2.34.1
+

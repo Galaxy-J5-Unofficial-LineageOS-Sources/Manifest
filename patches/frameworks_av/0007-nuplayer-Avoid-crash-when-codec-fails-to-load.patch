@@ -1,0 +1,29 @@
+From 8ea203b26e4bc5bd806a41f1c7f377a0c149d52b Mon Sep 17 00:00:00 2001
+From: Steve Kondik <steve@cyngn.com>
+Date: Tue, 15 Dec 2015 05:44:18 -0500
+Subject: [PATCH 07/18] nuplayer: Avoid crash when codec fails to load
+
+ * Remove unnecessary check condition.
+
+Change-Id: I3267a0c13165d74a2ea90333b42f000b51ace98b
+---
+ media/libmediaplayerservice/nuplayer/NuPlayer.cpp | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/media/libmediaplayerservice/nuplayer/NuPlayer.cpp b/media/libmediaplayerservice/nuplayer/NuPlayer.cpp
+index 9b4fc8f036..1167f3f629 100644
+--- a/media/libmediaplayerservice/nuplayer/NuPlayer.cpp
++++ b/media/libmediaplayerservice/nuplayer/NuPlayer.cpp
+@@ -2376,9 +2376,6 @@ void NuPlayer::performDecoderFlush(FlushCommand audio, FlushCommand video) {
+ void NuPlayer::performReset() {
+     ALOGV("performReset");
+ 
+-    CHECK(mAudioDecoder == NULL);
+-    CHECK(mVideoDecoder == NULL);
+-
+     updatePlaybackTimer(true /* stopping */, "performReset");
+     updateRebufferingTimer(true /* stopping */, true /* exiting */);
+ 
+-- 
+2.34.1
+
