@@ -89,6 +89,11 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-Syst
 patch -d frameworks/native -p1 < ".repo/manifests/patches/frameworks_native/0001-SurfaceFlinger-Don't-cleanup-resources-from-previous-frame.patch"
 ```
 
+```frameworks/opt/telephony ```
+```
+patch -d frameworks/opt/telephony -p1 < .repo/manifests/patches/frameworks_opt_telephony/0010-RILUtils-initialize-mSlotPortMapping-for-Radio-1.0.patch
+```
+
 ``` hardware/interfaces ```
 ```
 repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
