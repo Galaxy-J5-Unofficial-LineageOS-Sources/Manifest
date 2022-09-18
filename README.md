@@ -57,6 +57,28 @@ patch -d bionic -p1 < .repo/manifests/patches/bionic/0008-Restore-Shim.patch
 patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/0001-perfetto-Conditionally-remove-version-check-for-memf.patch
 ```
 
+```frameworks/av ```
+```
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-libcameraservice-massive-revert-to-Android-12-state.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Camera-Restore-camera-HALv1-support-1-2.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0003-Camera-Add-extensions-to-CameraClient.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0004-Camera-CameraHardwareInterface-changes-to-support-Ex.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0005-Camera-Miscellaneous-fixes-in-QDataCallback-and-bind.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0006-camera-Only-link-and-use-vendor.qti.hardware.camera..patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0007-nuplayer-Avoid-crash-when-codec-fails-to-load.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0008-camera-Don-t-segfault-if-we-get-a-NULL-parameter.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0009-libstagefright-Support-YVU420SemiPlanar-camera-forma.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0010-stagefright-omx-Don-t-signal-dataspace-change-on-leg.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0011-stagefright-ACodec-Resolve-empty-vendor-parameters-u.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0012-libstagefright-Free-buffers-on-observer-died.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0013-libstagefright-use-64-bit-usage-for-native_window_se.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0014-camera-include-Don-t-override-possible-overlayed-hea.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0015-Camera-check-metadata-type-before-releasing-frame.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0016-stagefright-add-changes-related-to-high-framerates-i.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0017-Camera-Add-support-for-preview-frame-fd.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0018-CameraSource.cpp-support-PIXEL_FORMAT_YUV420SP_NV21.patch
+```
+
 ```frameworks/base ```
 ```
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0002-Disable-vendor-mismatch-warning.patch
@@ -64,6 +86,13 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0012-core
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-Revert-Fix-process-group-of-webview-zygote.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/fw.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0003-Add-support-for-app-signature-spoofing.patch
+
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-camera2-Add-methods-for-backward-compatibility.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0004-CameraServiceProxy-Loosen-UID-check-conditionally.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0007-Revert-Camera-Injection.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0008-Camera-Restore-camera-HALv1-support-2-2.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0009-Camera-Add-feature-extensions.patch
+patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0016-hax-for-gcam-go.patch
 ```
 
 ```frameworks/libs/net ```
@@ -85,6 +114,8 @@ patch -d frameworks/native -p1 < .repo/manifests/patches/frameworks_native/0003-
 ```
 patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_interfaces/0001-Revert-audio-use-binder-threadpool.patch
 patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_interfaces/0001-Revert-load-bluetooth-aidl.patch
+repopick -P hardware/interfaces 320531-320532       # twelve-qcom-cam
+patch -d hardware/interfaces -p1 < .repo/manifests/patches/hardware_interfaces/0001-interfaces_drop_qti_camera_device_defaults.patch
 ```
 
 ```hardware/lineage/interfaces ```
