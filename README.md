@@ -22,7 +22,6 @@ Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
 curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-20.0-permissive-GApps/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-20.0-permissive-GApps/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
 
 ```
 <br/>
@@ -174,13 +173,6 @@ patch -d system/libhidl -p1 < .repo/manifests/patches/system_libhidl/0001-delete
 patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0001-netd-Allow-devices-to-force-add-directly-connected-r.patch
 patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0002-Revert-netd-make-BandwidthController-startup-failure.patch
 ```
-
-```vendor/partner_gms ```
-```
-patch -d vendor/partner_gms -p1 < .repo/manifests/patches/vendor_partner_gms/0001-Minimal-GMS-For-J5-Devices.patch
-```
-
-
 <br/>
 
 Build:
