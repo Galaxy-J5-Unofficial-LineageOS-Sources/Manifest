@@ -1,0 +1,30 @@
+From d884a964a5ef184715bc3c49c54048e9369ea77d Mon Sep 17 00:00:00 2001
+From: Yaroslav Zviezda <acroreiser@gmail.com>
+Date: Sat, 6 Nov 2021 00:43:15 +0300
+Subject: [PATCH 16/28] hax for gcam-go
+
+Change-Id: I4a8442c1672e9c405e232b22434f252539d5c733
+---
+ .../hardware/camera2/legacy/CameraDeviceUserShim.java       | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/core/java/android/hardware/camera2/legacy/CameraDeviceUserShim.java b/core/java/android/hardware/camera2/legacy/CameraDeviceUserShim.java
+index 74a8f5755446..0188b83c240c 100644
+--- a/core/java/android/hardware/camera2/legacy/CameraDeviceUserShim.java
++++ b/core/java/android/hardware/camera2/legacy/CameraDeviceUserShim.java
+@@ -667,6 +667,12 @@ public class CameraDeviceUserShim implements ICameraDeviceUser {
+             throw new ServiceSpecificException(ICameraService.ERROR_DISCONNECTED, err);
+         }
+ 
++        if (templateId == 5)
++        {
++            String err = "createDefaultRequest - invalid templateId 5 specified, forcing to 3";
++            Log.w(TAG, err);
++            templateId = 3;
++        }
+         CameraMetadataNative template;
+         try {
+             template =
+-- 
+2.34.1
+

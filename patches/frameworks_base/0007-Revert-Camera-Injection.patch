@@ -1,0 +1,824 @@
+From 9e25b471052ac3b7e3cff084a881dceef624a728 Mon Sep 17 00:00:00 2001
+From: Yaroslav Zviezda <acroreiser@gmail.com>
+Date: Sun, 18 Sep 2022 04:53:18 +0300
+Subject: [PATCH 07/28] Revert Camera Injection
+
+This code breaks camera HAL1 restoration and pointless for HAL1 devices.
+
+Change-Id: I901f29496e9443bdf892f544a27d9757d52c192a
+---
+ .../camera2/CameraInjectionSession.java       | 128 ----------
+ .../hardware/camera2/CameraManager.java       | 144 +-----------
+ .../impl/CameraInjectionSessionImpl.java      | 219 ------------------
+ core/res/AndroidManifest.xml                  |   5 -
+ .../virtual/CameraAccessController.java       | 124 ----------
+ .../server/camera/CameraServiceProxy.java     |  21 --
+ 6 files changed, 2 insertions(+), 639 deletions(-)
+ delete mode 100644 core/java/android/hardware/camera2/CameraInjectionSession.java
+ delete mode 100644 core/java/android/hardware/camera2/impl/CameraInjectionSessionImpl.java
+
+diff --git a/core/java/android/hardware/camera2/CameraInjectionSession.java b/core/java/android/hardware/camera2/CameraInjectionSession.java
+deleted file mode 100644
+index bd5a4bcd77d7..000000000000
+--- a/core/java/android/hardware/camera2/CameraInjectionSession.java
++++ /dev/null
+@@ -1,128 +0,0 @@
+-/*
+- * Copyright (C) 2021 The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package android.hardware.camera2;
+-
+-import android.annotation.IntDef;
+-import android.annotation.NonNull;
+-
+-import java.lang.annotation.Retention;
+-import java.lang.annotation.RetentionPolicy;
+-
+-/**
+- * <p>The CameraInjectionSession class is what determines when injection is active.</p>
+- *
+- * <p>Your application must declare the
+- * {@link android.Manifest.permission#CAMERA_INJECT_EXTERNAL_CAMERA CAMERA} permission in its
+- * manifest in order to use camera injection function.</p>
+- *
+- * @hide
+- * @see CameraManager#injectCamera
+- * @see android.Manifest.permission#CAMERA_INJECT_EXTERNAL_CAMERA
+- */
+-public abstract class CameraInjectionSession implements AutoCloseable {
+-
+-    /**
+-     * Close the external camera and switch back to the internal camera.
+-     *
+-     * <p>Call the method when app streaming stops or the app exits, it switch back to the internal
+-     * camera.</p>
+-     */
+-    @Override
+-    public abstract void close();
+-
+-    /**
+-     * A callback for external camera has a success or an error during injecting.
+-     *
+-     * <p>A callback instance must be provided to the {@link CameraManager#injectCamera} method to
+-     * inject camera.</p>
+-     *
+-     * @hide
+-     * @see CameraManager#injectCamera
+-     */
+-    public abstract static class InjectionStatusCallback {
+-
+-        /**
+-         * An error code that can be reported by {@link #onInjectionError} indicating that the
+-         * camera injection session has encountered a fatal error.
+-         *
+-         * @see #onInjectionError
+-         */
+-        public static final int ERROR_INJECTION_SESSION = 0;
+-
+-        /**
+-         * An error code that can be reported by {@link #onInjectionError} indicating that the
+-         * camera service has encountered a fatal error.
+-         *
+-         * <p>The Android device may need to be shut down and restarted to restore
+-         * camera function, or there may be a persistent hardware problem.</p>
+-         *
+-         * <p>An attempt at recovery <i>may</i> be possible by closing the
+-         * CameraDevice and the CameraManager, and trying to acquire all resources again from
+-         * scratch.</p>
+-         *
+-         * @see #onInjectionError
+-         */
+-        public static final int ERROR_INJECTION_SERVICE = 1;
+-
+-        /**
+-         * An error code that can be reported by {@link #onInjectionError} indicating that the
+-         * injection camera does not support certain camera functions. When this error occurs, the
+-         * default processing is still in the inject state, and the app is notified to display an
+-         * error message and a black screen.
+-         *
+-         * @see #onInjectionError
+-         */
+-        public static final int ERROR_INJECTION_UNSUPPORTED = 2;
+-
+-        /**
+-         * @hide
+-         */
+-        @Retention(RetentionPolicy.SOURCE)
+-        @IntDef(prefix = {"ERROR_"}, value =
+-                {ERROR_INJECTION_SESSION,
+-                        ERROR_INJECTION_SERVICE,
+-                        ERROR_INJECTION_UNSUPPORTED})
+-        public @interface ErrorCode {};
+-
+-        /**
+-         * The method will be called when an external camera has been injected and replaced
+-         * internal camera's feed.
+-         *
+-         * @param injectionSession The camera injection session that has been injected.
+-         */
+-        public abstract void onInjectionSucceeded(
+-                @NonNull CameraInjectionSession injectionSession);
+-
+-        /**
+-         * The method will be called when an error occurs in the injected external camera.
+-         *
+-         * @param errorCode   The error code.
+-         * @see #ERROR_INJECTION_SESSION
+-         * @see #ERROR_INJECTION_SERVICE
+-         * @see #ERROR_INJECTION_UNSUPPORTED
+-         */
+-        public abstract void onInjectionError(@NonNull int errorCode);
+-    }
+-
+-    /**
+-     * To be inherited by android.hardware.camera2.* code only.
+-     *
+-     * @hide
+-     */
+-    public CameraInjectionSession() {
+-    }
+-}
+diff --git a/core/java/android/hardware/camera2/CameraManager.java b/core/java/android/hardware/camera2/CameraManager.java
+index d6d3a97687b5..9cd06dfc143a 100644
+--- a/core/java/android/hardware/camera2/CameraManager.java
++++ b/core/java/android/hardware/camera2/CameraManager.java
+@@ -30,7 +30,6 @@ import android.hardware.CameraStatus;
+ import android.hardware.ICameraService;
+ import android.hardware.ICameraServiceListener;
+ import android.hardware.camera2.impl.CameraDeviceImpl;
+-import android.hardware.camera2.impl.CameraInjectionSessionImpl;
+ import android.hardware.camera2.impl.CameraMetadataNative;
+ import android.hardware.camera2.params.ExtensionSessionConfiguration;
+ import android.hardware.camera2.params.SessionConfiguration;
+@@ -1098,7 +1097,6 @@ public final class CameraManager {
+         if (CameraManagerGlobal.sCameraServiceDisabled) {
+             throw new IllegalArgumentException("No camera available on device");
+         }
+-        CameraManagerGlobal.get().turnOnTorchWithStrengthLevel(cameraId, torchStrength);
+     }
+ 
+     /**
+@@ -1121,10 +1119,7 @@ public final class CameraManager {
+      */
+     public int getTorchStrengthLevel(@NonNull String cameraId)
+             throws CameraAccessException {
+-        if (CameraManagerGlobal.sCameraServiceDisabled) {
+-            throw new IllegalArgumentException("No camera available on device.");
+-        }
+-        return CameraManagerGlobal.get().getTorchStrengthLevel(cameraId);
++        return 0;
+     }
+ 
+     /**
+@@ -1426,67 +1421,6 @@ public final class CameraManager {
+         return false;
+     }
+ 
+-    /**
+-     * Inject the external camera to replace the internal camera session.
+-     *
+-     * <p>If injecting the external camera device fails, then the injection callback's
+-     * {@link CameraInjectionSession.InjectionStatusCallback#onInjectionError
+-     * onInjectionError} method will be called.</p>
+-     *
+-     * @param packageName   It scopes the injection to a particular app.
+-     * @param internalCamId The id of one of the physical or logical cameras on the phone.
+-     * @param externalCamId The id of one of the remote cameras that are provided by the dynamic
+-     *                      camera HAL.
+-     * @param executor      The executor which will be used when invoking the callback.
+-     * @param callback      The callback which is invoked once the external camera is injected.
+-     *
+-     * @throws CameraAccessException    If the camera device has been disconnected.
+-     *                                  {@link CameraAccessException#CAMERA_DISCONNECTED} will be
+-     *                                  thrown if camera service is not available.
+-     * @throws SecurityException        If the specific application that can cast to external
+-     *                                  devices does not have permission to inject the external
+-     *                                  camera.
+-     * @throws IllegalArgumentException If cameraId doesn't match any currently or previously
+-     *                                  available camera device or some camera functions might not
+-     *                                  work properly or the injection camera runs into a fatal
+-     *                                  error.
+-     * @hide
+-     */
+-    @RequiresPermission(android.Manifest.permission.CAMERA_INJECT_EXTERNAL_CAMERA)
+-    public void injectCamera(@NonNull String packageName, @NonNull String internalCamId,
+-            @NonNull String externalCamId, @NonNull @CallbackExecutor Executor executor,
+-            @NonNull CameraInjectionSession.InjectionStatusCallback callback)
+-            throws CameraAccessException, SecurityException,
+-            IllegalArgumentException {
+-        if (CameraManagerGlobal.sCameraServiceDisabled) {
+-            throw new IllegalArgumentException("No cameras available on device");
+-        }
+-        ICameraService cameraService = CameraManagerGlobal.get().getCameraService();
+-        if (cameraService == null) {
+-            throw new CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED,
+-                    "Camera service is currently unavailable");
+-        }
+-        synchronized (mLock) {
+-            try {
+-                CameraInjectionSessionImpl injectionSessionImpl =
+-                        new CameraInjectionSessionImpl(callback, executor);
+-                ICameraInjectionCallback cameraInjectionCallback =
+-                        injectionSessionImpl.getCallback();
+-                ICameraInjectionSession injectionSession = cameraService.injectCamera(packageName,
+-                        internalCamId, externalCamId, cameraInjectionCallback);
+-                injectionSessionImpl.setRemoteInjectionSession(injectionSession);
+-            } catch (ServiceSpecificException e) {
+-                throwAsPublicException(e);
+-            } catch (RemoteException e) {
+-                // Camera service died - act as if it's a CAMERA_DISCONNECTED case
+-                ServiceSpecificException sse = new ServiceSpecificException(
+-                        ICameraService.ERROR_DISCONNECTED,
+-                        "Camera service is currently unavailable");
+-                throwAsPublicException(sse);
+-            }
+-        }
+-    }
+-
+     /**
+      * A per-process global camera manager instance, to retain a connection to the camera service,
+      * and to distribute camera availability notices to API-registered callbacks
+@@ -1752,10 +1686,6 @@ public final class CameraManager {
+                 public void onTorchStatusChanged(int status, String id) throws RemoteException {
+                 }
+                 @Override
+-                public void onTorchStrengthLevelChanged(String id, int newStrengthLevel)
+-                        throws RemoteException {
+-                }
+-                @Override
+                 public void onCameraAccessPrioritiesChanged() {
+                 }
+                 @Override
+@@ -1941,52 +1871,10 @@ public final class CameraManager {
+ 
+         public void turnOnTorchWithStrengthLevel(String cameraId, int torchStrength) throws
+                 CameraAccessException {
+-            synchronized(mLock) {
+-
+-                if (cameraId == null) {
+-                    throw new IllegalArgumentException("cameraId was null");
+-                }
+-
+-                ICameraService cameraService = getCameraService();
+-                if (cameraService == null) {
+-                    throw new CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED,
+-                        "Camera service is currently unavailable.");
+-                }
+-
+-                try {
+-                    cameraService.turnOnTorchWithStrengthLevel(cameraId, torchStrength,
+-                            mTorchClientBinder);
+-                } catch(ServiceSpecificException e) {
+-                    throwAsPublicException(e);
+-                } catch (RemoteException e) {
+-                    throw new CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED,
+-                            "Camera service is currently unavailable.");
+-                }
+-            }
+         }
+ 
+         public int getTorchStrengthLevel(String cameraId) throws CameraAccessException {
+             int torchStrength = 0;
+-            synchronized(mLock) {
+-                if (cameraId == null) {
+-                    throw new IllegalArgumentException("cameraId was null");
+-                }
+-
+-                ICameraService cameraService = getCameraService();
+-                if (cameraService == null) {
+-                    throw new CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED,
+-                        "Camera service is currently unavailable.");
+-                }
+-
+-                try {
+-                    torchStrength = cameraService.getTorchStrengthLevel(cameraId);
+-                } catch(ServiceSpecificException e) {
+-                    throwAsPublicException(e);
+-                } catch (RemoteException e) {
+-                    throw new CameraAccessException(CameraAccessException.CAMERA_DISCONNECTED,
+-                            "Camera service is currently unavailable.");
+-                }
+-            }
+             return torchStrength;
+         }
+ 
+@@ -2151,14 +2039,7 @@ public final class CameraManager {
+ 
+         private void postSingleTorchStrengthLevelUpdate(final TorchCallback callback,
+                  final Executor executor, final String id, final int newStrengthLevel) {
+-            final long ident = Binder.clearCallingIdentity();
+-            try {
+-                executor.execute(() -> {
+-                    callback.onTorchStrengthLevelChanged(id, newStrengthLevel);
+-                });
+-            } finally {
+-                Binder.restoreCallingIdentity(ident);
+-            }
++
+         }
+ 
+         /**
+@@ -2345,19 +2226,6 @@ public final class CameraManager {
+         } // onTorchStatusChangedLocked
+ 
+         private void onTorchStrengthLevelChangedLocked(String cameraId, int newStrengthLevel) {
+-            if (DEBUG) {
+-
+-                Log.v(TAG,
+-                        String.format("Camera id %s has torch strength level changed to %d",
+-                            cameraId, newStrengthLevel));
+-            }
+-
+-            final int callbackCount = mTorchCallbackMap.size();
+-            for (int i = 0; i < callbackCount; i++) {
+-                final Executor executor = mTorchCallbackMap.valueAt(i);
+-                final TorchCallback callback = mTorchCallbackMap.keyAt(i);
+-                postSingleTorchStrengthLevelUpdate(callback, executor, cameraId, newStrengthLevel);
+-            }
+         } // onTorchStrengthLevelChanged
+ 
+         /**
+@@ -2450,14 +2318,6 @@ public final class CameraManager {
+             }
+         }
+ 
+-        @Override
+-        public void onTorchStrengthLevelChanged(String cameraId, int newStrengthLevel)
+-                throws RemoteException {
+-            synchronized (mLock) {
+-                onTorchStrengthLevelChangedLocked(cameraId, newStrengthLevel);
+-            }
+-        }
+-
+         @Override
+         public void onCameraAccessPrioritiesChanged() {
+             synchronized (mLock) {
+diff --git a/core/java/android/hardware/camera2/impl/CameraInjectionSessionImpl.java b/core/java/android/hardware/camera2/impl/CameraInjectionSessionImpl.java
+deleted file mode 100644
+index 231cc05ad7cf..000000000000
+--- a/core/java/android/hardware/camera2/impl/CameraInjectionSessionImpl.java
++++ /dev/null
+@@ -1,219 +0,0 @@
+-/*
+- * Copyright (C) 2021 The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *      http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+-
+-package android.hardware.camera2.impl;
+-
+-import static com.android.internal.util.function.pooled.PooledLambda.obtainRunnable;
+-
+-import android.hardware.camera2.CameraInjectionSession;
+-import android.hardware.camera2.ICameraInjectionCallback;
+-import android.hardware.camera2.ICameraInjectionSession;
+-import android.os.Binder;
+-import android.os.IBinder;
+-import android.os.RemoteException;
+-import android.util.Log;
+-
+-import java.util.concurrent.Executor;
+-
+-
+-/**
+- * The class inherits CameraInjectionSession. Use CameraManager#injectCamera to instantiate.
+- */
+-public class CameraInjectionSessionImpl extends CameraInjectionSession
+-        implements IBinder.DeathRecipient {
+-    private static final String TAG = "CameraInjectionSessionImpl";
+-
+-    private final CameraInjectionCallback mCallback = new CameraInjectionCallback();
+-    private final CameraInjectionSession.InjectionStatusCallback mInjectionStatusCallback;
+-    private final Executor mExecutor;
+-    private final Object mInterfaceLock = new Object();
+-    private ICameraInjectionSession mInjectionSession;
+-
+-    public CameraInjectionSessionImpl(InjectionStatusCallback callback, Executor executor) {
+-        mInjectionStatusCallback = callback;
+-        mExecutor = executor;
+-    }
+-
+-    @Override
+-    public void close() {
+-        synchronized (mInterfaceLock) {
+-            try {
+-                if (mInjectionSession != null) {
+-                    mInjectionSession.stopInjection();
+-                    mInjectionSession.asBinder().unlinkToDeath(this, /*flags*/0);
+-                    mInjectionSession = null;
+-                }
+-            } catch (RemoteException e) {
+-                // Ignore binder errors for disconnect
+-            }
+-        }
+-    }
+-
+-    @Override
+-    protected void finalize() throws Throwable {
+-        try {
+-            close();
+-        } finally {
+-            super.finalize();
+-        }
+-    }
+-
+-    @Override
+-    public void binderDied() {
+-        synchronized (mInterfaceLock) {
+-            Log.w(TAG, "CameraInjectionSessionImpl died unexpectedly");
+-
+-            if (mInjectionSession == null) {
+-                return; // CameraInjectionSession already closed
+-            }
+-
+-            Runnable r = new Runnable() {
+-                @Override
+-                public void run() {
+-                    mInjectionStatusCallback.onInjectionError(
+-                            CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SERVICE);
+-                }
+-            };
+-            final long ident = Binder.clearCallingIdentity();
+-            try {
+-                CameraInjectionSessionImpl.this.mExecutor.execute(r);
+-            } finally {
+-                Binder.restoreCallingIdentity(ident);
+-            }
+-        }
+-    }
+-
+-    public CameraInjectionCallback getCallback() {
+-        return mCallback;
+-    }
+-
+-    /**
+-     * Set remote injection session, which triggers initial onInjectionSucceeded callbacks.
+-     *
+-     * <p>This function may post onInjectionError if remoteInjectionSession dies
+-     * during injecting.</p>
+-     */
+-    public void setRemoteInjectionSession(ICameraInjectionSession injectionSession) {
+-        synchronized (mInterfaceLock) {
+-            if (injectionSession == null) {
+-                Log.e(TAG, "The camera injection session has encountered a serious error");
+-                scheduleNotifyError(
+-                        CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SESSION);
+-                return;
+-            }
+-
+-            mInjectionSession = injectionSession;
+-
+-            IBinder remoteSessionBinder = injectionSession.asBinder();
+-            if (remoteSessionBinder == null) {
+-                Log.e(TAG, "The camera injection session has encountered a serious error");
+-                scheduleNotifyError(
+-                        CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SESSION);
+-                return;
+-            }
+-
+-            final long ident = Binder.clearCallingIdentity();
+-            try {
+-                remoteSessionBinder.linkToDeath(this, /*flag*/ 0);
+-                mExecutor.execute(new Runnable() {
+-                    @Override
+-                    public void run() {
+-                        mInjectionStatusCallback
+-                                .onInjectionSucceeded(CameraInjectionSessionImpl.this);
+-                    }
+-                });
+-            } catch (RemoteException e) {
+-                scheduleNotifyError(
+-                        CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SESSION);
+-            } finally {
+-                Binder.restoreCallingIdentity(ident);
+-            }
+-        }
+-    }
+-
+-    /**
+-     * The method called when the injection camera has encountered a serious error.
+-     *
+-     * @param errorCode The error code.
+-     * @see #ERROR_INJECTION_SESSION
+-     * @see #ERROR_INJECTION_SERVICE
+-     * @see #ERROR_INJECTION_UNSUPPORTED
+-     */
+-    public void onInjectionError(final int errorCode) {
+-        Log.v(TAG, String.format(
+-                "Injection session error received, code %d", errorCode));
+-
+-        synchronized (mInterfaceLock) {
+-            if (mInjectionSession == null) {
+-                return; // mInjectionSession already closed
+-            }
+-
+-            switch (errorCode) {
+-                case CameraInjectionCallback.ERROR_INJECTION_SESSION:
+-                    scheduleNotifyError(
+-                            CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SESSION);
+-                    break;
+-                case CameraInjectionCallback.ERROR_INJECTION_SERVICE:
+-                    scheduleNotifyError(
+-                            CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SERVICE);
+-                    break;
+-                case CameraInjectionCallback.ERROR_INJECTION_UNSUPPORTED:
+-                    scheduleNotifyError(
+-                            CameraInjectionSession.InjectionStatusCallback
+-                                    .ERROR_INJECTION_UNSUPPORTED);
+-                    break;
+-                default:
+-                    Log.e(TAG, "Unknown error from injection session: " + errorCode);
+-                    scheduleNotifyError(
+-                            CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_SERVICE);
+-            }
+-        }
+-    }
+-
+-    private void scheduleNotifyError(final int errorCode) {
+-        final long ident = Binder.clearCallingIdentity();
+-        try {
+-            mExecutor.execute(obtainRunnable(
+-                    CameraInjectionSessionImpl::notifyError,
+-                    this, errorCode).recycleOnUse());
+-        } finally {
+-            Binder.restoreCallingIdentity(ident);
+-        }
+-    }
+-
+-    private void notifyError(final int errorCode) {
+-        if (mInjectionSession != null) {
+-            mInjectionStatusCallback.onInjectionError(errorCode);
+-        }
+-    }
+-
+-    /**
+-     * The class inherits ICameraInjectionCallbacks.Stub. Use CameraManager#injectCamera to
+-     * instantiate.
+-     */
+-    public class CameraInjectionCallback extends ICameraInjectionCallback.Stub {
+-
+-        @Override
+-        public IBinder asBinder() {
+-            return this;
+-        }
+-
+-        @Override
+-        public void onInjectionError(int errorCode) {
+-            CameraInjectionSessionImpl.this.onInjectionError(errorCode);
+-        }
+-    }
+-}
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 7439b2f0921f..44c7e473fc7d 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -2630,11 +2630,6 @@
+     <permission android:name="android.permission.CAMERA_SEND_SYSTEM_EVENTS"
+         android:protectionLevel="signature|privileged" />
+ 
+-    <!-- Allows injecting the external camera to replace the internal camera.
+-        @hide -->
+-    <permission android:name="android.permission.CAMERA_INJECT_EXTERNAL_CAMERA"
+-        android:protectionLevel="signature" />
+-
+     <!-- =========================================== -->
+     <!-- Permissions associated with telephony state -->
+     <!-- =========================================== -->
+diff --git a/services/companion/java/com/android/server/companion/virtual/CameraAccessController.java b/services/companion/java/com/android/server/companion/virtual/CameraAccessController.java
+index ec0da490adcf..11daa7b05446 100644
+--- a/services/companion/java/com/android/server/companion/virtual/CameraAccessController.java
++++ b/services/companion/java/com/android/server/companion/virtual/CameraAccessController.java
+@@ -16,14 +16,12 @@
+ 
+ package com.android.server.companion.virtual;
+ 
+-import static android.hardware.camera2.CameraInjectionSession.InjectionStatusCallback.ERROR_INJECTION_UNSUPPORTED;
+ 
+ import android.annotation.NonNull;
+ import android.content.Context;
+ import android.content.pm.ApplicationInfo;
+ import android.content.pm.PackageManager;
+ import android.hardware.camera2.CameraAccessException;
+-import android.hardware.camera2.CameraInjectionSession;
+ import android.hardware.camera2.CameraManager;
+ import android.util.ArrayMap;
+ import android.util.Slog;
+@@ -49,9 +47,6 @@ class CameraAccessController extends CameraManager.AvailabilityCallback implemen
+     @GuardedBy("mLock")
+     private int mObserverCount = 0;
+ 
+-    @GuardedBy("mLock")
+-    private ArrayMap<String, InjectionSessionData> mPackageToSessionData = new ArrayMap<>();
+-
+     /**
+      * Mapping from camera ID to open camera app associations. Key is the camera id, value is the
+      * information of the app's uid and package name.
+@@ -59,11 +54,6 @@ class CameraAccessController extends CameraManager.AvailabilityCallback implemen
+     @GuardedBy("mLock")
+     private ArrayMap<String, OpenCameraInfo> mAppsToBlockOnVirtualDevice = new ArrayMap<>();
+ 
+-    static class InjectionSessionData {
+-        public int appUid;
+-        public ArrayMap<String, CameraInjectionSession> cameraIdToSession = new ArrayMap<>();
+-    }
+-
+     static class OpenCameraInfo {
+         public String packageName;
+         public int packageUid;
+@@ -128,12 +118,6 @@ class CameraAccessController extends CameraManager.AvailabilityCallback implemen
+                 int packageUid = openCameraInfo.packageUid;
+                 if (runningUids.contains(packageUid)) {
+                     final String packageName = openCameraInfo.packageName;
+-                    InjectionSessionData data = mPackageToSessionData.get(packageName);
+-                    if (data == null) {
+-                        data = new InjectionSessionData();
+-                        data.appUid = packageUid;
+-                        mPackageToSessionData.put(packageName, data);
+-                    }
+                     startBlocking(packageName, cameraId);
+                 }
+             }
+@@ -154,124 +138,16 @@ class CameraAccessController extends CameraManager.AvailabilityCallback implemen
+ 
+     @Override
+     public void onCameraOpened(@NonNull String cameraId, @NonNull String packageName) {
+-        synchronized (mLock) {
+-            try {
+-                final ApplicationInfo ainfo = mPackageManager.getApplicationInfo(packageName, 0);
+-                InjectionSessionData data = mPackageToSessionData.get(packageName);
+-                if (!mVirtualDeviceManagerInternal.isAppRunningOnAnyVirtualDevice(ainfo.uid)) {
+-                    OpenCameraInfo openCameraInfo = new OpenCameraInfo();
+-                    openCameraInfo.packageName = packageName;
+-                    openCameraInfo.packageUid = ainfo.uid;
+-                    mAppsToBlockOnVirtualDevice.put(cameraId, openCameraInfo);
+-                    CameraInjectionSession existingSession =
+-                            (data != null) ? data.cameraIdToSession.get(cameraId) : null;
+-                    if (existingSession != null) {
+-                        existingSession.close();
+-                        data.cameraIdToSession.remove(cameraId);
+-                        if (data.cameraIdToSession.isEmpty()) {
+-                            mPackageToSessionData.remove(packageName);
+-                        }
+-                    }
+-                    return;
+-                }
+-                if (data == null) {
+-                    data = new InjectionSessionData();
+-                    data.appUid = ainfo.uid;
+-                    mPackageToSessionData.put(packageName, data);
+-                }
+-                if (data.cameraIdToSession.containsKey(cameraId)) {
+-                    return;
+-                }
+-                startBlocking(packageName, cameraId);
+-            } catch (PackageManager.NameNotFoundException e) {
+-                Slog.e(TAG, "onCameraOpened - unknown package " + packageName, e);
+-                return;
+-            }
+-        }
+     }
+ 
+     @Override
+     public void onCameraClosed(@NonNull String cameraId) {
+-        synchronized (mLock) {
+-            mAppsToBlockOnVirtualDevice.remove(cameraId);
+-            for (int i = mPackageToSessionData.size() - 1; i >= 0; i--) {
+-                InjectionSessionData data = mPackageToSessionData.valueAt(i);
+-                CameraInjectionSession session = data.cameraIdToSession.get(cameraId);
+-                if (session != null) {
+-                    session.close();
+-                    data.cameraIdToSession.remove(cameraId);
+-                    if (data.cameraIdToSession.isEmpty()) {
+-                        mPackageToSessionData.removeAt(i);
+-                    }
+-                }
+-            }
+-        }
+     }
+ 
+     /**
+      * Turns on blocking for a particular camera and package.
+      */
+     private void startBlocking(String packageName, String cameraId) {
+-        try {
+-            Slog.d(
+-                    TAG,
+-                    "startBlocking() cameraId: " + cameraId + " packageName: " + packageName);
+-            mCameraManager.injectCamera(packageName, cameraId, /* externalCamId */ "",
+-                    mContext.getMainExecutor(),
+-                    new CameraInjectionSession.InjectionStatusCallback() {
+-                        @Override
+-                        public void onInjectionSucceeded(
+-                                @NonNull CameraInjectionSession session) {
+-                            CameraAccessController.this.onInjectionSucceeded(cameraId, packageName,
+-                                    session);
+-                        }
+ 
+-                        @Override
+-                        public void onInjectionError(@NonNull int errorCode) {
+-                            CameraAccessController.this.onInjectionError(cameraId, packageName,
+-                                    errorCode);
+-                        }
+-                    });
+-        } catch (CameraAccessException e) {
+-            Slog.e(TAG,
+-                    "Failed to injectCamera for cameraId:" + cameraId + " package:" + packageName,
+-                    e);
+-        }
+-    }
+-
+-    private void onInjectionSucceeded(String cameraId, String packageName,
+-            @NonNull CameraInjectionSession session) {
+-        synchronized (mLock) {
+-            InjectionSessionData data = mPackageToSessionData.get(packageName);
+-            if (data == null) {
+-                Slog.e(TAG, "onInjectionSucceeded didn't find expected entry for package "
+-                        + packageName);
+-                session.close();
+-                return;
+-            }
+-            CameraInjectionSession existingSession = data.cameraIdToSession.put(cameraId, session);
+-            if (existingSession != null) {
+-                Slog.e(TAG, "onInjectionSucceeded found unexpected existing session for camera "
+-                        + cameraId);
+-                existingSession.close();
+-            }
+-        }
+-    }
+-
+-    private void onInjectionError(String cameraId, String packageName, @NonNull int errorCode) {
+-        if (errorCode != ERROR_INJECTION_UNSUPPORTED) {
+-            // ERROR_INJECTION_UNSUPPORTED means that there wasn't an external camera to map to the
+-            // internal camera, which is expected when using the injection interface as we are in
+-            // this class to simply block camera access. Any other error is unexpected.
+-            Slog.e(TAG, "Unexpected injection error code:" + errorCode + " for camera:" + cameraId
+-                    + " and package:" + packageName);
+-            return;
+-        }
+-        synchronized (mLock) {
+-            InjectionSessionData data = mPackageToSessionData.get(packageName);
+-            if (data != null) {
+-                mBlockedCallback.onCameraAccessBlocked(data.appUid);
+-            }
+-        }
+     }
+ }
+diff --git a/services/core/java/com/android/server/camera/CameraServiceProxy.java b/services/core/java/com/android/server/camera/CameraServiceProxy.java
+index 15bf74bf3c41..b134a9c09177 100644
+--- a/services/core/java/com/android/server/camera/CameraServiceProxy.java
++++ b/services/core/java/com/android/server/camera/CameraServiceProxy.java
+@@ -1019,28 +1019,7 @@ public class CameraServiceProxy extends SystemService
+     }
+ 
+     private boolean notifyUsbDeviceHotplugLocked(@NonNull UsbDevice device, boolean attached) {
+-        // Only handle external USB camera devices
+-        if (device.getHasVideoCapture()) {
+-            // Forward the usb hotplug event to the native camera service running in the
+-            // cameraserver
+-            // process.
+-            ICameraService cameraService = getCameraServiceRawLocked();
+-            if (cameraService == null) {
+-                Slog.w(TAG, "Could not notify cameraserver, camera service not available.");
+-                return false;
+-            }
+ 
+-            try {
+-                int eventType = attached ? ICameraService.EVENT_USB_DEVICE_ATTACHED
+-                        : ICameraService.EVENT_USB_DEVICE_DETACHED;
+-                mCameraServiceRaw.notifySystemEvent(eventType, new int[]{device.getDeviceId()});
+-            } catch (RemoteException e) {
+-                Slog.w(TAG, "Could not notify cameraserver, remote exception: " + e);
+-                // Not much we can do if camera service is dead.
+-                return false;
+-            }
+-            return true;
+-        }
+         return false;
+     }
+ 
+-- 
+2.34.1
+
