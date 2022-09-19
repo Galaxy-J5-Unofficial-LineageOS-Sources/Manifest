@@ -65,6 +65,7 @@ patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/0001-
 ```frameworks/av ```
 ```
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-libcameraservice-massive-revert-to-Android-12-state.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-Revert-Camera-Remove-old-recording-path-support.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Camera-Restore-camera-HALv1-support-1-2.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0003-Camera-Add-extensions-to-CameraClient.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0004-Camera-CameraHardwareInterface-changes-to-support-Ex.patch
