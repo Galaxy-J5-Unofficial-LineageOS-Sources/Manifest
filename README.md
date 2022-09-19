@@ -52,6 +52,11 @@ patch -d bionic -p1 < .repo/manifests/patches/bionic/0007-bionic-Support-wildcar
 patch -d bionic -p1 < .repo/manifests/patches/bionic/0008-Restore-Shim.patch
 ```
 
+```device/lineage/sepolicy```
+```
+patch -d device/lineage/sepolicy -p1 < .repo/manifests/patches/device_lineage_sepolicy/0001-legacy-camera-HAL1-sepolicy.patch
+```
+
 ```external/perfetto ```
 ```
 patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/0001-perfetto-Conditionally-remove-version-check-for-memf.patch
@@ -185,6 +190,12 @@ patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Camera-Add-f
 ```
 patch -d system/libhidl -p1 < .repo/manifests/patches/system_libhidl/0001-delete-gBn-sConstructorMap.patch
 
+```
+
+```system/netd ```
+```
+patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0001-netd-Allow-devices-to-force-add-directly-connected-r.patch
+patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0002-Revert-netd-make-BandwidthController-startup-failure.patch
 ```
 
 ```system/netd ```
