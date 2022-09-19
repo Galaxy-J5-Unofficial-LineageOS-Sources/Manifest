@@ -1,0 +1,278 @@
+From 20361355af2572915806f91b8d2039cf5d961246 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Mon, 19 Sep 2022 17:58:03 +0200
+Subject: [PATCH] Revert 'camera: Only link and use 
+ vendor.qti.hardware.camera.device if specified'
+
+Change-Id: I226f5c35b65c1912976566b357b5eb54835dcf08
+---
+ ...-Fix-memory-leak-due-to-lock-timeout.patch |  39 ++++++
+ ...t-legacy-HALv1-camera-in-mediaserver.patch | 126 ++++++++++++++++++
+ services/camera/libcameraservice/Android.bp   |   4 +-
+ .../device1/CameraHardwareInterface.cpp       |   2 -
+ .../device1/CameraHardwareInterface.h         |   8 --
+ 5 files changed, 167 insertions(+), 12 deletions(-)
+ create mode 100644 0001-libstagefright-Fix-memory-leak-due-to-lock-timeout.patch
+ create mode 100644 0002-Support-legacy-HALv1-camera-in-mediaserver.patch
+
+diff --git a/0001-libstagefright-Fix-memory-leak-due-to-lock-timeout.patch b/0001-libstagefright-Fix-memory-leak-due-to-lock-timeout.patch
+new file mode 100644
+index 0000000000..96a8c83b08
+--- /dev/null
++++ b/0001-libstagefright-Fix-memory-leak-due-to-lock-timeout.patch
+@@ -0,0 +1,39 @@
++From 5140fa8ec8528933256de23f305e97ebcb7990ed Mon Sep 17 00:00:00 2001
++From: Priyanka Gujjula <pgujjula@codeaurora.org>
++Date: Mon, 25 Mar 2019 21:11:18 +0530
++Subject: [PATCH 1/2] libstagefright: Fix memory leak due to lock timeout
++
++Memory leak has occurred when freeBuffer tries to
++acquire the lock which is acquired by freeNode and
++not released. Due to lock timeout in freeBuffer,
++buffers are never released.
++
++CRs-Fixed: 2423296
++
++Change-Id: I468a562a2d1c76ffc0e666c120a5bbbedece48d7
++---
++ media/libstagefright/omx/OMXNodeInstance.cpp | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/media/libstagefright/omx/OMXNodeInstance.cpp b/media/libstagefright/omx/OMXNodeInstance.cpp
++index eac17cd0ab..9a932a48c2 100644
++--- a/media/libstagefright/omx/OMXNodeInstance.cpp
+++++ b/media/libstagefright/omx/OMXNodeInstance.cpp
++@@ -580,11 +580,12 @@ status_t OMXNodeInstance::freeNode() {
++             break;
++     }
++ 
++-    Mutex::Autolock _l(mLock);
++-
++     if (mActiveBuffers.size() > 0) {
++         freeActiveBuffers();
++     }
+++
+++    Mutex::Autolock _l(mLock);
+++
++     status_t err = mOwner->freeNode(this);
++ 
++     mDispatcher.clear();
++-- 
++2.34.1
++
+diff --git a/0002-Support-legacy-HALv1-camera-in-mediaserver.patch b/0002-Support-legacy-HALv1-camera-in-mediaserver.patch
+new file mode 100644
+index 0000000000..1d20ac0748
+--- /dev/null
++++ b/0002-Support-legacy-HALv1-camera-in-mediaserver.patch
+@@ -0,0 +1,126 @@
++From 4466d0568e857e015d5b43c750e8b30c67044601 Mon Sep 17 00:00:00 2001
++From: daviiid99 <daviiideveloper@gmail.com>
++Date: Mon, 19 Sep 2022 17:46:07 +0200
++Subject: [PATCH 2/2] Support legacy HALv1 camera in mediaserver
++
++Change-Id: Ie92b3e20e5c47d62053287604a0ee3e90a03300f
++---
++ media/mediaserver/Android.bp                       |  4 ++++
++ media/mediaserver/main_mediaserver.cpp             | 12 ++++++++++++
++ services/camera/libcameraservice/Android.bp        |  5 +++++
++ services/camera/libcameraservice/CameraService.cpp | 10 ++++++++++
++ 4 files changed, 31 insertions(+)
++
++diff --git a/media/mediaserver/Android.bp b/media/mediaserver/Android.bp
++index edddaa4f90..001721ee9e 100644
++--- a/media/mediaserver/Android.bp
+++++ b/media/mediaserver/Android.bp
++@@ -29,6 +29,10 @@ cc_library_static {
++ cc_binary {
++     name: "mediaserver",
++ 
+++    defaults: [
+++        "camera_in_mediaserver_defaults",
+++    ],
+++
++     srcs: ["main_mediaserver.cpp"],
++ 
++     shared_libs: [
++diff --git a/media/mediaserver/main_mediaserver.cpp b/media/mediaserver/main_mediaserver.cpp
++index 026847a527..91d5ccb3e6 100644
++--- a/media/mediaserver/main_mediaserver.cpp
+++++ b/media/mediaserver/main_mediaserver.cpp
++@@ -25,6 +25,10 @@
++ #include <utils/Log.h>
++ #include "RegisterExtensions.h"
++ 
+++#ifdef NO_CAMERA_SERVER
+++#include "CameraService.h"
+++#include <hidl/HidlTransportSupport.h>
+++#endif
++ #include <MediaPlayerService.h>
++ #include <ResourceManagerService.h>
++ 
++@@ -34,11 +38,19 @@ int main(int argc __unused, char **argv __unused)
++ {
++     signal(SIGPIPE, SIG_IGN);
++ 
+++#ifdef NO_CAMERA_SERVER
+++    // Set 3 threads for HIDL calls
+++    hardware::configureRpcThreadpool(3, /*willjoin*/ false);
+++#endif
+++
++     sp<ProcessState> proc(ProcessState::self());
++     sp<IServiceManager> sm(defaultServiceManager());
++     ALOGI("ServiceManager: %p", sm.get());
++     MediaPlayerService::instantiate();
++     ResourceManagerService::instantiate();
+++#ifdef NO_CAMERA_SERVER
+++    CameraService::instantiate();
+++#endif
++     registerExtensions();
++     ::android::hardware::configureRpcThreadpool(16, false);
++     ProcessState::self()->startThreadPool();
++diff --git a/services/camera/libcameraservice/Android.bp b/services/camera/libcameraservice/Android.bp
++index cfc2dcf8df..15b617059a 100644
++--- a/services/camera/libcameraservice/Android.bp
+++++ b/services/camera/libcameraservice/Android.bp
++@@ -37,6 +37,11 @@ license {
++ 
++ cc_library_shared {
++     name: "libcameraservice",
+++
+++    defaults: [
+++        "no_cameraserver_defaults",
+++        "qti_camera_device_defaults",
+++    ],
++  
++     // Camera service source
++ 
++diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
++index 4cf74244f1..27cada1e1c 100644
++--- a/services/camera/libcameraservice/CameraService.cpp
+++++ b/services/camera/libcameraservice/CameraService.cpp
++@@ -1024,7 +1024,11 @@ int32_t CameraService::mapToInterface(StatusInternal status) {
++ Status CameraService::initializeShimMetadata(int cameraId) {
++     int uid = CameraThreadState::getCallingUid();
++ 
+++#ifdef NO_CAMERA_SERVER
+++    String16 internalPackageName("media");
+++#else
++     String16 internalPackageName("cameraserver");
+++#endif
++     String8 id = String8::format("%d", cameraId);
++     Status ret = Status::ok();
++     sp<Client> tmp = nullptr;
++@@ -1106,7 +1110,9 @@ Status CameraService::getLegacyParametersLazy(int cameraId,
++ static bool isTrustedCallingUid(uid_t uid) {
++     switch (uid) {
++         case AID_MEDIA:        // mediaserver
+++#ifndef NO_CAMERA_SERVER
++         case AID_CAMERASERVER: // cameraserver
+++#endif
++         case AID_RADIO:        // telephony
++             return true;
++         default:
++@@ -1239,6 +1245,8 @@ Status CameraService::validateClientPermissionsLocked(const String8& cameraId,
++                 clientName8.string(), clientUid, clientPid, cameraId.string());
++     }
++ 
+++
+++#ifndef NO_CAMERA_SERVER
++     // Make sure the UID is in an active state to use the camera
++     if (!mUidPolicy->isUidActive(callingUid, String16(clientName8))) {
++         int32_t procState = mUidPolicy->getProcState(callingUid);
++@@ -1251,6 +1259,8 @@ Status CameraService::validateClientPermissionsLocked(const String8& cameraId,
++                 callingUid, procState);
++     }
++ 
+++#endif
+++
++     // If sensor privacy is enabled then prevent access to the camera
++     if (mSensorPrivacyPolicy->isSensorPrivacyEnabled()) {
++         ALOGE("Access Denial: cannot use the camera when sensor privacy is enabled");
++-- 
++2.34.1
++
+diff --git a/services/camera/libcameraservice/Android.bp b/services/camera/libcameraservice/Android.bp
+index 15b617059a..eb693eb7ff 100644
+--- a/services/camera/libcameraservice/Android.bp
++++ b/services/camera/libcameraservice/Android.bp
+@@ -39,8 +39,7 @@ cc_library_shared {
+     name: "libcameraservice",
+ 
+     defaults: [
+-        "no_cameraserver_defaults",
+-        "qti_camera_device_defaults",
++        "no_cameraserver_defaults"
+     ],
+  
+     // Camera service source
+@@ -157,6 +156,7 @@ cc_library_shared {
+         "android.hardware.camera.provider@2.6",
+         "android.hardware.camera.provider@2.7",
+         "android.hardware.camera.device@1.0",
++        "vendor.qti.hardware.camera.device@1.0",
+         "android.hardware.camera.device@3.2",
+         "android.hardware.camera.device@3.3",
+         "android.hardware.camera.device@3.4",
+diff --git a/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp b/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp
+index 61cada61a9..3a18bbf043 100644
+--- a/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp
++++ b/services/camera/libcameraservice/device1/CameraHardwareInterface.cpp
+@@ -136,7 +136,6 @@ hardware::Return<void> CameraHardwareInterface::dataCallback(
+     return hardware::Void();
+ }
+ 
+-#ifdef QTI_CAMERA_DEVICE
+ hardware::Return<void> CameraHardwareInterface::QDataCallback(
+         DataCallbackMsg msgType, uint32_t data, uint32_t bufferIndex,
+         const vendor::qti::hardware::camera::device::V1_0::QCameraFrameMetadata& metadata) {
+@@ -155,7 +154,6 @@ hardware::Return<void> CameraHardwareInterface::QDataCallback(
+     sDataCb((int32_t) msgType, mem, bufferIndex, &md, this);
+     return hardware::Void();
+ }
+-#endif
+ 
+ hardware::Return<void> CameraHardwareInterface::dataCallbackTimestamp(
+         DataCallbackMsg msgType, uint32_t data,
+diff --git a/services/camera/libcameraservice/device1/CameraHardwareInterface.h b/services/camera/libcameraservice/device1/CameraHardwareInterface.h
+index 4a20b6a597..1d58e9ba16 100644
+--- a/services/camera/libcameraservice/device1/CameraHardwareInterface.h
++++ b/services/camera/libcameraservice/device1/CameraHardwareInterface.h
+@@ -29,9 +29,7 @@
+ #include <hardware/camera.h>
+ 
+ #include <common/CameraProviderManager.h>
+-#ifdef QTI_CAMERA_DEVICE
+ #include <vendor/qti/hardware/camera/device/1.0/IQCameraDeviceCallback.h>
+-#endif
+ 
+ namespace android {
+ 
+@@ -88,11 +86,7 @@ typedef void (*data_callback_timestamp_batch)(
+ 
+ class CameraHardwareInterface :
+         public virtual RefBase,
+-#ifdef QTI_CAMERA_DEVICE
+         public virtual vendor::qti::hardware::camera::device::V1_0::IQCameraDeviceCallback,
+-#else
+-        public virtual hardware::camera::device::V1_0::ICameraDeviceCallback,
+-#endif
+         public virtual hardware::camera::device::V1_0::ICameraDevicePreviewCallback {
+ 
+ public:
+@@ -402,12 +396,10 @@ private:
+             hardware::camera::device::V1_0::DataCallbackMsg msgType,
+             const hardware::hidl_vec<
+                     hardware::camera::device::V1_0::HandleTimestampMessage>&) override;
+-#ifdef QTI_CAMERA_DEVICE
+     hardware::Return<void> QDataCallback(
+             hardware::camera::device::V1_0::DataCallbackMsg msgType,
+             uint32_t data, uint32_t bufferIndex,
+             const vendor::qti::hardware::camera::device::V1_0::QCameraFrameMetadata& metadata) override;
+-#endif
+ 
+     /**
+      * Implementation of android::hardware::camera::device::V1_0::ICameraDevicePreviewCallback
+-- 
+2.34.1
+
