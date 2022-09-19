@@ -82,6 +82,8 @@ patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0015-Camera-c
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0016-stagefright-add-changes-related-to-high-framerates-i.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0017-Camera-Add-support-for-preview-frame-fd.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0018-CameraSource.cpp-support-PIXEL_FORMAT_YUV420SP_NV21.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-libstagefright-Fix-memory-leak-due-to-lock-timeout.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Support-legacy-HALv1-camera-in-mediaserver.patch
 ```
 
 ```frameworks/base ```
