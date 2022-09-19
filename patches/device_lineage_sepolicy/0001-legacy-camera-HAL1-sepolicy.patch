@@ -1,0 +1,45 @@
+From c29ccde3836cfdc8ed06867abca7628c47647dab Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Mon, 19 Sep 2022 17:10:52 +0200
+Subject: [PATCH] Revert ' Remove legacy camera HAL1 sepolicy '
+
+Change-Id: I05ee6176826263d41be014aa43e88116a353b0b8
+---
+ legacy-common/public/legacy-camera-hal1/mediaserver.te | 8 ++++++++
+ legacy-common/sepolicy.mk                              | 9 +++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 legacy-common/public/legacy-camera-hal1/mediaserver.te
+ create mode 100644 legacy-common/sepolicy.mk
+
+diff --git a/legacy-common/public/legacy-camera-hal1/mediaserver.te b/legacy-common/public/legacy-camera-hal1/mediaserver.te
+new file mode 100644
+index 0000000..ffd5c57
+--- /dev/null
++++ b/legacy-common/public/legacy-camera-hal1/mediaserver.te
+@@ -0,0 +1,8 @@
++# Legacy camera HAL1
++add_service(mediaserver, cameraserver_service)
++add_hwservice(mediaserver, fwk_camera_hwservice)
++
++allow mediaserver { cameraproxy_service sensor_privacy_service }:service_manager find;
++allow mediaserver hal_camera_hwservice:hwservice_manager find;
++
++hal_client_domain(mediaserver, hal_lineage_camera_motor)
+diff --git a/legacy-common/sepolicy.mk b/legacy-common/sepolicy.mk
+new file mode 100644
+index 0000000..8624753
+--- /dev/null
++++ b/legacy-common/sepolicy.mk
+@@ -0,0 +1,9 @@
++#
++# This policy configuration will be used by select legacy products that
++# inherit from Lineage
++#
++
++ifeq ($(TARGET_HAS_LEGACY_CAMERA_HAL1), true)
++SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += \
++    device/lineage/sepolicy/legacy-common/public/legacy-camera-hal1
++endif
+-- 
+2.34.1
+
