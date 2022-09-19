@@ -1,0 +1,126 @@
+From 4466d0568e857e015d5b43c750e8b30c67044601 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Mon, 19 Sep 2022 17:46:07 +0200
+Subject: [PATCH 2/2] Support legacy HALv1 camera in mediaserver
+
+Change-Id: Ie92b3e20e5c47d62053287604a0ee3e90a03300f
+---
+ media/mediaserver/Android.bp                       |  4 ++++
+ media/mediaserver/main_mediaserver.cpp             | 12 ++++++++++++
+ services/camera/libcameraservice/Android.bp        |  5 +++++
+ services/camera/libcameraservice/CameraService.cpp | 10 ++++++++++
+ 4 files changed, 31 insertions(+)
+
+diff --git a/media/mediaserver/Android.bp b/media/mediaserver/Android.bp
+index edddaa4f90..001721ee9e 100644
+--- a/media/mediaserver/Android.bp
++++ b/media/mediaserver/Android.bp
+@@ -29,6 +29,10 @@ cc_library_static {
+ cc_binary {
+     name: "mediaserver",
+ 
++    defaults: [
++        "camera_in_mediaserver_defaults",
++    ],
++
+     srcs: ["main_mediaserver.cpp"],
+ 
+     shared_libs: [
+diff --git a/media/mediaserver/main_mediaserver.cpp b/media/mediaserver/main_mediaserver.cpp
+index 026847a527..91d5ccb3e6 100644
+--- a/media/mediaserver/main_mediaserver.cpp
++++ b/media/mediaserver/main_mediaserver.cpp
+@@ -25,6 +25,10 @@
+ #include <utils/Log.h>
+ #include "RegisterExtensions.h"
+ 
++#ifdef NO_CAMERA_SERVER
++#include "CameraService.h"
++#include <hidl/HidlTransportSupport.h>
++#endif
+ #include <MediaPlayerService.h>
+ #include <ResourceManagerService.h>
+ 
+@@ -34,11 +38,19 @@ int main(int argc __unused, char **argv __unused)
+ {
+     signal(SIGPIPE, SIG_IGN);
+ 
++#ifdef NO_CAMERA_SERVER
++    // Set 3 threads for HIDL calls
++    hardware::configureRpcThreadpool(3, /*willjoin*/ false);
++#endif
++
+     sp<ProcessState> proc(ProcessState::self());
+     sp<IServiceManager> sm(defaultServiceManager());
+     ALOGI("ServiceManager: %p", sm.get());
+     MediaPlayerService::instantiate();
+     ResourceManagerService::instantiate();
++#ifdef NO_CAMERA_SERVER
++    CameraService::instantiate();
++#endif
+     registerExtensions();
+     ::android::hardware::configureRpcThreadpool(16, false);
+     ProcessState::self()->startThreadPool();
+diff --git a/services/camera/libcameraservice/Android.bp b/services/camera/libcameraservice/Android.bp
+index cfc2dcf8df..15b617059a 100644
+--- a/services/camera/libcameraservice/Android.bp
++++ b/services/camera/libcameraservice/Android.bp
+@@ -37,6 +37,11 @@ license {
+ 
+ cc_library_shared {
+     name: "libcameraservice",
++
++    defaults: [
++        "no_cameraserver_defaults",
++        "qti_camera_device_defaults",
++    ],
+  
+     // Camera service source
+ 
+diff --git a/services/camera/libcameraservice/CameraService.cpp b/services/camera/libcameraservice/CameraService.cpp
+index 4cf74244f1..27cada1e1c 100644
+--- a/services/camera/libcameraservice/CameraService.cpp
++++ b/services/camera/libcameraservice/CameraService.cpp
+@@ -1024,7 +1024,11 @@ int32_t CameraService::mapToInterface(StatusInternal status) {
+ Status CameraService::initializeShimMetadata(int cameraId) {
+     int uid = CameraThreadState::getCallingUid();
+ 
++#ifdef NO_CAMERA_SERVER
++    String16 internalPackageName("media");
++#else
+     String16 internalPackageName("cameraserver");
++#endif
+     String8 id = String8::format("%d", cameraId);
+     Status ret = Status::ok();
+     sp<Client> tmp = nullptr;
+@@ -1106,7 +1110,9 @@ Status CameraService::getLegacyParametersLazy(int cameraId,
+ static bool isTrustedCallingUid(uid_t uid) {
+     switch (uid) {
+         case AID_MEDIA:        // mediaserver
++#ifndef NO_CAMERA_SERVER
+         case AID_CAMERASERVER: // cameraserver
++#endif
+         case AID_RADIO:        // telephony
+             return true;
+         default:
+@@ -1239,6 +1245,8 @@ Status CameraService::validateClientPermissionsLocked(const String8& cameraId,
+                 clientName8.string(), clientUid, clientPid, cameraId.string());
+     }
+ 
++
++#ifndef NO_CAMERA_SERVER
+     // Make sure the UID is in an active state to use the camera
+     if (!mUidPolicy->isUidActive(callingUid, String16(clientName8))) {
+         int32_t procState = mUidPolicy->getProcState(callingUid);
+@@ -1251,6 +1259,8 @@ Status CameraService::validateClientPermissionsLocked(const String8& cameraId,
+                 callingUid, procState);
+     }
+ 
++#endif
++
+     // If sensor privacy is enabled then prevent access to the camera
+     if (mSensorPrivacyPolicy->isSensorPrivacyEnabled()) {
+         ALOGE("Access Denial: cannot use the camera when sensor privacy is enabled");
+-- 
+2.34.1
+
