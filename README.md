@@ -84,6 +84,7 @@ patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0017-Camera-A
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0018-CameraSource.cpp-support-PIXEL_FORMAT_YUV420SP_NV21.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-libstagefright-Fix-memory-leak-due-to-lock-timeout.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Support-legacy-HALv1-camera-in-mediaserver.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-Revert-camera-Only-link-and-use.patch
 ```
 
 ```frameworks/base ```
