@@ -33,5 +33,5 @@
    <!-- Other repos -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/vendor_PixelMod" path="vendor/PixelMod" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="master"/>    
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_packages_apps_RepainterServicePriv" path="packages/apps/RepainterServicePriv" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="main"/>    
-
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/frameworks_opt_telephony" path="frameworks/opt/telephony" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-19.1"/>
 </manifest>
