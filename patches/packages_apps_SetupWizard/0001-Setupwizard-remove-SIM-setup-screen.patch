@@ -1,0 +1,33 @@
+From ec5f0dd8525781c95b3f3ddf04b898471480823d Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Thu, 22 Sep 2022 01:44:00 +0200
+Subject: [PATCH] Setupwizard: remove SIM setup screen This fixes the setup for
+ us since there's no skip button
+
+Change-Id: I413730f2a167af05a42acdae153296b5470f6d8d
+---
+ res/raw/lineage_wizard_script.xml | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/res/raw/lineage_wizard_script.xml b/res/raw/lineage_wizard_script.xml
+index cb404eb..dc305bd 100644
+--- a/res/raw/lineage_wizard_script.xml
++++ b/res/raw/lineage_wizard_script.xml
+@@ -32,14 +32,6 @@
+     </WizardAction>
+ 
+     <WizardAction wizard:uri="intent:#Intent;action=org.lineageos.setupwizard.LINEAGE_DATETIME;end" id="datetime">
+-        <result wizard:action="sim_missing" />
+-    </WizardAction>
+-
+-    <WizardAction wizard:uri="intent:#Intent;action=org.lineageos.setupwizard.LINEAGE_SIM_MISSING;end" id="sim_missing">
+-        <result wizard:action="network_setup" />
+-    </WizardAction>
+-
+-    <WizardAction wizard:uri="intent:#Intent;action=org.lineageos.setupwizard.LINEAGE_NETWORK_SETUP;end" id="network_setup">
+         <result wizard:action="location_settings" />
+     </WizardAction>
+ 
+-- 
+2.34.1
+
