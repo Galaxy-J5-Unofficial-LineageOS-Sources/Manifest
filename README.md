@@ -87,6 +87,7 @@ patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-libstage
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Support-legacy-HALv1-camera-in-mediaserver.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-Revert-camera-Only-link-and-use.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-Revert-Camera-CameraHardwareInterface-changes-to-sup.patch
+patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-camera-Allow-to-use-boottime-as-timestamp-reference.patch
 ```
 
 ```frameworks/base ```
