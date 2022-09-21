@@ -149,6 +149,11 @@ patch -d hardware/qcom-caf/bt -p1 < .repo/manifests/patches/hardware_qcom_caf_bl
 patch -d system/memory/lmkd -p1 < .repo/manifests/patches/system_memory_lmkd/0001-lmkd-fixup.patch
 ```
 
+```packages/apps/SetupWizard```
+```
+patch -d  packages/apps/SetupWizard -p1 < .repo/manifests/patches/packages_apps_SetupWizard/0001-Setupwizard-remove-SIM-setup-screen.patch
+```
+
 ```packages/modules/adb```
 ```
 patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/packages_modules_adb/adb.patch
