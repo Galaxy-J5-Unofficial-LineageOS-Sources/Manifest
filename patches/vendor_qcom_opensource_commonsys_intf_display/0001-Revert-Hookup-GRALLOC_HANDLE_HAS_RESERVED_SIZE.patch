@@ -1,0 +1,28 @@
+From d426d18338947a68ab1055a84db130da0bc1e546 Mon Sep 17 00:00:00 2001
+From: daviiid99 <daviiideveloper@gmail.com>
+Date: Wed, 21 Sep 2022 14:15:38 +0200
+Subject: [PATCH] Revert Hookup GRALLOC_HANDLE_HAS_RESERVED_SIZE
+
+Change-Id: I41ecf040cac318d7fde10e38cf798e14ae287438
+---
+ Android.bp | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/Android.bp b/Android.bp
+index 0ddb3b95..80733b3e 100644
+--- a/Android.bp
++++ b/Android.bp
+@@ -4,9 +4,7 @@ soong_namespace {
+ cc_library_headers {
+     name: "display_intf_headers",
+     vendor_available: true,
+-    defaults: [
+-        "gralloc_handle_has_reserved_size_defaults",
+-    ],
++    
+     export_include_dirs: [
+         "gralloc",
+         "include",
+-- 
+2.34.1
+
