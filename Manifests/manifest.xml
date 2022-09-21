@@ -27,9 +27,6 @@
   <!-- <remove-project name="hardware/qcom-caf/msm8916/display" /> -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/hardware_qcom-caf_msm8916_display" path="hardware/qcom-caf/msm8916/display" revision="lineage-19.1" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   
-  <!-- Temporal Repos -->
-  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_system_tools_dtbtool" path="system/tools/dtbtool" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-19.1"/>
-
    <!-- Other repos -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/vendor_PixelMod" path="vendor/PixelMod" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="master"/>    
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_packages_apps_RepainterServicePriv" path="packages/apps/RepainterServicePriv" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="main"/>    
