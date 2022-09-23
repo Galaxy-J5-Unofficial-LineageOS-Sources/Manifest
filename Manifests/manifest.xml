@@ -4,8 +4,8 @@
            fetch="https://github.com" />
   <!-- Default Galaxy J5 Repos for Android 13 -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung-qcom" path="device/samsung/qcom-common" revision="lineage-20.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources" />
-  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_vendor" path="vendor/samsung" revision="lineage-20.0-permissive" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
-  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_msm8916_common" path="device/samsung/msm8916-common" revision="lineage-20.0-permissive-GApps" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_vendor" path="vendor/samsung" revision="lineage-20.0-enforcing" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_msm8916_common" path="device/samsung/msm8916-common" revision="lineage-20.0-enforcing-Vanilla" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_kernel_msm8916" path="kernel/samsung/msm8916" revision="lineage-20.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5nlte" path="device/samsung/j5nlte" revision="lineage-20.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/samsung_j5xnlte" path="device/samsung/j5xnlte" revision="lineage-20.0" remote="Galaxy-J5-Unofficial-LineageOS-Sources"/>
