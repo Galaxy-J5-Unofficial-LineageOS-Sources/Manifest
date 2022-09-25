@@ -154,6 +154,11 @@ patch -d system/memory/lmkd -p1 < .repo/manifests/patches/system_memory_lmkd/000
 patch -d  packages/apps/SetupWizard -p1 < .repo/manifests/patches/packages_apps_SetupWizard/0001-Setupwizard-remove-SIM-setup-screen.patch
 ```
 
+```packages/apps/ThemePicker```
+```
+patch -d  packages/apps/ThemePicker -p1 < .repo/manifests/patches/packages_apps_ThemePicker/0001-ThemePicker-Actually-enable-color-picker.patch
+```
+
 ```packages/modules/adb```
 ```
 patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/packages_modules_adb/adb.patch
@@ -172,10 +177,14 @@ patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_mo
 patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_modules_connectivity/0001-Fix-systemUI-reboot.patch
 ```
 
-
 ```packages/modules/NetworkStack```
 ```
 patch -d packages/modules/NetworkStack -p1 < .repo/manifests/patches/packages_modules_NetworkStack/0001-Revert-Enable-parsing-netlink-events-from-kernel-sin.patch
+```
+
+```packages/overlays/Lineage```
+```
+patch -d packages/overlays/Lineage -p1 < .repo/manifests/patches/packages_overlays_Lineage/0001-stub-Import-color-bundles-from-TP1A.220624.021.patch
 ```
 
 ```prebuilts/build-tools```
