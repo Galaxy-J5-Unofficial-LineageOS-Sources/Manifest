@@ -1,0 +1,50 @@
+From 60323d5456500cee8c88b46c3986abf50fc3fd59 Mon Sep 17 00:00:00 2001
+From: Tim Zimmermann <tim@linux4.de>
+Date: Sat, 20 Aug 2022 19:13:19 +0200
+Subject: [PATCH] ThemePicker: Actually enable color picker
+
+Change-Id: Ifb3e3ff15bb3875dab1cae77df0af4caf960a908
+---
+ AndroidManifest.xml                                          | 2 ++
+ .../customization/module/DefaultCustomizationSections.java   | 5 +++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 002c024d..c96c59ad 100755
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -41,6 +41,8 @@
+             <action android:name="android.intent.action.MAIN" />
+             <category android:name="android.intent.category.HOME" />
+         </intent>
++        <!-- Themes stub package -->
++        <package android:name="org.lineageos.customization" />
+     </queries>
+ 
+     <uses-permission android:name="com.android.launcher3.permission.READ_SETTINGS" />
+diff --git a/src/com/android/customization/module/DefaultCustomizationSections.java b/src/com/android/customization/module/DefaultCustomizationSections.java
+index a4510eab..096552ee 100644
+--- a/src/com/android/customization/module/DefaultCustomizationSections.java
++++ b/src/com/android/customization/module/DefaultCustomizationSections.java
+@@ -6,6 +6,7 @@ import android.os.Bundle;
+ import androidx.annotation.Nullable;
+ import androidx.lifecycle.LifecycleOwner;
+ 
++import com.android.customization.model.color.ColorSectionController;
+ import com.android.customization.model.grid.GridOptionsManager;
+ import com.android.customization.model.grid.GridSectionController;
+ import com.android.customization.model.mode.DarkModeSectionController;
+@@ -41,6 +42,10 @@ public final class DefaultCustomizationSections implements CustomizationSections
+                 workspaceViewModel, sectionNavigationController, wallpaperPreviewNavigator,
+                 savedInstanceState));
+ 
++        // Color section.
++        sectionControllers.add(new ColorSectionController(
++                activity, wallpaperColorsViewModel, lifecycleOwner, savedInstanceState));
++
+         // Dark/Light theme section.
+         sectionControllers.add(new DarkModeSectionController(activity,
+                 lifecycleOwner.getLifecycle()));
+-- 
+2.34.1
+

@@ -1,0 +1,127 @@
+From 8bc64769f03a23b36962774138126aa3c00f3c1a Mon Sep 17 00:00:00 2001
+From: Tim Zimmermann <tim@linux4.de>
+Date: Sun, 28 Aug 2022 01:38:50 +0530
+Subject: [PATCH] stub: Import color bundles from TP1A.220624.021
+
+- Raven TP1A.220624.021
+
+Change-Id: I8e8903be1b80bebb4f18aa0034c894b8918b201d
+---
+ stub/res/values/arrays.xml  | 18 ++++++++++++++++++
+ stub/res/values/colors.xml  | 35 +++++++++++++++++++++++++++++++++++
+ stub/res/values/strings.xml | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 85 insertions(+)
+ create mode 100644 stub/res/values/colors.xml
+
+diff --git a/stub/res/values/arrays.xml b/stub/res/values/arrays.xml
+index 9172eff..178c1d0 100644
+--- a/stub/res/values/arrays.xml
++++ b/stub/res/values/arrays.xml
+@@ -1,4 +1,22 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+     <string-array name="themes" />
++    <string-array name="color_bundles">
++        <item>default</item>
++        <item>bundle1</item>
++        <item>bundle2</item>
++        <item>bundle3</item>
++        <item>rainbow1</item>
++        <item>rainbow2</item>
++        <item>rainbow3</item>
++        <item>rainbow4</item>
++        <item>rainbow5</item>
++        <item>rainbow6</item>
++        <item>rainbow7</item>
++        <item>fruits1</item>
++        <item>fruits2</item>
++        <item>fruits3</item>
++        <item>fruits4</item>
++        <item>fruits5</item>
++    </string-array>
+ </resources>
+diff --git a/stub/res/values/colors.xml b/stub/res/values/colors.xml
+new file mode 100644
+index 0000000..7363e19
+--- /dev/null
++++ b/stub/res/values/colors.xml
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <color name="color_primary_bundle1">#ff0a8758</color>
++    <color name="color_primary_bundle2">#ff746bc1</color>
++    <color name="color_primary_bundle3">#ffa66800</color>
++    <color name="color_primary_default">#ffffffff</color>
++    <color name="color_primary_fruits1">#ffffeeb2</color>
++    <color name="color_primary_fruits2">#ffccee99</color>
++    <color name="color_primary_fruits3">#ffb1ebff</color>
++    <color name="color_primary_fruits4">#ffebdcff</color>
++    <color name="color_primary_fruits5">#ffffd8eb</color>
++    <color name="color_primary_rainbow1">#ffffb2b5</color>
++    <color name="color_primary_rainbow2">#ffffb868</color>
++    <color name="color_primary_rainbow3">#ffe9c44a</color>
++    <color name="color_primary_rainbow4">#ffbaf293</color>
++    <color name="color_primary_rainbow5">#ff96cbff</color>
++    <color name="color_primary_rainbow6">#ffcbbfff</color>
++    <color name="color_primary_rainbow7">#fff5acfb</color>
++    <color name="color_secondary_bundle1">#ff0a8758</color>
++    <color name="color_secondary_bundle2">#ff746bc1</color>
++    <color name="color_secondary_bundle3">#ffa66800</color>
++    <color name="color_secondary_default">#ff1a73e8</color>
++    <color name="color_secondary_fruits1">#ffffeeb2</color>
++    <color name="color_secondary_fruits2">#ffccee99</color>
++    <color name="color_secondary_fruits3">#ffb1ebff</color>
++    <color name="color_secondary_fruits4">#ffebdcff</color>
++    <color name="color_secondary_fruits5">#ffffd8eb</color>
++    <color name="color_secondary_rainbow1">#ffffb2b5</color>
++    <color name="color_secondary_rainbow2">#ffffb868</color>
++    <color name="color_secondary_rainbow3">#ffe9c44a</color>
++    <color name="color_secondary_rainbow4">#ffbaf293</color>
++    <color name="color_secondary_rainbow5">#ff96cbff</color>
++    <color name="color_secondary_rainbow6">#ffcbbfff</color>
++    <color name="color_secondary_rainbow7">#fff5acfb</color>
++</resources>
+diff --git a/stub/res/values/strings.xml b/stub/res/values/strings.xml
+index fe79f43..4b1a366 100644
+--- a/stub/res/values/strings.xml
++++ b/stub/res/values/strings.xml
+@@ -1,4 +1,36 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+     <string name="app_name">Lineage Themes</string>
++    <string name="bundle1_color_name">Carbon</string>
++    <string name="bundle2_color_name">Paper</string>
++    <string name="bundle3_color_name">Sun</string>
++    <string name="bundle_name_bundle1">@string/bundle1_color_name</string>
++    <string name="bundle_name_bundle2">@string/bundle2_color_name</string>
++    <string name="bundle_name_bundle3">@string/bundle3_color_name</string>
++    <string name="bundle_name_default">@string/default_color_name</string>
++    <string name="bundle_name_fruits1">@string/default_color_name</string>
++    <string name="bundle_name_fruits2">@string/default_color_name</string>
++    <string name="bundle_name_fruits3">@string/default_color_name</string>
++    <string name="bundle_name_fruits4">@string/default_color_name</string>
++    <string name="bundle_name_fruits5">@string/default_color_name</string>
++    <string name="bundle_name_rainbow1">@string/default_color_name</string>
++    <string name="bundle_name_rainbow2">@string/default_color_name</string>
++    <string name="bundle_name_rainbow3">@string/default_color_name</string>
++    <string name="bundle_name_rainbow4">@string/default_color_name</string>
++    <string name="bundle_name_rainbow5">@string/default_color_name</string>
++    <string name="bundle_name_rainbow6">@string/default_color_name</string>
++    <string name="bundle_name_rainbow7">@string/default_color_name</string>
++    <string name="color_style_fruits1">FRUIT_SALAD</string>
++    <string name="color_style_fruits2">FRUIT_SALAD</string>
++    <string name="color_style_fruits3">FRUIT_SALAD</string>
++    <string name="color_style_fruits4">FRUIT_SALAD</string>
++    <string name="color_style_fruits5">FRUIT_SALAD</string>
++    <string name="color_style_rainbow1">RAINBOW</string>
++    <string name="color_style_rainbow2">RAINBOW</string>
++    <string name="color_style_rainbow3">RAINBOW</string>
++    <string name="color_style_rainbow4">RAINBOW</string>
++    <string name="color_style_rainbow5">RAINBOW</string>
++    <string name="color_style_rainbow6">RAINBOW</string>
++    <string name="color_style_rainbow7">RAINBOW</string>
++    <string name="default_color_name">Classic</string>
+ </resources>
+-- 
+2.34.1
+
