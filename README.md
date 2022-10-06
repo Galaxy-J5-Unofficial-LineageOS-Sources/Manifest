@@ -49,7 +49,6 @@ patch -d bionic -p1 < .repo/manifests/patches/bionic/0004-Implement-per-process-
 patch -d bionic -p1 < .repo/manifests/patches/bionic/0005-bionic-Squash-of-pre-P-mutex-behavior-restoration.patch
 patch -d bionic -p1 < .repo/manifests/patches/bionic/0006-bionic-Sort-and-cache-hosts-file-data-for-fast-looku.patch
 patch -d bionic -p1 < .repo/manifests/patches/bionic/0007-bionic-Support-wildcards-in-cached-hosts-file.patch
-patch -d bionic -p1 < .repo/manifests/patches/bionic/0008-Restore-Shim.patch
 ```
 
 ```device/lineage/sepolicy```
@@ -65,7 +64,6 @@ patch -d external/perfetto -p1 < .repo/manifests/patches/external_perfetto/0001-
 ```frameworks/av ```
 ```
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-libcameraservice-massive-revert-to-Android-12-state.patch
-patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0001-Revert-Camera-Remove-old-recording-path-support.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0002-Camera-Restore-camera-HALv1-support-1-2.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0003-Camera-Add-extensions-to-CameraClient.patch
 patch -d frameworks/av -p1 < .repo/manifests/patches/frameworks_av/0004-Camera-CameraHardwareInterface-changes-to-support-Ex.patch
@@ -98,7 +96,7 @@ patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-Reve
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/fw.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0003-Add-support-for-app-signature-spoofing.patch
 
-patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-camera2-Add-methods-for-backward-compatibility.patch
+patch -f -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0001-camera2-Add-methods-for-backward-compatibility.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0004-CameraServiceProxy-Loosen-UID-check-conditionally.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0007-Revert-Camera-Injection.patch
 patch -d frameworks/base -p1 < .repo/manifests/patches/frameworks_base/0008-Camera-Restore-camera-HALv1-support-2-2.patch
@@ -154,11 +152,6 @@ patch -d system/memory/lmkd -p1 < .repo/manifests/patches/system_memory_lmkd/000
 patch -d  packages/apps/SetupWizard -p1 < .repo/manifests/patches/packages_apps_SetupWizard/0001-Setupwizard-remove-SIM-setup-screen.patch
 ```
 
-```packages/apps/ThemePicker```
-```
-patch -d  packages/apps/ThemePicker -p1 < .repo/manifests/patches/packages_apps_ThemePicker/0001-ThemePicker-Actually-enable-color-picker.patch
-```
-
 ```packages/modules/adb```
 ```
 patch -d  packages/modules/adb/ -p1 < .repo/manifests/patches/packages_modules_adb/adb.patch
@@ -182,16 +175,6 @@ patch -d packages/modules/Connectivity -p1 < .repo/manifests/patches/packages_mo
 patch -d packages/modules/NetworkStack -p1 < .repo/manifests/patches/packages_modules_NetworkStack/0001-Revert-Enable-parsing-netlink-events-from-kernel-sin.patch
 ```
 
-```packages/overlays/Lineage```
-```
-patch -d packages/overlays/Lineage -p1 < .repo/manifests/patches/packages_overlays_Lineage/0001-stub-Import-color-bundles-from-TP1A.220624.021.patch
-```
-
-```prebuilts/build-tools```
-```
-repopick -P prebuilts/build-tools 336186
-```
-
 ```system/bpf ```
 ```
 patch -d system/bpf -p1 < .repo/manifests/patches/system_bpf/0001-Restore-isBPF-supported-for-T.patch
@@ -203,12 +186,6 @@ patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Revert-init-
 patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Fix-samsung-healthd-building.patch
 patch -d system/core -p1 < .repo/manifests/patches/system_core/0002-Revert-healthd-charger-allow-home-button-to-wake.patch
 patch -d system/core -p1 < .repo/manifests/patches/system_core/0001-Camera-Add-feature-extensions.patch
-
-```
-
-```system/libhidl ```
-```
-patch -d system/libhidl -p1 < .repo/manifests/patches/system_libhidl/0001-delete-gBn-sConstructorMap.patch
 
 ```
 
