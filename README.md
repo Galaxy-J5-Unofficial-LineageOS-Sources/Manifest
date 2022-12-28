@@ -3,7 +3,7 @@
 
 Set up Linux environment
 ```
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-20.0-enforcing-Vanilla/Scripts/environment.sh > environment.sh
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest/lineage-20.0-enforcing-GApps/Scripts/environment.sh > environment.sh
 sh environment.sh
 ```
 <br/>
@@ -12,7 +12,7 @@ Initialize repo:
 ```
 mkdir -p ~/android/lineage
 cd ~/android/lineage
-repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-20.0-enforcing-Vanilla
+repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.git -b lineage-20.0-enforcing-GApps
 
 ```
 <br/>
@@ -21,8 +21,8 @@ repo init -u https://github.com/Galaxy-J5-Unofficial-LineageOS-Sources/Manifest.
 Download latest manifest:
 ```
 mkdir -p .repo/local_manifests
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-20.0-enforcing-Vanilla/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
-curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-20.0-enforcing-Vanilla/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-20.0-enforcing-GApps/Manifests/manifest.xml > .repo/local_manifests/manifest.xml
+curl https://raw.githubusercontent.com/Galaxy-J5-Unofficial-LineageOS/Manifest/lineage-20.0-enforcing-GApps/Manifests/gapps.xml > .repo/local_manifests/gapps.xml
 
 ```
 <br/>
