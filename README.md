@@ -162,9 +162,14 @@ patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0001-netd-Allow-d
 patch -d system/netd -p1 < .repo/manifests/patches/system_netd/0002-Revert-netd-make-BandwidthController-startup-failure.patch
 ```
 
+```vendor/partner_gms```
+```
+patch -d vendor/partner_gms -p1 > .repo/manifests/patches/vendor_partner_gms/0001-Minimal-GMS-For-J5-Devices.patch
+```
+
 ```vendor/qcom/opensource/commonsys-intf/display ```
 ```
-patch -d vendor/qcom/opensource/commonsys-intf/display -p1 < .repo/manifests/patches/vendor_qcom_opensource_commonsys_intf_display/0001-Revert-Hookup-GRALLOC_HANDLE_HAS_RESERVED_SIZE.patch
+patch -d vendor/qcom/opensource/commonsys-intf/display -p1 > .repo/manifests/patches/vendor_qcom_opensource_commonsys_intf_display/0001-Revert-Hookup-GRALLOC_HANDLE_HAS_RESERVED_SIZE.patch
 ```
 
 <br/>
