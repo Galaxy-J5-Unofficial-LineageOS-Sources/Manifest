@@ -382,6 +382,7 @@
   <project path="external/puffin" name="platform/external/puffin" groups="pdk" remote="aosp" />
   <project path="external/python/apitools" name="platform/external/python/apitools" groups="pdk" remote="aosp" />
   <project path="external/python/asn1crypto" name="platform/external/python/asn1crypto" groups="pdk" remote="aosp" />
+    <project path="external/python/bumble" name="platform/external/python/bumble" groups="pdk" remote="aosp" />
   <project path="external/python/pyee" name="platform/external/python/pyee" groups="pdk" remote="aosp" />
   <project path="external/python/cachetools" name="platform/external/python/cachetools" groups="pdk" remote="aosp" />
   <project path="external/python/cffi" name="platform/external/python/cffi" groups="pdk" remote="aosp" />
