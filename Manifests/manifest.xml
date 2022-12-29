@@ -30,7 +30,7 @@
   <!-- Our own Repos -->
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_hardware_qcom_wlan" path="hardware/qcom-caf/wlan" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0-caf"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_vendor_lineage" path="vendor/lineage" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0"/>
-  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/frameworks_opt_telephony" path="frameworks/opt/telephony" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0"/>
+  <project name="Galaxy-J5-Unofficial-LineageOS-Sources/frameworks_opt_telephony" path="frameworks/opt/telephony" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0-r16"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_frameworks_av" path="frameworks/av" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0"/>
   <project name="Galaxy-J5-Unofficial-LineageOS-Sources/android_frameworks_base" path="frameworks/base" remote="Galaxy-J5-Unofficial-LineageOS-Sources"  revision="lineage-20.0"/>
 
